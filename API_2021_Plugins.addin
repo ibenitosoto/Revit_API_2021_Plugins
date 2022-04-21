@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Command">
+		<Name>API_2021_Plugins</Name>
+		<FullClassName>API_2021_Plugins.KGE_Isometrics</FullClassName>
+		<Text>KGE_Isometrics</Text>
+		<Description>Places the Group at Particular Point</Description>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>FDB25206-AE42-4706-BFDE-4F7FCD0D0DB2</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
+
+	<AddIn Type="Command">
+		<Name>Quantifications</Name>
+		<FullClassName>API_2021_Plugins.KGE_Quantifications</FullClassName>
+		<Text>KGE_Quantifications</Text>
+		<Description>Count number of pipes, ducts and trays in the model</Description>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>E8E276C9-B1E2-4280-8EE5-0A281746005A</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
+
+
+</RevitAddIns>
