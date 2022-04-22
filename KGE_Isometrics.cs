@@ -74,7 +74,33 @@ namespace API_2021_Plugins
                 foreach (Element e in lineNumberGroup)
                 {
                     //TaskDialog.Show("Category", $"Category of element is {e.Category.Name}");
-                    elementIDs.Add(e.Id);
+
+                    //Get Id of current element
+                    ElementId elementId = e.Id;
+
+                    //Add Id to previously created list of element Ids
+                    elementIDs.Add(elementId);
+
+                    //Get insulation associated with each element
+                    IList<Element> insulationList = new List<Element>();
+                    
+                    //Get id of insulation associated with this element
+                    ICollection<ElementId> insulationId = InsulationLiningBase.GetInsulationIds(doc, elementId);
+
+                    //Certain elements such as valves might not have insulation
+                    if (insulationId.Count > 0)
+                    {
+                        //Get the insulation element with previously found Id
+                        //Element insulation = doc.GetElement(insulationId.FirstOrDefault());
+
+                        //Add the insulation to the line number group
+                        elementIDs.Add(insulationId.FirstOrDefault());
+                    }
+
+                    else
+                    {
+                        break;
+                    }
                 }
 
 
@@ -122,6 +148,42 @@ namespace API_2021_Plugins
        
                             ViewSheet viewSheet = AssemblyViewUtils.CreateSheet(doc, assemblyInstance.Id, titleBlockId);
                             View3D view3d = AssemblyViewUtils.Create3DOrthographic(doc, assemblyInstance.Id);
+                            view3d.Name = $"Isometric Drawing - Line number {assemblyName}";
+                            view3d.DetailLevel = ViewDetailLevel.Coarse;
+                            view3d.Scale = 7;
+
+                            //setting the display style to wireframe so pipes,fittings and valves are visible under insulations
+                            view3d.DisplayStyle = DisplayStyle.Wireframe;
+
+                            //assign a different detail level to insulations so they show in Coarse 3D Views
+                            //getting the pipework insulations category
+                            Category insulationCategory = Category.GetCategory(doc, BuiltInCategory.OST_PipeInsulations);
+                            
+                            //Overriding the detail level of pipe insulations in each view
+                            OverrideGraphicSettings insulationOverride = new OverrideGraphicSettings();
+                            insulationOverride.SetDetailLevel(ViewDetailLevel.Fine);
+
+                            //Overriding the pattern of insulation lines to show as dashed
+                            LinePatternElement dashedPattern = LinePatternElement.GetLinePatternElementByName(doc, "Dash");
+                            //insulationOverride.SetProjectionLinePatternId(dashedPattern.Id);   --this changes the view VV settings but doesnt work
+
+                            //Applying overrides to the 3D view
+                            view3d.SetCategoryOverrides(insulationCategory.Id, insulationOverride);
+                            
+                            
+
+
+                            //lock the view to be able to add dimensions
+                            if (view3d.CanBeLocked())
+                            {
+                                view3d.SaveOrientationAndLock();
+                            }
+
+                            else
+                            {
+                                break;
+                            }
+
 
                             //List<Element> elementsInView = new FilteredElementCollector(doc, viewSheet.Id).ToList();
                             //ViewSchedule viewSchedule = AssemblyViewUtils.CreateSingleCategorySchedule(doc, assemblyInstance.Id);
