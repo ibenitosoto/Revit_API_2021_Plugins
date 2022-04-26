@@ -77,6 +77,8 @@ namespace API_2021_Plugins
             //    transaction.Commit();
 
                 int lineNumberCounter = 0;
+                int assemblyCounter = 0;
+                int dimensionCounter = 0;
                 //View view3dTemplate = null;
                 //ElementId view3dTemplateId = null;
 
@@ -132,6 +134,7 @@ namespace API_2021_Plugins
                         transaction.Start("Create Assembly Instance");
                         AssemblyInstance assemblyInstance = AssemblyInstance.Create(doc, elementIDs, categoryId);
                         transaction.Commit(); // need to commit the transaction to complete the creation of the assembly instance so it can be accessed in the code below
+                        assemblyCounter++;
 
                         string assemblyName = lineNumberGroup.Key.ToString();
 
@@ -281,7 +284,7 @@ namespace API_2021_Plugins
                                             }
                                             catch (Exception ex)
                                             {
-                                                TaskDialog.Show("Exception Caught", "Exception: " + ex);
+                                                //TaskDialog.Show("Exception Caught", "Exception: " + ex);
                                             }
                                         }
 
@@ -295,7 +298,7 @@ namespace API_2021_Plugins
                                             }
                                             catch (Exception ex)
                                             {
-                                                TaskDialog.Show("Exception Caught", "Exception: " + ex);
+                                                //TaskDialog.Show("Exception Caught", "Exception: " + ex);
                                             }
                                         }
 
@@ -319,6 +322,7 @@ namespace API_2021_Plugins
                                         if (line != null && references != null)
                                         {
                                             Dimension newDim = doc.Create.NewDimension(view3d, line, references);
+                                            dimensionCounter++;
                                         }
                                         
 
@@ -384,6 +388,10 @@ namespace API_2021_Plugins
                     }//end of assembly creation transaction
 
                 }//end of foreach loop through all line numbers
+
+                TaskDialog.Show("Quantifications", $" {lineNumberCounter} line numbers detected \n" +
+                                                $" {assemblyCounter} assemblies created \n" +
+                                                $" {dimensionCounter} dimensions created for {pipes.Count} in the model \n");
 
             return Result.Succeeded;
 
