@@ -27,6 +27,10 @@ namespace API_2021_Plugins
             //Get Document
             Document doc = uidoc.Document;
 
+            UIApplication uiApp = commandData.Application;
+            // Document doc = uiApp.ActiveUIDocument.Document;
+            Application app = uiApp.Application;
+
 
             //Create Filters
             ElementCategoryFilter pipesFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeCurves);
@@ -82,11 +86,17 @@ namespace API_2021_Plugins
                     //    $"Number of elements with that line number: {lineNumberGroup.Count()}");
 
                     List<ElementId> elementIDs = new List<ElementId>();
+                    List<Element> pipesInView = new List<Element>();
 
                     foreach (Element e in lineNumberGroup)
                     {
                         //TaskDialog.Show("Category", $"Category of element is {e.Category.Name}");
+                        string catName = e.Category.Name;
 
+                        if (e.Category.Name == "Pipes")
+                        {
+                            pipesInView.Add(e);
+                        }
                         //Get Id of current element
                         ElementId elementId = e.Id;
 
@@ -220,6 +230,106 @@ namespace API_2021_Plugins
                                     break;
                                 }
 
+                                //automated dimensions
+                                foreach (Pipe pipe in pipesInView)
+                                {
+                                    if (pipe != null)
+                                    {
+                                        LocationCurve LC = pipe.Location as LocationCurve;
+
+                                        Options op = app.Create.NewGeometryOptions();
+                                        op.ComputeReferences = true;
+                                        op.View = view3d;
+                                        op.IncludeNonVisibleObjects = true;
+
+                                        Reference ref1 = null;
+                                        Reference ref2 = null;
+                                        ReferenceArray references = new ReferenceArray();
+
+                                        XYZ R1 = null;
+                                        XYZ R2 = null;
+
+                                        R1 = LC.Curve.GetEndPoint(0);
+                                        R2 = LC.Curve.GetEndPoint(1);
+
+
+                                        foreach (var geoObj in pipe.get_Geometry(op))
+                                        {
+                                            Curve c = geoObj as Curve;
+                                            if (c != null)
+                                            {
+                                                ref1 = c.GetEndPointReference(0);
+                                                ref2 = c.GetEndPointReference(1);
+                                                references.Append(ref1);
+                                                references.Append(ref2);
+                                            }
+                                        }
+
+                                        // Get points in model coordinates not family coordinates
+                                        XYZ coord1 = R1;//.GlobalPoint;
+                                        XYZ coord2 = R2;//.GlobalPoint;
+
+                                        Line line = null;
+                                        Plane geomPlane = null;
+                                        if (Equals4DigitPrecision(coord1.X, coord2.X) && Equals4DigitPrecision(coord1.Y, coord2.Y))
+                                        {
+                                            try
+                                            {
+                                                // process as vertical
+                                                line = Line.CreateBound(new XYZ(coord1.X + 1, coord1.Y, coord1.Z), new XYZ(coord1.X + 1, coord1.Y, coord2.Z));
+                                                geomPlane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, line.Evaluate(0.5, true));
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                TaskDialog.Show("Exception Caught", "Exception: " + ex);
+                                            }
+                                        }
+
+                                        else
+                                        {
+                                        // process as horizontal
+                                            try
+                                            {
+                                                line = Line.CreateBound(new XYZ(coord1.X, coord1.Y + 1, coord1.Z), new XYZ(coord2.X, coord2.Y + 1, coord1.Z));
+                                                geomPlane = Plane.CreateByNormalAndOrigin(XYZ.BasisZ, line.Evaluate(0.5, true));
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                TaskDialog.Show("Exception Caught", "Exception: " + ex);
+                                            }
+                                        }
+
+                                        SketchPlane plane = null;
+                                        if (geomPlane != null)
+                                            {
+                                                plane = SketchPlane.Create(doc, geomPlane);
+                                                view3d.SketchPlane = plane;
+                                            }
+                                        
+
+                                        // Sketch plane cannot be set on Assembly 3D View, so find a default 3D View and set it there instead
+                                        //var defaultView = new FilteredElementCollector(doc).OfClass(typeof(View3D)).Where(x => x.Name.Contains("{3D}")).FirstOrDefault();
+                                        //if (defaultView != null)
+                                        //{
+                                        //    View v = defaultView as View;
+                                        //    v.SketchPlane = plane;
+                                        //}
+
+                                        
+                                        if (line != null && references != null)
+                                        {
+                                            Dimension newDim = doc.Create.NewDimension(view3d, line, references);
+                                        }
+                                        
+
+                                  
+                                    }
+                                    
+                                }
+
+
+
+
 
                                 //List<Element> elementsInView = new FilteredElementCollector(doc, viewSheet.Id).ToList();
                                 //ViewSchedule viewSchedule = AssemblyViewUtils.CreateSingleCategorySchedule(doc, assemblyInstance.Id);
@@ -277,6 +387,18 @@ namespace API_2021_Plugins
 
             return Result.Succeeded;
 
+        }//end of Execute method
+
+
+
+
+
+
+
+        private static bool Equals4DigitPrecision(double left, double right)
+        {
+            return Math.Abs(left - right) < 0.0001;
         }
-    }
+
+    }//end of External command class
 }
