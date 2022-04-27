@@ -62,7 +62,55 @@ namespace API_2021_Plugins
                                                 $"{valves.Count} valves in the model\n");
 
 
+            #region Line number initial check
 
+            //lists of elements splitting the ones that have line number from the ones who don't
+            List<Element> emptyLineNumberElements = new List<Element>();
+            List<Element> filledLineNumberElements = new List<Element>();
+
+            //storing ids and names for all the ones with empty line numbers
+            List<string> emptyLineNumberList = new List<string>();
+
+            //looping through all elements to proceed with the splitting
+            foreach (Element element in allElements)
+            {
+                string elementLineNumber = element.LookupParameter("EZ_LINE NO").AsString();
+
+                if (elementLineNumber == "")
+                {
+                    emptyLineNumberElements.Add(element);
+                    emptyLineNumberList.Add($" ID: {element.Id}, Category: {element.Category.Name}, System: {element.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsValueString()}");
+                }
+
+                else
+                {
+                    filledLineNumberElements.Add(element);
+                }
+
+            }
+
+            bool CanContinue = true;
+            if (emptyLineNumberElements.Count > 0)
+            {
+                CanContinue = false;
+            }
+
+            
+
+
+            TaskDialog.Show("Line Number Check", $"________________________LINE NUMBER CHECK________________________\n\n" +
+                                                    $"Elements with line numbers filled: {filledLineNumberElements.Count}\n\n" +
+                                                    $"Elements with line numbers empty: {emptyLineNumberElements.Count}\n\n" +
+                                                    $"Line numbers have to be filled for the following elements:\n\n" +
+                                                    string.Join("\r\n", emptyLineNumberList));
+
+
+            #endregion
+
+            if (CanContinue)
+            {
+                TaskDialog.Show("Can Continue", "All elements have a line number assigned. The program will execute now.");
+            #region line number grouping and automatic assembly & sheet creation and tagging process
 
             var lineNumberGroups = from e in allElements
                                    //group e by e.GetParameters("EZ_LINE NO").ToString();
@@ -331,10 +379,6 @@ namespace API_2021_Plugins
                                     
                                 }
 
-
-
-
-
                                 //List<Element> elementsInView = new FilteredElementCollector(doc, viewSheet.Id).ToList();
                                 //ViewSchedule viewSchedule = AssemblyViewUtils.CreateSingleCategorySchedule(doc, assemblyInstance.Id);
 
@@ -393,13 +437,17 @@ namespace API_2021_Plugins
                                                 $" {assemblyCounter} assemblies created \n" +
                                                 $" {dimensionCounter} dimensions created for {pipes.Count} in the model \n");
 
+
+                #endregion
+            }//end of CanContinue if statement
+
+            else
+            {
+                TaskDialog.Show("Shutdown", "Please fill all empty line numbers before running the program again");
+            }
             return Result.Succeeded;
-
+            
         }//end of Execute method
-
-
-
-
 
 
 
@@ -407,6 +455,7 @@ namespace API_2021_Plugins
         {
             return Math.Abs(left - right) < 0.0001;
         }
+
 
     }//end of External command class
 }
