@@ -28,9 +28,8 @@ namespace API_2021_Plugins
             Document doc = uidoc.Document;
 
             UIApplication uiApp = commandData.Application;
-            // Document doc = uiApp.ActiveUIDocument.Document;
+            //Document doc = uiApp.ActiveUIDocument.Document;
             Application app = uiApp.Application;
-
 
             //Create Filters
             ElementCategoryFilter pipesFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeCurves);
@@ -79,7 +78,10 @@ namespace API_2021_Plugins
                 if (elementLineNumber == "")
                 {
                     emptyLineNumberElements.Add(element);
-                    emptyLineNumberList.Add($" ID: {element.Id}, Category: {element.Category.Name}, System: {element.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsValueString()}");
+                    emptyLineNumberList.Add(string.Format("{0,20}{1,30}{2,50}\n",
+                                            element.Id.ToString(), 
+                                            element.Category.Name,
+                                            element.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString()));
                 }
 
                 else
@@ -88,6 +90,8 @@ namespace API_2021_Plugins
                 }
 
             }
+
+            
 
             bool CanContinue = true;
             if (emptyLineNumberElements.Count > 0)
@@ -102,8 +106,12 @@ namespace API_2021_Plugins
                                                     $"Elements with line numbers filled: {filledLineNumberElements.Count}\n\n" +
                                                     $"Elements with line numbers empty: {emptyLineNumberElements.Count}\n\n" +
                                                     $"Line numbers have to be filled for the following elements:\n\n" +
-                                                    string.Join("\r\n", emptyLineNumberList));
+                                                    string.Join("", emptyLineNumberList));
+            //form.ShowDialog();
 
+
+            
+            
 
             #endregion
 

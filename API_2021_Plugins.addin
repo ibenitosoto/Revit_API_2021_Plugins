@@ -4,7 +4,7 @@
 		<Name>API_2021_Plugins</Name>
 		<FullClassName>API_2021_Plugins.KGE_Isometrics</FullClassName>
 		<Text>KGE_Isometrics</Text>
-		<Description>Places the Group at Particular Point</Description>
+		<Description>Isometrics PLugin</Description>
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
 		<Assembly>API_2021_Plugins.dll</Assembly>
 		<AddInId>FDB25206-AE42-4706-BFDE-4F7FCD0D0DB2</AddInId>
@@ -12,6 +12,18 @@
 		<VendorDescription>Kirby Group Engineering</VendorDescription>
 	</AddIn>
 
+	<AddIn Type="Command">
+		<Name>API_2021_Plugins</Name>
+		<FullClassName>API_2021_Plugins.KGE_LinesFromPipes</FullClassName>
+		<Text>KGE_LinesFromPipes</Text>
+		<Description>Creates 3D model lines from all pipes</Description>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>A9968DBB-3DC7-4385-806C-779B06D8AF8A</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
+	
 	<AddIn Type="Command">
 		<Name>Quantifications</Name>
 		<FullClassName>API_2021_Plugins.KGE_Quantifications</FullClassName>
@@ -23,6 +35,5 @@
 		<VendorId>KGE</VendorId>
 		<VendorDescription>Kirby Group Engineering</VendorDescription>
 	</AddIn>
-
-
+	
 </RevitAddIns>
