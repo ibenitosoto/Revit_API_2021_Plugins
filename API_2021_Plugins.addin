@@ -1,5 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RevitAddIns>
+	
+	<AddIn Type="Application">
+		<Name>API_2021_Plugins</Name>
+		<FullClassName>API_2021_Plugins.ExternalApplication</FullClassName>
+		<Text>ExternalApplication</Text>
+		<Description>ExternalApplication</Description>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>BFBD7362-609B-4FA4-885F-ADADB7D255DE</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
+
+	<AddIn Type="DBApplication">
+		<Name>API_2021_Plugins</Name>
+		<FullClassName>API_2021_Plugins.ExternalDBApplication</FullClassName>
+		<Text>ModelTracker</Text>
+		<Description>ModelTracker</Description>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>13D51870-B512-45BE-B3CC-A865BEE329BF</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
+
+	<AddIn Type="Command">
+		<Name>Quantifications</Name>
+		<FullClassName>API_2021_Plugins.KGE_Quantifications</FullClassName>
+		<Text>KGE_Quantifications</Text>
+		<Description>Count number of pipes, ducts and trays in the model</Description>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>E8E276C9-B1E2-4280-8EE5-0A281746005A</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
+	
 	<AddIn Type="Command">
 		<Name>API_2021_Plugins</Name>
 		<FullClassName>API_2021_Plugins.KGE_Isometrics</FullClassName>
@@ -23,17 +58,6 @@
 		<VendorId>KGE</VendorId>
 		<VendorDescription>Kirby Group Engineering</VendorDescription>
 	</AddIn>
-	
-	<AddIn Type="Command">
-		<Name>Quantifications</Name>
-		<FullClassName>API_2021_Plugins.KGE_Quantifications</FullClassName>
-		<Text>KGE_Quantifications</Text>
-		<Description>Count number of pipes, ducts and trays in the model</Description>
-		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
-		<Assembly>API_2021_Plugins.dll</Assembly>
-		<AddInId>E8E276C9-B1E2-4280-8EE5-0A281746005A</AddInId>
-		<VendorId>KGE</VendorId>
-		<VendorDescription>Kirby Group Engineering</VendorDescription>
-	</AddIn>
-	
+
+
 </RevitAddIns>

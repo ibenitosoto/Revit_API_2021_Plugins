@@ -72,9 +72,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ExternalDBApplication.cs" />
     <Compile Include="KGE_LinesFromPipes.cs" />
     <Compile Include="KGE_Isometrics.cs" />
+    <Compile Include="ExternalApplication.cs" />
     <Compile Include="KGE_Quantifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -84,8 +85,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)"."" "$(AppData)\Autodesk\Revit\Addins\2021\"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)"."" "$(AppData)\Autodesk\Revit\Addins\2021\"
+copy "$(TargetDir)"."" "$(ProgramData)\Autodesk\Revit\Addins\2021\"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
