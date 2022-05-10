@@ -10,14 +10,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using API_2021_Plugins;
+using Autodesk.Revit.Attributes;
 
 namespace API_2021_Plugins
 {
+    //[Transaction(TransactionMode.Manual)]
+    //[Regeneration(RegenerationOption.Manual)]
     class ExternalDBApplication : IExternalDBApplication
     {
-        static double pipeTotalLength = 0;
-        static double trayTotalLength = 0;
-        static double ductTotalLength = 0;
+        public static double pipeTotalLength = 0;
+        public static double trayTotalLength = 0;
+        public static double ductTotalLength = 0;
 
         static List<Element> pipes = new List<Element>();
         static List<Element> trays = new List<Element>();
@@ -46,7 +50,6 @@ namespace API_2021_Plugins
             {
                 //Register Event
                 application.DocumentChanged += new EventHandler<DocumentChangedEventArgs>(ElementChangedEvent);
-
             }
             catch (Exception)
             {

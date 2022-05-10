@@ -59,5 +59,17 @@
 		<VendorDescription>Kirby Group Engineering</VendorDescription>
 	</AddIn>
 
+	<AddIn Type="Command">
+		<Name>API_2021_Plugins</Name>
+		<FullClassName>API_2021_Plugins.KGE_ModelTracker</FullClassName>
+		<Text>KGE_ModelTracker</Text>
+		<Description>Track lengths of modelled elements</Description>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>7381B012-BC1D-4999-8A43-7C0A3A605D85</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
+
 
 </RevitAddIns>
