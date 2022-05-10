@@ -100,7 +100,8 @@ namespace API_2021_Plugins
                 //filtering elements to split them by their categories
                 try
                 {
-                    AddElementsToLists(pipes, doc, args, pipeFilter);
+                    //AddElementsToDicts(pipes, doc, args, pipeFilter);
+                    AddElementsToDicts(doc, args, pipeFilter);
                     //UpdateTotalLengths();
                     //UpdateLengths();
                     TotalLength(lengthDict, categoryDict);
@@ -124,8 +125,9 @@ namespace API_2021_Plugins
             {
                 try
                 {
-                    AddElementsToLists(trays, doc, args, trayFilter);
-                    UpdateTotalLengths();
+                    //AddElementsToDicts(trays, doc, args, trayFilter);
+                    AddElementsToDicts(doc, args, trayFilter);
+                    TotalLength(lengthDict, categoryDict);
                     DisplayLengthUpdate();
                 }
                 catch (Exception)
@@ -137,8 +139,9 @@ namespace API_2021_Plugins
             {
                 try
                 {
-                    AddElementsToLists(ducts, doc, args, ductFilter);
-                    UpdateTotalLengths();
+                    //AddElementsToDicts(ducts, doc, args, ductFilter);
+                    AddElementsToDicts(doc, args, ductFilter);
+                    TotalLength(lengthDict, categoryDict);
                     DisplayLengthUpdate();
                 }
                 catch (Exception)
@@ -244,9 +247,6 @@ namespace API_2021_Plugins
             }
 
 
-
-
-
         }//end of element changed event handler method
 
         
@@ -329,21 +329,33 @@ namespace API_2021_Plugins
         //    }
         //}
 
-        
-        public void AddElementsToLists(List<Element> elements ,Document doc, DocumentChangedEventArgs args, ElementFilter filter)
+
+        //public void AddElementsToDicts(List<Element> elements ,Document doc, DocumentChangedEventArgs args, ElementFilter filter)
+        public void AddElementsToDicts(Document doc, DocumentChangedEventArgs args, ElementFilter filter)
         {
             ICollection<ElementId> elementIDs = args.GetAddedElementIds(filter);
 
             foreach (ElementId elementID in elementIDs)
             {
                 Element newElement = doc.GetElement(elementID);
-                elements.Add(newElement);
-                allElementIDs.Add(elementID);
 
-                //dictionary test
+                ////storing elements in lists workflow
+                //elements.Add(newElement);
+                //allElementIDs.Add(elementID);
+
+                //storing ID:Length and ID:Category key-par values in dictionaries workflow
                 double newElementLength = newElement.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH).AsDouble();
-                lengthDict.Add(elementID, newElementLength);
-                categoryDict.Add(elementID, (BuiltInCategory)newElement.Category.Id.IntegerValue);
+
+                if (lengthDict.ContainsKey(elementID) && (categoryDict.ContainsKey(elementID)))
+                {
+                    break;
+                }
+
+                else
+                {
+                    lengthDict.Add(elementID, newElementLength);
+                    categoryDict.Add(elementID, (BuiltInCategory)newElement.Category.Id.IntegerValue);
+                }
             }
         }
 
@@ -375,44 +387,44 @@ namespace API_2021_Plugins
         //    }
         //}
 
-        public double GetTotalLength(List<Element>elements)
-        {
-            double length = 0;
-            foreach (Element element in elements)
-            {
-                double lengthInFeet = element.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH).AsDouble();
-                length += FootToMm(lengthInFeet);
-            }
-            return length;
-        }
+        //public double GetTotalLength(List<Element>elements)
+        //{
+        //    double length = 0;
+        //    foreach (Element element in elements)
+        //    {
+        //        double lengthInFeet = element.get_Parameter(BuiltInParameter.CURVE_ELEM_LENGTH).AsDouble();
+        //        length += FootToMm(lengthInFeet);
+        //    }
+        //    return length;
+        //}
 
 
-        public void UpdateTotalLengths()
-        {
-            pipeTotalLength = GetTotalLength(pipes);
-            trayTotalLength = GetTotalLength(trays);
-            ductTotalLength = GetTotalLength(ducts);
-        }
+        //public void UpdateTotalLengths()
+        //{
+        //    pipeTotalLength = GetTotalLength(pipes);
+        //    trayTotalLength = GetTotalLength(trays);
+        //    ductTotalLength = GetTotalLength(ducts);
+        //}
 
         const double _inchToMm = 25.4;
-        const double _footToMm = 12 * _inchToMm;
+        const double _footToM = (12 * _inchToMm)/1000;
 
         /// Convert a given length in millimetres to feet.
-        public static double FootToMm(double length)
+        public static double FootToM(double length)
         {
-            return length * _footToMm;
+            return length * _footToM;
         }
 
         public void DisplayLengthUpdate()
         {
             //TaskDialog.Show("New pipe", "Length of pipe: " + string.Format("{0:F2}", pipeLength/1000) + "mm\n" + "Total length modelled: " + string.Format("{0:F2}", pipeTotalLength/1000) + "mm");
-            TaskDialog.Show("Total lengths", "Length of pipes: " + string.Format("{0:F2}", pipeTotalLength / 1000) + "m\n" + "Length of trays: " + string.Format("{0:F2}", trayTotalLength / 1000) + "m\n" + "Length of ducts: " + string.Format("{0:F2}", ductTotalLength / 1000) + "m\n");
+            TaskDialog.Show("Total lengths", "Length of pipes: " + string.Format("{0:F2}", pipeTotalLength) + "m\n" + "Length of trays: " + string.Format("{0:F2}", trayTotalLength) + "m\n" + "Length of ducts: " + string.Format("{0:F2}", ductTotalLength) + "m\n");
         }
 
 
         public void TotalLength(Dictionary<ElementId, double> lengthDict, Dictionary<ElementId, BuiltInCategory> categoryDict)
         {
-            double lengthInMm = 0;
+            double lengthInM = 0;
             double lengthInFeet = 0;
 
             pipeTotalLength = 0;
@@ -421,22 +433,22 @@ namespace API_2021_Plugins
 
             foreach (var key in lengthDict)
             {
-                lengthInFeet += key.Value;
-                lengthInMm += FootToMm(lengthInFeet);
+                lengthInFeet = key.Value;
+                lengthInM = FootToM(lengthInFeet);
 
                 if (categoryDict[key.Key] is BuiltInCategory.OST_PipeCurves)
                 {
-                    pipeTotalLength += lengthInMm;
+                    pipeTotalLength += lengthInM;
                 }
 
                 else if (categoryDict[key.Key] is BuiltInCategory.OST_CableTray)
                 {
-                    trayTotalLength += lengthInMm;
+                    trayTotalLength += lengthInM;
                 }
 
                 else if (categoryDict[key.Key] is BuiltInCategory.OST_DuctCurves)
                 {
-                    ductTotalLength += lengthInMm;
+                    ductTotalLength += lengthInM;
                 }
 
             }
