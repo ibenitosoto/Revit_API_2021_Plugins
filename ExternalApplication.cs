@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
@@ -13,6 +14,7 @@ using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.Plumbing;
 using System.Reflection;
+using System.Windows.Media.Imaging;
 
 namespace API_2021_Plugins
 {
@@ -38,12 +40,22 @@ namespace API_2021_Plugins
             PushButtonData button3 = new PushButtonData("button3", "Lines From Pipes", path, "API_2021_Plugins.KGE_LinesFromPipes");
             PushButtonData button4 = new PushButtonData("button4", "Model Tracker", path, "API_2021_Plugins.KGE_ModelTracker");
 
-            RibbonPanel panel = application.CreateRibbonPanel("KGE BIM", "KGE SCRIPTS");
+            RibbonPanel panel = application.CreateRibbonPanel("KGE BIM", "Kirby Group Engineering Revit Plugins");
 
-            panel.AddItem(button1);
-            panel.AddItem(button2);
-            panel.AddItem(button3);
-            panel.AddItem(button4);
+            //add button image
+            Uri imagePath = new Uri(@"C:\Users\isoto\OneDrive - Kirby Engineering & Construction\RevitPlugins\API_2021_Plugins\images\kirbyIconK.png");
+            BitmapImage icon = new BitmapImage(imagePath);
+            
+            PushButton pushButton1 = panel.AddItem(button1) as PushButton;
+            PushButton pushButton2 = panel.AddItem(button2) as PushButton;
+            PushButton pushButton3 = panel.AddItem(button3) as PushButton;
+            PushButton pushButton4 = panel.AddItem(button4) as PushButton;
+
+            pushButton1.LargeImage = icon;
+            pushButton2.LargeImage = icon;
+            pushButton3.LargeImage = icon;
+            pushButton4.LargeImage = icon;
+
 
             return Result.Succeeded;
         }

@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:API_2021_Plugins" xmlns:svgc1="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:local="clr-namespace:API_2021_Plugins" 
         mc:Ignorable="d" 
-             Height="325" Width="800" Title="Kirby Group Engineering Model Tracker"
-             WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+             Height="350" Width="800" Title="Kirby Group Engineering Model Tracker"
+             WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+             MinWidth="400"
+             MinHeight="200"
         >
 
     <Grid>
@@ -25,56 +27,47 @@
 
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" CornerRadius="150,150,150,150"
+        <Border CornerRadius="150,150,150,150"
         Width="175"
         Height="175"
-        Margin="30,20,30,40"
+        Margin="46,57,0,0"
         Padding="0,20,0,0"
         Background="#FFF3F2F9"
         BorderBrush="#FF0F258A"
-        BorderThickness="3,3,3,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        BorderThickness="3,3,3,3" HorizontalAlignment="Left" VerticalAlignment="Top">
             <TextBlock x:Name="pipesTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,25" Text="26.41" FontFamily="Arial Narrow" FontSize="50" Foreground="#FF0F258A"/>
         </Border>
 
 
         <Border Grid.Column="1" CornerRadius="150,150,150,150"
-        Width="175"
         Height="175"
-        Margin="30,20,30,40"
+        Margin="0,57,0,0"
         Padding="0,20,0,0"
         Background="#FFF3F2F9"
         BorderBrush="#FF0F258A"
-        BorderThickness="3,3,3,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        BorderThickness="3,3,3,3" HorizontalAlignment="Center" Width="176" VerticalAlignment="Top">
             <TextBlock x:Name="traysTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,25" Text="62.41" FontFamily="Arial Narrow" FontSize="50" Foreground="#FF0F258A"/>
         </Border>
 
         <Border Grid.Column="2" CornerRadius="150,150,150,150"
-        Width="175"
         Height="175"
-        Margin="30,20,30,40"
+        Margin="0,57,46,0"
         Padding="0,20,0,0"
         Background="#FFF3F2F9"
         BorderBrush="#FF0F258A"
-        BorderThickness="3,3,3,3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        BorderThickness="3,3,3,3" HorizontalAlignment="Right" Width="175" VerticalAlignment="Top">
             <TextBlock x:Name="ductsTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,25" Text="11.78" FontFamily="Arial Narrow" FontSize="50" Foreground="#FF0F258A"/>
         </Border>
 
-        <TextBlock Grid.Column="0" x:Name="pipeMetersTxt" HorizontalAlignment="Center" VerticalAlignment="Center" Text="meters of pipe" FontFamily="Arial Narrow" FontSize="20" Foreground="#FF0F258A" Margin="0,220,0,10"/>
-        <TextBlock Grid.Column="1" x:Name="trayMetersTxt" HorizontalAlignment="Center" VerticalAlignment="Center" Text="meters of tray" FontFamily="Arial Narrow" FontSize="20" Foreground="#FF0F258A" Margin="0,220,0,10"/>
-        <TextBlock Grid.Column="2" x:Name="ductMetersTxt" HorizontalAlignment="Center" VerticalAlignment="Center" Text="meters of duct" FontFamily="Arial Narrow" FontSize="20" Foreground="#FF0F258A" Margin="0,220,0,10"/>
+        <TextBlock x:Name="pipeMetersTxt" HorizontalAlignment="Left" Text="meters of pipe" FontFamily="Arial Narrow" FontSize="20" Foreground="#FF0F258A" Margin="81,248,0,38"/>
+        <TextBlock Grid.Column="1" x:Name="trayMetersTxt" HorizontalAlignment="Center" Text="meters of tray" FontFamily="Arial Narrow" FontSize="20" Foreground="#FF0F258A" Margin="0,248,0,38"/>
+        <TextBlock Grid.Column="2" x:Name="ductMetersTxt" HorizontalAlignment="Right" Text="meters of duct" FontFamily="Arial Narrow" FontSize="20" Foreground="#FF0F258A" Margin="0,248,81,38"/>
         <Image x:Name="kirbyLogo" HorizontalAlignment="Left" Height="42" Margin="10,10,0,0" VerticalAlignment="Top" Width="46" Source="/API_2021_Plugins;component/images/kirbyLogoK.png"/>
-        <Image Grid.Column="2" HorizontalAlignment="Left" Height="26" Margin="178,5,0,0" VerticalAlignment="Top" Width="133" Source="/API_2021_Plugins;component/images/kirbyFullLogo.png"/>
-        <Rectangle HorizontalAlignment="Left" Height="214" Margin="10,63,0,0" Stroke="White" VerticalAlignment="Top" Width="10" Fill="#FF0E1D79"/>
-        <Rectangle HorizontalAlignment="Left" Height="675" Margin="93,-323,0,0" Stroke="White" VerticalAlignment="Top" Width="10" Fill="#FF0E1D79" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="90"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
+        <Image Grid.Column="2" Height="26" Margin="0,10,10,0" VerticalAlignment="Top" Source="/API_2021_Plugins;component/images/kirbyFullLogo.png" HorizontalAlignment="Right" Width="81"/>
+        <Rectangle HorizontalAlignment="Left" Margin="10,63,0,32" Stroke="White" Width="10" Fill="#FF0E1D79"/>
+
+        <TextBlock x:Name="version" HorizontalAlignment="Left" Text="WIP version 0.1 - please report any bugs to Ignacio Benito Soto - isoto@kirbygroup.com" FontFamily="Arial Narrow" Foreground="#FF0F258A" Margin="10,0,0,9" Grid.ColumnSpan="2" Width="448" FontSize="10" Height="11" VerticalAlignment="Bottom"/>
+        <Rectangle Grid.ColumnSpan="3" Height="8" Margin="75,10,103,0" VerticalAlignment="Top" Fill="#FF0E1D79"/>
 
     </Grid>
 </Window>
