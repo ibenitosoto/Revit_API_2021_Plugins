@@ -45,7 +45,6 @@ namespace API_2021_Plugins
 
         public ExternalDBApplicationResult OnStartup(ControlledApplication application)
         {
-
             try
             {
                 //Register Event
@@ -60,11 +59,6 @@ namespace API_2021_Plugins
             return ExternalDBApplicationResult.Succeeded;
         }
 
- 
-      
-        
-        
-        
 
         //React to every change in the Revit model
         public void ElementChangedEvent(object sender, DocumentChangedEventArgs args)
@@ -77,6 +71,8 @@ namespace API_2021_Plugins
             if (args.Operation is UndoOperation.TransactionUndone)
             {
                 //add code to remove element from dictionaries if the action undone is an element deleted
+
+                RemoveElementsFromDicts(args);
                 TotalLength(lengthDict, categoryDict);
                 DisplayLengthUpdate();
             }
@@ -229,22 +225,7 @@ namespace API_2021_Plugins
                 //}
 
                 //dictionary test
-
-                //ids of all deleted elements
-                ICollection<ElementId> deletedIDs = args.GetDeletedElementIds();
-
-                foreach (ElementId deletedID in deletedIDs)
-                {
-                    if (lengthDict.ContainsKey(deletedID))
-                    {
-                        lengthDict.Remove(deletedID);
-                        categoryDict.Remove(deletedID);
-                    }
-                }
-
-
-                //UpdateTotalLengths();
-                //UpdateLengths();
+                RemoveElementsFromDicts(args);
                 TotalLength(lengthDict, categoryDict);
                 DisplayLengthUpdate();
 
@@ -361,6 +342,23 @@ namespace API_2021_Plugins
                     categoryDict.Add(elementID, (BuiltInCategory)newElement.Category.Id.IntegerValue);
                 }
             }
+        }
+
+        public void RemoveElementsFromDicts(DocumentChangedEventArgs args)
+        {
+            //ids of all deleted elements
+            ICollection<ElementId> deletedIDs = args.GetDeletedElementIds();
+
+            foreach (ElementId deletedID in deletedIDs)
+            {
+                if (lengthDict.ContainsKey(deletedID))
+                {
+                    lengthDict.Remove(deletedID);
+                    categoryDict.Remove(deletedID);
+                }
+            }
+
+
         }
 
         //public void RemoveElementsFromLists(ICollection<ElementId> elementIDs, List<Element> elements, Document doc)
