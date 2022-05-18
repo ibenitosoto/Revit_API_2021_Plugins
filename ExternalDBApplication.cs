@@ -70,13 +70,12 @@ namespace API_2021_Plugins
             UndoOperation undoOperation = args.Operation;
             if (args.Operation is UndoOperation.TransactionUndone)
             {
-                //add code to remove element from dictionaries if the action undone is an element deleted
-
+                //remove element from dictionaries if the action undone is an element deleted
                 RemoveElementsFromDicts(args);
+
                 TotalLength(lengthDict, categoryDict);
                 DisplayLengthUpdate();
             }
-
 
             //Identify if elements are created or deleted
             //If elements are created, get their categories and add them to the right lists

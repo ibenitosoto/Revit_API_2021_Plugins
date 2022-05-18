@@ -36,6 +36,9 @@ namespace API_2021_Plugins
             ElementCategoryFilter fittingsFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting);
             ElementCategoryFilter valvesFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory);
 
+            //Name of the line number parameter
+            string lineNumberParameterName = "LineNumber";
+
             //Multicategory filter
             //Initialize list inheriting from IList and adding all 3 categories
             IList<BuiltInCategory> allCategories = new List<BuiltInCategory>();
@@ -73,9 +76,9 @@ namespace API_2021_Plugins
             //looping through all elements to proceed with the splitting
             foreach (Element element in allElements)
             {
-                string elementLineNumber = element.LookupParameter("EZ_LINE NO").AsString();
+                string elementLineNumber = element.LookupParameter("LineNumber").AsString();
 
-                if (elementLineNumber == "")
+                if (elementLineNumber == "" || elementLineNumber == null)
                 {
                     emptyLineNumberElements.Add(element);
                     emptyLineNumberList.Add(string.Format("{0,20}{1,30}{2,50}\n",
@@ -88,26 +91,27 @@ namespace API_2021_Plugins
                 {
                     filledLineNumberElements.Add(element);
                 }
-
             }
 
             
 
             bool CanContinue = true;
-            if (emptyLineNumberElements.Count > 0)
-            {
-                CanContinue = false;
-            }
+
+            //uncomment this code to forbid execution until all line numbers are filled
+            //if (emptyLineNumberElements.Count > 0)
+            //{
+            //    CanContinue = false;
+            //}
 
             
 
 
-            TaskDialog.Show("Line Number Check", $"________________________LINE NUMBER CHECK________________________\n\n" +
-                                                    $"Elements with line numbers filled: {filledLineNumberElements.Count}\n\n" +
-                                                    $"Elements with line numbers empty: {emptyLineNumberElements.Count}\n\n" +
-                                                    $"Line numbers have to be filled for the following elements:\n\n" +
-                                                    string.Join("", emptyLineNumberList));
-            //form.ShowDialog();
+            //TaskDialog.Show("Line Number Check", $"________________________LINE NUMBER CHECK________________________\n\n" +
+            //                                        $"Elements with line numbers filled: {filledLineNumberElements.Count}\n\n" +
+            //                                        $"Elements with line numbers empty: {emptyLineNumberElements.Count}\n\n" +
+            //                                        $"Line numbers have to be filled for the following elements:\n\n" +
+            //                                        string.Join("", emptyLineNumberList));
+            
 
 
             
@@ -118,11 +122,13 @@ namespace API_2021_Plugins
             if (CanContinue)
             {
                 TaskDialog.Show("Can Continue", "All elements have a line number assigned. The program will execute now.");
-            #region line number grouping and automatic assembly & sheet creation and tagging process
+                #region line number grouping and automatic assembly & sheet creation and tagging process
 
-            var lineNumberGroups = from e in allElements
-                                   //group e by e.GetParameters("EZ_LINE NO").ToString();
-                                   group e by e.LookupParameter("EZ_LINE NO").AsString();
+
+                var lineNumberGroups = from e in filledLineNumberElements
+                                           //from e in allElements
+                                           //group e by e.GetParameters(lineNumberParameterName).ToString();
+                                       group e by e.LookupParameter(lineNumberParameterName).AsString();
 
 
             ////Create 3D view to be used later as a template for all assemblies
@@ -177,10 +183,6 @@ namespace API_2021_Plugins
                             elementIDs.Add(insulationId.FirstOrDefault());
                         }
 
-                        else
-                        {
-                            break;
-                        }
                     }
 
 
@@ -193,6 +195,15 @@ namespace API_2021_Plugins
                         assemblyCounter++;
 
                         string assemblyName = lineNumberGroup.Key.ToString();
+
+                        //try
+                        //{
+                        //    string assemblyName = lineNumberGroup.Key.ToString();
+                        //}
+                        //catch (Exception)
+                        //{
+                        //}
+                        
 
                         if (transaction.GetStatus() == TransactionStatus.Committed)
                         {

@@ -12,7 +12,7 @@
 		<VendorDescription>Kirby Group Engineering</VendorDescription>
 	</AddIn>
 
-	<AddIn Type="DBApplication">
+	<!-->><AddIn Type="DBApplication">
 		<Name>API_2021_Plugins</Name>
 		<FullClassName>API_2021_Plugins.ExternalDBApplication</FullClassName>
 		<Text>ModelTracker</Text>
@@ -22,6 +22,7 @@
 		<VendorId>KGE</VendorId>
 		<VendorDescription>Kirby Group Engineering</VendorDescription>
 	</AddIn>
+	<!-->
 
 	<AddIn Type="Command">
 		<Name>Quantifications</Name>
