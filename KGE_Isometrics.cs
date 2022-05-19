@@ -19,6 +19,7 @@ namespace API_2021_Plugins
     [Regeneration(RegenerationOption.Manual)]
     public class KGE_Isometrics : IExternalCommand
     {
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             //Get UI Document
@@ -281,13 +282,11 @@ namespace API_2021_Plugins
 
                                 //Applying category overrides to the 3D view
                                 view3d.SetCategoryOverrides(insulationCategory.Id, insulationOverride);
-
   
 
                                 //OverrideGraphicSettings dashedPatternOverride = new OverrideGraphicSettings();
                                 //dashedPatternOverride.SetProjectionLinePatternId(dashedPattern.Id);
                                 
-
 
                                 //lock the view to be able to add dimensions
                                 if (view3d.CanBeLocked())
@@ -346,10 +345,11 @@ namespace API_2021_Plugins
                                             try
                                             {
                                                 // process as vertical
-                                                line = Line.CreateBound(new XYZ(coord1.X + 1, coord1.Y, coord1.Z), new XYZ(coord1.X + 1, coord1.Y, coord2.Z));
+                                                line = Line.CreateBound(new XYZ(coord1.X, coord1.Y, coord1.Z), new XYZ(coord1.X, coord1.Y, coord2.Z));
+                                                //line = Line.CreateBound(new XYZ(coord1.X + 1, coord1.Y, coord1.Z), new XYZ(coord1.X + 1, coord1.Y, coord2.Z));
                                                 geomPlane = Plane.CreateByNormalAndOrigin(XYZ.BasisX, line.Evaluate(0.5, true));
                                             }
-                                            catch (Exception ex)
+                                            catch (Exception)
                                             {
                                                 //TaskDialog.Show("Exception Caught", "Exception: " + ex);
                                             }
@@ -360,10 +360,11 @@ namespace API_2021_Plugins
                                         // process as horizontal
                                             try
                                             {
-                                                line = Line.CreateBound(new XYZ(coord1.X, coord1.Y + 1, coord1.Z), new XYZ(coord2.X, coord2.Y + 1, coord1.Z));
+                                                line = Line.CreateBound(new XYZ(coord1.X, coord1.Y, coord1.Z), new XYZ(coord2.X, coord2.Y, coord1.Z));
+                                                //line = Line.CreateBound(new XYZ(coord1.X, coord1.Y + 1, coord1.Z), new XYZ(coord2.X, coord2.Y + 1, coord1.Z));
                                                 geomPlane = Plane.CreateByNormalAndOrigin(XYZ.BasisZ, line.Evaluate(0.5, true));
                                             }
-                                            catch (Exception ex)
+                                            catch (Exception)
                                             {
                                                 //TaskDialog.Show("Exception Caught", "Exception: " + ex);
                                             }
@@ -413,6 +414,26 @@ namespace API_2021_Plugins
                                 ScheduleDefinition partSchedule = partList.Definition;
                                 partSchedule.IsItemized = false;
 
+                                //get number of fields added by default to the assembly schedule
+                                int fieldQuantity = partSchedule.GetFieldCount();
+
+                                //three fields are added by default to the schedule, being the 3rd one "Count", which is not schedulable
+                                //we'll have to add only the first 2 ones (category and type)
+
+                                for (int i = 0; i < (fieldQuantity -1); i++)
+                                {
+                                    ScheduleFieldId fieldId = partSchedule.GetFieldId(i);
+                                    ScheduleField field = partSchedule.GetField(fieldId);
+                                    ScheduleSortGroupField sortGroupField = new ScheduleSortGroupField(field.FieldId);
+                                    partSchedule.AddSortGroupField(sortGroupField);
+                                }
+
+                                
+
+                               
+
+
+
                                 ICollection<ElementId> schedulableFields = partSchedule.GetValidCategoriesForEmbeddedSchedule();
 
                                 //WORK IN PROGRESS
@@ -431,7 +452,7 @@ namespace API_2021_Plugins
                                 //Viewport.Create(doc, viewSheet.Id, detailSectionB.Id, new XYZ(0.5, 1.5, 0));
                                 //Viewport.Create(doc, viewSheet.Id, detailSectionH.Id, new XYZ(1.5, 2, 0));
                                 //ScheduleSheetInstance.Create(doc, viewSheet.Id, materialTakeoff.Id, new XYZ(2, 2.5, 0));
-                                ScheduleSheetInstance.Create(doc, viewSheet.Id, partList.Id, new XYZ(2.5, 2.5, 0));
+                                ScheduleSheetInstance.Create(doc, viewSheet.Id, partList.Id, new XYZ(1.5, 1.5, 0));
 
                                 transaction.Commit();
 
@@ -475,6 +496,6 @@ namespace API_2021_Plugins
             return Math.Abs(left - right) < 0.0001;
         }
 
-
+        
     }//end of External command class
 }
