@@ -85,31 +85,36 @@ namespace API_2021_Plugins
             //storing ids and names for all the ones with empty line numbers
             List<string> emptyLineNumberList = new List<string>();
 
+            string elementLineNumber = "";
             //looping through all elements to proceed with the splitting
             foreach (Element element in allElements)
             {
                 try
                 {
-                    string elementLineNumber = element.LookupParameter(lineNumberParameterName).AsString();
-
-                    if (elementLineNumber == "" || elementLineNumber == null)
-                    {
-                        emptyLineNumberElements.Add(element);
-                        emptyLineNumberList.Add(string.Format("{0,20}{1,30}{2,50}\n",
-                                                element.Id.ToString(),
-                                                element.Category.Name,
-                                                element.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString()));
-                    }
-
-                    else
-                    {
-                        filledLineNumberElements.Add(element);
-                    }
+                    elementLineNumber = element.LookupParameter(lineNumberParameterName).AsString();
                 }
-                catch (Exception)
+                catch (System.NullReferenceException)
                 {
-                    TaskDialog.Show("Line Number Parameter Error", "Parameter - Line Number - must be added to the project and filled");
+                    TaskDialog.Show("Line Number Parameter Error", "Parameter - Line Number - must be added to the project and filled\n The program will close now.");
+                    return Result.Failed;
                 }
+
+
+                if (elementLineNumber == "" || elementLineNumber == null)
+                {
+                    emptyLineNumberElements.Add(element);
+                    emptyLineNumberList.Add(string.Format("{0,20}{1,30}{2,50}\n",
+                                            element.Id.ToString(),
+                                            element.Category.Name,
+                                            element.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString()));
+                }
+
+                else
+                {
+                    filledLineNumberElements.Add(element);
+                }
+                
+ 
                 
 
       
@@ -328,15 +333,25 @@ namespace API_2021_Plugins
                                         op.View = view3d;
                                         op.IncludeNonVisibleObjects = true;
 
+                                        Reference pipeRef = new Reference(pipe);
                                         Reference ref1 = null;
                                         Reference ref2 = null;
                                         ReferenceArray references = new ReferenceArray();
 
+                                        XYZ pipeMid = pipeLocationCurve.Curve.Evaluate(0.5, true);
                                         XYZ pipeEndPoint1 = null;
                                         XYZ pipeEndPoint2 = null;
 
                                         pipeEndPoint1 = pipeLocationCurve.Curve.GetEndPoint(0);
                                         pipeEndPoint2 = pipeLocationCurve.Curve.GetEndPoint(1);
+
+
+                                     
+                                        var bendPnt = pipeMid.Add(Create.NewXYZ(0, 1, 4));
+                                        var endPnt = pipeMid.Add(Create.NewXYZ(0, 2, 4));
+
+                                        doc.Create.NewSpotCoordinate(view3d, pipeRef, pipeEndPoint1, bendPnt, endPnt, pipeMid, true);
+
 
                                         //CreateIndependentTag(doc, view3d, pipe, pipeLocationCurve);
 
@@ -348,8 +363,8 @@ namespace API_2021_Plugins
                                         //var pipeStart = pipeLocationCurve.Curve.GetEndPoint(0);
                                         //var pipeEnd = pipeLocationCurve.Curve.GetEndPoint(1);
 
-                                        var pipeMid = pipeLocationCurve.Curve.Evaluate(0.5, true);
-                                        Reference pipeRef = new Reference(pipe);
+                                        
+                                        
 
                                         //THIS DOC.REGENERATE IS KEY OR PIPE TAGS WONT EVER REALLY BE CREATED
                                         doc.Regenerate();
