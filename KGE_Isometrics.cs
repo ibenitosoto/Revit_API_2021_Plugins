@@ -17,9 +17,14 @@ namespace API_2021_Plugins
 {
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
+
     public class KGE_Isometrics : IExternalCommand
     {
-
+        public static int lineNumberCounter = 0;
+        public static int assemblyCounter = 0;
+        public static int dimensionCounter = 0;
+        public static int pipeTagsCounter = 0;
+        public static List<IndependentTag> pipeTagsList = new List<IndependentTag>();
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             //Get UI Document
@@ -38,7 +43,7 @@ namespace API_2021_Plugins
             ElementCategoryFilter valvesFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory);
 
             //Name of the line number parameter
-            string lineNumberParameterName = "LineNumber";
+            string lineNumberParameterName = "Line Number";
 
             //Multicategory filter
             //Initialize list inheriting from IList and adding all 3 categories
@@ -59,11 +64,17 @@ namespace API_2021_Plugins
             IList<Element> allElements = new List<Element>();
             allElements = new FilteredElementCollector(doc).WherePasses(allElementsFilter).WhereElementIsNotElementType().ToElements();
 
+            //pipe tags checker
+            ElementCategoryFilter pipeTagsFilter0 = new ElementCategoryFilter(BuiltInCategory.OST_PipeTags);
+            IList<Element> pipeTagsCreated0 = new FilteredElementCollector(doc).WherePasses(pipeTagsFilter0).WhereElementIsNotElementType().ToElements();
+
+
             TaskDialog.Show("Welcome", "Welcome to the KGE Isometrics plugin");
             TaskDialog.Show("Quantifications", $"{pipes.Count} pipes in the model\n" +
                                                 $"{fittings.Count} fittings in the model\n" +
-                                                $"{valves.Count} valves in the model\n");
-
+                                                $"{valves.Count} valves in the model\n" +
+                                                $"{pipeTagsCreated0.Count} pipe tags in the model\n");
+            
 
             #region Line number initial check
 
@@ -77,7 +88,7 @@ namespace API_2021_Plugins
             //looping through all elements to proceed with the splitting
             foreach (Element element in allElements)
             {
-                string elementLineNumber = element.LookupParameter("LineNumber").AsString();
+                string elementLineNumber = element.LookupParameter(lineNumberParameterName).AsString();
 
                 if (elementLineNumber == "" || elementLineNumber == null)
                 {
@@ -139,9 +150,7 @@ namespace API_2021_Plugins
             //    View3D newView = View3D.CreateIsometric()
             //    transaction.Commit();
 
-                int lineNumberCounter = 0;
-                int assemblyCounter = 0;
-                int dimensionCounter = 0;
+  
                 //View view3dTemplate = null;
                 //ElementId view3dTemplateId = null;
 
@@ -282,10 +291,11 @@ namespace API_2021_Plugins
 
                                 //Applying category overrides to the 3D view
                                 view3d.SetCategoryOverrides(insulationCategory.Id, insulationOverride);
-  
+
 
                                 //OverrideGraphicSettings dashedPatternOverride = new OverrideGraphicSettings();
                                 //dashedPatternOverride.SetProjectionLinePatternId(dashedPattern.Id);
+
                                 
 
                                 //lock the view to be able to add dimensions
@@ -294,18 +304,15 @@ namespace API_2021_Plugins
                                     view3d.SaveOrientationAndLock();
                                 }
 
-                                else
-                                {
-                                    break;
-                                }
+                                
 
-                                //automated dimensions
+                                //automated dimensions, tags
                                 foreach (Pipe pipe in pipesInView)
                                 {
                                     if (pipe != null)
                                     {
-                                        LocationCurve LC = pipe.Location as LocationCurve;
-
+                                        LocationCurve pipeLocationCurve = pipe.Location as LocationCurve;
+    
                                         Options op = app.Create.NewGeometryOptions();
                                         op.ComputeReferences = true;
                                         op.View = view3d;
@@ -315,12 +322,51 @@ namespace API_2021_Plugins
                                         Reference ref2 = null;
                                         ReferenceArray references = new ReferenceArray();
 
-                                        XYZ R1 = null;
-                                        XYZ R2 = null;
+                                        XYZ pipeEndPoint1 = null;
+                                        XYZ pipeEndPoint2 = null;
 
-                                        R1 = LC.Curve.GetEndPoint(0);
-                                        R2 = LC.Curve.GetEndPoint(1);
+                                        pipeEndPoint1 = pipeLocationCurve.Curve.GetEndPoint(0);
+                                        pipeEndPoint2 = pipeLocationCurve.Curve.GetEndPoint(1);
 
+                                        //CreateIndependentTag(doc, view3d, pipe, pipeLocationCurve);
+
+                                        // define tag mode and tag orientation for new tag
+                                        var tagMode = TagMode.TM_ADDBY_CATEGORY;
+                                        var tagOrientation = TagOrientation.Horizontal;
+
+                                        // Add the tag to the middle of the pipe
+                                        //var pipeStart = pipeLocationCurve.Curve.GetEndPoint(0);
+                                        //var pipeEnd = pipeLocationCurve.Curve.GetEndPoint(1);
+
+                                        var pipeMid = pipeLocationCurve.Curve.Evaluate(0.5, true);
+                                        Reference pipeRef = new Reference(pipe);
+
+                                        //THIS DOC.REGENERATE IS KEY OR PIPE TAGS WONT EVER REALLY BE CREATED
+                                        doc.Regenerate();
+
+                                        IndependentTag newTag = IndependentTag.Create(doc, view3d.Id, pipeRef, false, tagMode, tagOrientation, pipeMid);
+                                        
+
+                                        if (newTag == null)
+                                        {
+                                            throw new Exception("Create IndependentTag Failed.");
+                                        }
+                                        else
+                                        {
+                                            newTag.HasLeader = true;
+                                            ////  set leader mode free
+                                            //// otherwise leader end point move with elbow point
+                                            newTag.LeaderEndCondition = LeaderEndCondition.Free;
+                                            var elbowPnt = pipeMid + new XYZ(5.0, 5.0, 0.0);
+                                            newTag.LeaderElbow = elbowPnt;
+                                            var headerPnt = pipeMid + new XYZ(10.0, 10.0, 0.0);
+                                            newTag.TagHeadPosition = headerPnt;
+
+                                            pipeTagsCounter++;
+                                            pipeTagsList.Add(newTag);
+                                            //AddToNewPipeTagsList(pipeTagsList, newTag);
+                                        }
+                            
 
                                         foreach (var geoObj in pipe.get_Geometry(op))
                                         {
@@ -335,8 +381,8 @@ namespace API_2021_Plugins
                                         }
 
                                         // Get points in model coordinates not family coordinates
-                                        XYZ coord1 = R1;//.GlobalPoint;
-                                        XYZ coord2 = R2;//.GlobalPoint;
+                                        XYZ coord1 = pipeEndPoint1;//.GlobalPoint;
+                                        XYZ coord2 = pipeEndPoint2;//.GlobalPoint;
 
                                         Line line = null;
                                         Plane geomPlane = null;
@@ -392,12 +438,13 @@ namespace API_2021_Plugins
                                             Dimension newDim = doc.Create.NewDimension(view3d, line, references);
                                             dimensionCounter++;
                                         }
-                                        
-
-                                  
                                     }
-                                    
+
                                 }
+
+
+                                int pipeTagListCount = pipeTagsList.Count();
+                                
 
                                 //List<Element> elementsInView = new FilteredElementCollector(doc, viewSheet.Id).ToList();
                                 //ViewSchedule viewSchedule = AssemblyViewUtils.CreateSingleCategorySchedule(doc, assemblyInstance.Id);
@@ -411,8 +458,10 @@ namespace API_2021_Plugins
                                 //ViewSection detailSectionH = AssemblyViewUtils.CreateDetailSection(doc, assemblyInstance.Id, AssemblyDetailViewOrientation.HorizontalDetail);
                                 //ViewSchedule materialTakeoff = AssemblyViewUtils.CreateMaterialTakeoff(doc, assemblyInstance.Id);
                                 ViewSchedule partList = AssemblyViewUtils.CreatePartList(doc, assemblyInstance.Id);
+                                partList.Name = "Bill of materials";
                                 ScheduleDefinition partSchedule = partList.Definition;
                                 partSchedule.IsItemized = false;
+                                
 
                                 //get number of fields added by default to the assembly schedule
                                 int fieldQuantity = partSchedule.GetFieldCount();
@@ -428,11 +477,7 @@ namespace API_2021_Plugins
                                     partSchedule.AddSortGroupField(sortGroupField);
                                 }
 
-                                
-
-                               
-
-
+     
 
                                 ICollection<ElementId> schedulableFields = partSchedule.GetValidCategoriesForEmbeddedSchedule();
 
@@ -452,18 +497,18 @@ namespace API_2021_Plugins
                                 //Viewport.Create(doc, viewSheet.Id, detailSectionB.Id, new XYZ(0.5, 1.5, 0));
                                 //Viewport.Create(doc, viewSheet.Id, detailSectionH.Id, new XYZ(1.5, 2, 0));
                                 //ScheduleSheetInstance.Create(doc, viewSheet.Id, materialTakeoff.Id, new XYZ(2, 2.5, 0));
-                                ScheduleSheetInstance.Create(doc, viewSheet.Id, partList.Id, new XYZ(1.5, 1.5, 0));
+                                ScheduleSheetInstance.Create(doc, viewSheet.Id, partList.Id, new XYZ(2.01, 1.95, 0));
 
                                 transaction.Commit();
 
 
-                            }
+                            }//end of if transaction is committed
 
 
 
              
 
-                        }
+                        }//end of if assembly allows view creation
 
                 
 
@@ -473,9 +518,17 @@ namespace API_2021_Plugins
 
                 }//end of foreach loop through all line numbers
 
+
                 TaskDialog.Show("Quantifications", $" {lineNumberCounter} line numbers detected \n" +
                                                 $" {assemblyCounter} assemblies created \n" +
-                                                $" {dimensionCounter} dimensions created for {pipes.Count} in the model \n");
+                                                $" {dimensionCounter} dimensions created for {pipes.Count} pipes in the model \n" +
+                                                $" {pipeTagsCounter} pipe tags created for {pipes.Count} pipes in the model \n");
+
+
+
+                ElementCategoryFilter pipeTagsFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeTags);
+                IList<Element> pipeTagsCreated = new FilteredElementCollector(doc).WherePasses(pipeTagsFilter).WhereElementIsNotElementType().ToElements();
+                TaskDialog.Show("Pipe Tags Created", $"{pipeTagsList.Count()} - {pipeTagsCreated.Count()} pipe tags in the model\n");
 
 
                 #endregion
@@ -496,6 +549,44 @@ namespace API_2021_Plugins
             return Math.Abs(left - right) < 0.0001;
         }
 
-        
+        //public void AddToNewPipeTagsList(List<IndependentTag> tagList, IndependentTag tag)
+        //{
+        //    tagList.Add(tag);
+        //}
+
+        //public IndependentTag CreateIndependentTag(Document document, View view, Pipe pipe, LocationCurve pipeLocationCurve)
+        //{
+
+        //    // define tag mode and tag orientation for new tag
+        //    var tagMode = TagMode.TM_ADDBY_CATEGORY;
+        //    var tagOrientation = TagOrientation.Horizontal;
+
+        //    // Add the tag to the middle of the pipe
+        //    //var pipeStart = pipeLocationCurve.Curve.GetEndPoint(0);
+        //    //var pipeEnd = pipeLocationCurve.Curve.GetEndPoint(1);
+    
+        //    var pipeMid = pipeLocationCurve.Curve.Evaluate(0.5, true);
+        //    var pipeRef = new Reference(pipe);
+
+        //    var newTag = IndependentTag.Create(document, view.Id, pipeRef, true, tagMode, tagOrientation, pipeMid);
+
+        //    if (newTag == null)
+        //    {
+        //        throw new Exception("Create IndependentTag Failed.");
+        //    }
+        //    else
+        //    {
+        //        pipeTagsCounter++;
+        //    }
+        //    //// set leader mode free
+        //    //// otherwise leader end point move with elbow point
+        //    newTag.LeaderEndCondition = LeaderEndCondition.Free;
+        //    var elbowPnt = pipeMid + new XYZ(5.0, 5.0, 0.0);
+        //    newTag.LeaderElbow = elbowPnt;
+        //    var headerPnt = pipeMid + new XYZ(10.0, 10.0, 0.0);
+        //    newTag.TagHeadPosition = headerPnt;
+
+        //    return newTag;
+        //}
     }//end of External command class
 }
