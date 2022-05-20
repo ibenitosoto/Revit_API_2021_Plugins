@@ -88,21 +88,31 @@ namespace API_2021_Plugins
             //looping through all elements to proceed with the splitting
             foreach (Element element in allElements)
             {
-                string elementLineNumber = element.LookupParameter(lineNumberParameterName).AsString();
-
-                if (elementLineNumber == "" || elementLineNumber == null)
+                try
                 {
-                    emptyLineNumberElements.Add(element);
-                    emptyLineNumberList.Add(string.Format("{0,20}{1,30}{2,50}\n",
-                                            element.Id.ToString(), 
-                                            element.Category.Name,
-                                            element.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString()));
-                }
+                    string elementLineNumber = element.LookupParameter(lineNumberParameterName).AsString();
 
-                else
-                {
-                    filledLineNumberElements.Add(element);
+                    if (elementLineNumber == "" || elementLineNumber == null)
+                    {
+                        emptyLineNumberElements.Add(element);
+                        emptyLineNumberList.Add(string.Format("{0,20}{1,30}{2,50}\n",
+                                                element.Id.ToString(),
+                                                element.Category.Name,
+                                                element.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString()));
+                    }
+
+                    else
+                    {
+                        filledLineNumberElements.Add(element);
+                    }
                 }
+                catch (Exception)
+                {
+                    TaskDialog.Show("Line Number Parameter Error", "Parameter - Line Number - must be added to the project and filled");
+                }
+                
+
+      
             }
 
             
@@ -347,25 +357,25 @@ namespace API_2021_Plugins
                                         IndependentTag newTag = IndependentTag.Create(doc, view3d.Id, pipeRef, false, tagMode, tagOrientation, pipeMid);
                                         
 
-                                        if (newTag == null)
-                                        {
-                                            throw new Exception("Create IndependentTag Failed.");
-                                        }
-                                        else
-                                        {
-                                            newTag.HasLeader = true;
-                                            ////  set leader mode free
-                                            //// otherwise leader end point move with elbow point
-                                            newTag.LeaderEndCondition = LeaderEndCondition.Free;
-                                            var elbowPnt = pipeMid + new XYZ(5.0, 5.0, 0.0);
-                                            newTag.LeaderElbow = elbowPnt;
-                                            var headerPnt = pipeMid + new XYZ(10.0, 10.0, 0.0);
-                                            newTag.TagHeadPosition = headerPnt;
+                                        //if (newTag == null)
+                                        //{
+                                        //    throw new Exception("Create IndependentTag Failed.");
+                                        //}
+                                        //else
+                                        //{
+                                        //    newTag.HasLeader = true;
+                                        //    ////  set leader mode free
+                                        //    //// otherwise leader end point move with elbow point
+                                        //    newTag.LeaderEndCondition = LeaderEndCondition.Free;
+                                        //    var elbowPnt = pipeMid + new XYZ(5.0, 5.0, 0.0);
+                                        //    newTag.LeaderElbow = elbowPnt;
+                                        //    var headerPnt = pipeMid + new XYZ(10.0, 10.0, 0.0);
+                                        //    newTag.TagHeadPosition = headerPnt;
 
-                                            pipeTagsCounter++;
-                                            pipeTagsList.Add(newTag);
-                                            //AddToNewPipeTagsList(pipeTagsList, newTag);
-                                        }
+                                        //    pipeTagsCounter++;
+                                        //    pipeTagsList.Add(newTag);
+                                        //    //AddToNewPipeTagsList(pipeTagsList, newTag);
+                                        //}
                             
 
                                         foreach (var geoObj in pipe.get_Geometry(op))
