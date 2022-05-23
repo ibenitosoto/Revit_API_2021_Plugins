@@ -64,16 +64,11 @@ namespace API_2021_Plugins
             IList<Element> allElements = new List<Element>();
             allElements = new FilteredElementCollector(doc).WherePasses(allElementsFilter).WhereElementIsNotElementType().ToElements();
 
-            //pipe tags checker
-            ElementCategoryFilter pipeTagsFilter0 = new ElementCategoryFilter(BuiltInCategory.OST_PipeTags);
-            IList<Element> pipeTagsCreated0 = new FilteredElementCollector(doc).WherePasses(pipeTagsFilter0).WhereElementIsNotElementType().ToElements();
-
-
+           
             TaskDialog.Show("Welcome", "Welcome to the KGE Isometrics plugin");
             TaskDialog.Show("Quantifications", $"{pipes.Count} pipes in the model\n" +
                                                 $"{fittings.Count} fittings in the model\n" +
-                                                $"{valves.Count} valves in the model\n" +
-                                                $"{pipeTagsCreated0.Count} pipe tags in the model\n");
+                                                $"{valves.Count} valves in the model\n");
             
 
             #region Line number initial check
@@ -275,6 +270,10 @@ namespace API_2021_Plugins
                                 view3d.DetailLevel = ViewDetailLevel.Coarse;
                                 view3d.Scale = 7;
 
+                                
+
+
+
                                 ////if its the first assembly created and 3D view can be duplicated
                                 //if (lineNumberCounter == 1 && view3d.CanViewBeDuplicated(ViewDuplicateOption.Duplicate))
                                 //{
@@ -352,10 +351,10 @@ namespace API_2021_Plugins
                                         //XYZ endPnt = pipeMid.Add(app.Create.NewXYZ(0, 2, 4));
 
                                         XYZ bendPnt = pipeMid.Add(app.Create.NewXYZ(0, 1, 1));
-                                        XYZ endPnt = pipeMid.Add(app.Create.NewXYZ(0, 2, 1));
+                                        XYZ endPnt = pipeMid.Add(app.Create.NewXYZ(0, 1, 1));
 
                                         doc.Create.NewSpotCoordinate(view3d, pipeRef, pipeEndPoint1, bendPnt, endPnt, pipeMid, true);
-
+                                        
 
                                         //CreateIndependentTag(doc, view3d, pipe, pipeLocationCurve);
 
@@ -517,7 +516,14 @@ namespace API_2021_Plugins
                                 //    schedulableFieldNames.Add(elementId);
                                 //}
 
-                                Viewport.Create(doc, viewSheet.Id, view3d.Id, new XYZ(1, 1, 0));
+                                //getting mid point of sheet
+                                BoundingBoxUV sheetOutline = viewSheet.Outline;
+                                double x = (sheetOutline.Max.U + sheetOutline.Min.U) / 2;
+                                double y = (sheetOutline.Max.V + sheetOutline.Min.V) / 2;
+                                XYZ midPoint = new XYZ(x, y, 0);
+
+                                //creating viewport and placing it in the sheet midpoint
+                                Viewport viewport = Viewport.Create(doc, viewSheet.Id, view3d.Id, midPoint);
                                 //Viewport.Create(doc, viewSheet.Id, elevationTop.Id, new XYZ(2, 2, 0));
                                 //Viewport.Create(doc, viewSheet.Id, elevationLeft.Id, new XYZ(1, 1.7, 0));
                                 //Viewport.Create(doc, viewSheet.Id, elevationRight.Id, new XYZ(2.5, 2, 0));
@@ -526,7 +532,14 @@ namespace API_2021_Plugins
                                 //Viewport.Create(doc, viewSheet.Id, detailSectionB.Id, new XYZ(0.5, 1.5, 0));
                                 //Viewport.Create(doc, viewSheet.Id, detailSectionH.Id, new XYZ(1.5, 2, 0));
                                 //ScheduleSheetInstance.Create(doc, viewSheet.Id, materialTakeoff.Id, new XYZ(2, 2.5, 0));
-                                ScheduleSheetInstance.Create(doc, viewSheet.Id, partList.Id, new XYZ(2.01, 1.95, 0));
+
+
+                                ScheduleSheetInstance.Create(doc, viewSheet.Id, partList.Id, new XYZ(2.01, 1.92, 0));
+
+                              
+                                Outline viewportOutline = viewport.GetBoxOutline();
+
+
 
                                 transaction.Commit();
 
