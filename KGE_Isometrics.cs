@@ -268,7 +268,7 @@ namespace API_2021_Plugins
                                 View3D view3d = AssemblyViewUtils.Create3DOrthographic(doc, assemblyInstance.Id);
                                 view3d.Name = $"{assemblyName}";
                                 view3d.DetailLevel = ViewDetailLevel.Coarse;
-                                view3d.Scale = 7;
+                                //view3d.Scale = 7;
 
                                 
 
@@ -516,7 +516,7 @@ namespace API_2021_Plugins
                                 //    schedulableFieldNames.Add(elementId);
                                 //}
 
-                                //getting mid point of sheet
+                                //getting outline and mid point of the sheet
                                 BoundingBoxUV sheetOutline = viewSheet.Outline;
                                 double x = (sheetOutline.Max.U + sheetOutline.Min.U) / 2;
                                 double y = (sheetOutline.Max.V + sheetOutline.Min.V) / 2;
@@ -524,6 +524,53 @@ namespace API_2021_Plugins
 
                                 //creating viewport and placing it in the sheet midpoint
                                 Viewport viewport = Viewport.Create(doc, viewSheet.Id, view3d.Id, midPoint);
+
+                                doc.Regenerate();
+
+                                //Outline viewportOutline = viewport.GetBoxOutline();
+                                double viewportMinpointX = viewport.GetBoxOutline().MinimumPoint.X;
+
+                                //test if viewport min X coordinate exceeds sheet min X coordinate
+                                while (viewportMinpointX > sheetOutline.Min.U)
+                                {
+                                    int newScale = (view3d.Scale - 1);
+                                    
+                                    if (newScale > 0)
+                                    {
+                                        //scale with new test scale
+                                        view3d.Scale = newScale;
+                                        //align again to center of sheet
+                                        viewport.SetBoxCenter(midPoint);
+                                        //get min point X coordinate
+                                        viewportMinpointX = viewport.GetBoxOutline().MinimumPoint.X;    
+                                    }
+
+                                    else if (newScale <= 0)
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                doc.Regenerate();
+                                viewport.SetBoxCenter(midPoint);
+
+
+                                //view3d.Scale = 75;
+                                //double minpoint = viewport.GetBoxOutline().MinimumPoint.X;
+
+                                //view3d.Scale = 50;
+                                //minpoint = viewport.GetBoxOutline().MinimumPoint.X;
+
+                                //view3d.Scale = 25;
+                                //minpoint = viewport.GetBoxOutline().MinimumPoint.X;
+
+                                //view3d.Scale = 10;
+                                //minpoint = viewport.GetBoxOutline().MinimumPoint.X;
+
+                                //view3d.Scale = 5;
+                                //minpoint = viewport.GetBoxOutline().MinimumPoint.X;
+
+
                                 //Viewport.Create(doc, viewSheet.Id, elevationTop.Id, new XYZ(2, 2, 0));
                                 //Viewport.Create(doc, viewSheet.Id, elevationLeft.Id, new XYZ(1, 1.7, 0));
                                 //Viewport.Create(doc, viewSheet.Id, elevationRight.Id, new XYZ(2.5, 2, 0));
@@ -534,12 +581,9 @@ namespace API_2021_Plugins
                                 //ScheduleSheetInstance.Create(doc, viewSheet.Id, materialTakeoff.Id, new XYZ(2, 2.5, 0));
 
 
-                                ScheduleSheetInstance.Create(doc, viewSheet.Id, partList.Id, new XYZ(2.01, 1.92, 0));
+                                ScheduleSheetInstance.Create(doc, viewSheet.Id, partList.Id, new XYZ(2.01, 1.88, 0));
 
-                              
-                                Outline viewportOutline = viewport.GetBoxOutline();
-
-
+                                
 
                                 transaction.Commit();
 
