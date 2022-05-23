@@ -346,9 +346,13 @@ namespace API_2021_Plugins
                                         pipeEndPoint2 = pipeLocationCurve.Curve.GetEndPoint(1);
 
 
-                                     
-                                        var bendPnt = pipeMid.Add(Create.NewXYZ(0, 1, 4));
-                                        var endPnt = pipeMid.Add(Create.NewXYZ(0, 2, 4));
+                                        //bend points for spot coordinate tag leaders
+
+                                        //XYZ bendPnt = pipeMid.Add(app.Create.NewXYZ(0, 1, 4));
+                                        //XYZ endPnt = pipeMid.Add(app.Create.NewXYZ(0, 2, 4));
+
+                                        XYZ bendPnt = pipeMid.Add(app.Create.NewXYZ(0, 1, 1));
+                                        XYZ endPnt = pipeMid.Add(app.Create.NewXYZ(0, 2, 1));
 
                                         doc.Create.NewSpotCoordinate(view3d, pipeRef, pipeEndPoint1, bendPnt, endPnt, pipeMid, true);
 
