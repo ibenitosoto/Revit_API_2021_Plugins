@@ -520,39 +520,17 @@ namespace API_2021_Plugins
                                 BoundingBoxUV sheetOutline = viewSheet.Outline;
                                 double x = (sheetOutline.Max.U + sheetOutline.Min.U) / 2;
                                 double y = (sheetOutline.Max.V + sheetOutline.Min.V) / 2;
-                                XYZ midPoint = new XYZ(x, y, 0);
-
-                                //creating viewport and placing it in the sheet midpoint
-                                Viewport viewport = Viewport.Create(doc, viewSheet.Id, view3d.Id, midPoint);
-
-                                doc.Regenerate();
-
-                                //Outline viewportOutline = viewport.GetBoxOutline();
-                                double viewportMinpointX = viewport.GetBoxOutline().MinimumPoint.X;
-
-                                //test if viewport min X coordinate exceeds sheet min X coordinate
-                                while (viewportMinpointX > sheetOutline.Min.U)
-                                {
-                                    int newScale = (view3d.Scale - 1);
-                                    
-                                    if (newScale > 0)
-                                    {
-                                        //scale with new test scale
-                                        view3d.Scale = newScale;
-                                        //align again to center of sheet
-                                        viewport.SetBoxCenter(midPoint);
-                                        //get min point X coordinate
-                                        viewportMinpointX = viewport.GetBoxOutline().MinimumPoint.X;    
-                                    }
-
-                                    else if (newScale <= 0)
-                                    {
-                                        break;
-                                    }
-                                }
+                                double legendOffsetFactor = 0.9;
+                                XYZ sheetCenterPoint = new XYZ(x, (y * legendOffsetFactor), 0);
+                                
+                                //creating viewport and placing it in the sheet sheetCenterPoint
+                                Viewport viewport = Viewport.Create(doc, viewSheet.Id, view3d.Id, sheetCenterPoint);
 
                                 doc.Regenerate();
-                                viewport.SetBoxCenter(midPoint);
+
+                                ScaleViewportsToSheets(doc, view3d, viewSheet, viewport, sheetOutline, sheetCenterPoint);
+
+                        
 
 
                                 //view3d.Scale = 75;
@@ -586,6 +564,7 @@ namespace API_2021_Plugins
                                 
 
                                 transaction.Commit();
+                                
 
 
                             }//end of if transaction is committed
@@ -634,6 +613,92 @@ namespace API_2021_Plugins
         {
             return Math.Abs(left - right) < 0.0001;
         }
+
+        private void ScaleViewportsToSheets(Document doc, View view3d, ViewSheet viewSheet, Viewport viewport, BoundingBoxUV sheetOutline, XYZ sheetCenterPoint)
+        {
+            viewport.SetBoxCenter(sheetCenterPoint);
+            //Outline viewportOutline = viewport.GetBoxOutline();
+
+            //double viewportMinpointX = viewport.GetBoxOutline().MinimumPoint.X;
+
+            double viewportMaxpointX = viewport.GetBoxOutline().MaximumPoint.X;
+
+            //BoundingBoxXYZ viewportBbox = viewport.get_BoundingBox(viewSheet);
+ 
+            //XYZ points of sheet
+            XYZ sheetXYZMax = new XYZ(viewSheet.Outline.Max.U, viewSheet.Outline.Max.V, 0);
+            XYZ sheetXYZMin = new XYZ(viewSheet.Outline.Min.U, viewSheet.Outline.Min.V, 0);
+
+            //UV viewportUVMax = new UV(viewportBbox.Max.X - sheetXYZMax.X, viewportBbox.Max.Y - sheetXYZMax.Y);
+            //UV viewportUVMin = new UV(viewportBbox.Min.X - sheetXYZMax.X, viewportBbox.Min.Y - sheetXYZMax.Y);
+
+            Outline viewportOutline = viewport.GetBoxOutline();
+
+            double viewportArea = (Math.Abs(viewportOutline.MaximumPoint.X) - Math.Abs(viewportOutline.MinimumPoint.X)) * (Math.Abs(viewportOutline.MaximumPoint.Y) - Math.Abs(viewportOutline.MinimumPoint.Y));
+            double sheetArea = (Math.Abs(sheetXYZMax.X) - Math.Abs(sheetXYZMin.X)) * (Math.Abs(sheetXYZMax.Y) - Math.Abs(sheetXYZMin.Y));
+
+            double sheetSizeOffset = 0.8;
+
+            //test if viewport min X coordinate exceeds sheet min X coordinate
+            if (viewportArea > (sheetArea * sheetSizeOffset))
+            {
+                while (viewportArea > (sheetArea * sheetSizeOffset))
+                {
+                    int newScale = (view3d.Scale + 1);
+
+                    if (newScale > 0)
+                    {
+                        //scale with new test scale
+                        view3d.Scale = newScale;
+                        //align again to center of sheet
+                        viewport.SetBoxCenter(sheetCenterPoint);
+                        //get min point X coordinate
+                        //viewportMinpointX = viewport.GetBoxOutline().MinimumPoint.X;
+                        //viewportBbox = view3d.get_BoundingBox(viewSheet);
+                        viewportMaxpointX = viewport.GetBoxOutline().MaximumPoint.X;
+                        
+                    }
+
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            else if (viewportArea < (sheetArea * sheetSizeOffset))
+            {
+                while (viewportArea < (sheetArea * sheetSizeOffset))
+                {
+                    int newScale = (view3d.Scale - 1);
+
+                    if (newScale > 0)
+                    {
+                        //scale with new test scale
+                        view3d.Scale = newScale;
+                        //align again to center of sheet
+                        viewport.SetBoxCenter(sheetCenterPoint);
+                        //get min point X coordinate
+                        //viewportMinpointX = viewport.GetBoxOutline().MinimumPoint.X;
+                        //viewportBbox = view3d.get_BoundingBox(viewSheet);
+                        viewportMaxpointX = viewport.GetBoxOutline().MinimumPoint.X;
+                        //viewportBbox = viewport.get_BoundingBox(viewSheet);
+                        viewportOutline = viewport.GetBoxOutline();
+                        viewportArea = (Math.Abs(viewportOutline.MaximumPoint.X) - Math.Abs(viewportOutline.MinimumPoint.X)) * (Math.Abs(viewportOutline.MaximumPoint.Y) - Math.Abs(viewportOutline.MinimumPoint.Y));
+                    }
+
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            doc.Regenerate();
+            viewport.SetBoxCenter(sheetCenterPoint);
+        }
+
+
 
         //public void AddToNewPipeTagsList(List<IndependentTag> tagList, IndependentTag tag)
         //{
