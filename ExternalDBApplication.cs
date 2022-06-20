@@ -149,6 +149,10 @@ namespace API_2021_Plugins
 
             }
 
+            else if (ElementMoved(args, transactionName))
+            {
+
+            }
             //If elements are deleted, remove them from the list
             else if (SelectionDeleted(args, transactionName))
             {
@@ -278,6 +282,18 @@ namespace API_2021_Plugins
         public bool SelectionDeleted(DocumentChangedEventArgs args, string transactionName)
         {
             if (transactionName == "Delete Selection")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ElementMoved(DocumentChangedEventArgs args, string transactionName)
+        {
+            if (transactionName == "Move")
             {
                 return true;
             }
