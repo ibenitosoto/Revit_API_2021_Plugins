@@ -21,6 +21,7 @@ namespace API_2021_Plugins
     {
         static Dictionary<ElementId, Element> pipesDict = new Dictionary<ElementId, Element>();
         static Dictionary<ElementId, List<XYZ>> endpointsDict = new Dictionary<ElementId, List<XYZ>>();
+        static Dictionary<ElementId, List<double>> distancesDict = new Dictionary<ElementId, List<double>>();
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             //Get UI Document
@@ -88,42 +89,85 @@ namespace API_2021_Plugins
 
                     }//end of foreach
 
-                    //take picked pipe as current pipe
-                    Element currentPipe = pickedElement;
 
-                    //delete picked pipe from both dictionaries
-                    pipesDict.Remove(currentPipe.Id);
-                    endpointsDict.Remove(currentPipe.Id);
-
-                    //start loop through all pipes in pipes dictionary
-                    while (pipesDict.Count > 0)
+                    using (Transaction transaction = new Transaction(doc))
                     {
-                        //set identifier parameter with number 001
+                        transaction.Start("Pipe numbering");
 
-                        //remove it from both dictionaries
+                        //take picked pipe as current pipe
+                        Element currentPipe = pickedElement;
 
-                        //once removed, choose one of the 2 endpoints as current endpoint
+                        int counter = 0;
 
-                        //calculate distances to the rest of endpoints in the dictionary
+                        //start loop through all pipes in pipes dictionary
+                        while (pipesDict.Count > 0)
+                        {
+                            //set identifier parameter with number 001
+                            currentPipe.LookupParameter(numberingParameterName).Set(AssignNumber(counter, systemAbb));
 
-                        //find the closest endpoint (minimum value from calculated distances)
+                            //choose one of the 2 endpoints as current endpoint
+                            List<XYZ> currentEndpointList = endpointsDict[currentPipe.Id];
+                            XYZ currentEndpoint = currentEndpointList[0];
 
-                        //get the key (element id) to which that endpoint belongs to
+                            //delete picked pipe from both dictionaries
+                            pipesDict.Remove(currentPipe.Id);
+                            endpointsDict.Remove(currentPipe.Id);
 
-                        //with the element id, find the closest pipe to the current one
+                            //general list with all distances, no nested lists
+                            List<double> flattenedDistances = new List<double>();
 
-                        //set closest pipe as current pipe
+                            //calculate distances to the rest of endpoints in the dictionary
+                            foreach (var keyValuePair in endpointsDict)
+                            {
+                                List<double> distancesList = new List<double>();
+                                
+                                foreach (XYZ endpoint in keyValuePair.Value)
+                                {
+                                    double distance = 0;
+                                    distance = endpoint.DistanceTo(currentEndpoint);
 
-                        //delete that key from both dictionaries
-                    }
+                                    //add it to the distance pair list to build the dictionary
+                                    distancesList.Add(distance);
+
+                                    //add to the flattened list to later check the shortest distance
+                                    flattenedDistances.Add(distance);
+                                }
+
+                                distancesDict.Add(keyValuePair.Key, distancesList);
+                            }
 
 
+                            //find the closest endpoint (minimum value from calculated distances)
+                            double minDistance = flattenedDistances.Min();
+
+                            //get the key (element id) to which that endpoint belongs to
+                            var closestPipeId = from keyValuePair in distancesDict
+                                              where keyValuePair.Value.Contains(minDistance)
+                                              select keyValuePair.Key;
+
+                            //with the element id, find the closest pipe to the current one
+                            if (closestPipeId != null)
+                            {
+                                Element closestPipe = pipesDict[closestPipeId as ElementId];
+
+                                //set closest pipe as current pipe
+                                currentPipe = closestPipe;
+
+                                //increment the counter
+                                counter++;
+                            }
+
+                            else
+                            {
+                                break;
+                            }
+
+                        }
+
+                        transaction.Commit();
 
 
-
-
-
-
+                    }//end of transaction
 
 
                 }//end of if statement
@@ -171,5 +215,24 @@ namespace API_2021_Plugins
 
 
         }//end of Result Execute method
+
+
+        private string AssignNumber(int counter, string systemAbb)
+        {
+            if (counter.ToString().Count() == 1)
+            {
+                return "KGE-" + systemAbb + "-00" + counter.ToString();
+            }
+
+            else if (counter.ToString().Count() == 2)
+            {
+                return "KGE-" + systemAbb + "-0" + counter.ToString();
+            }
+
+            else
+            {
+                return "KGE-" + systemAbb + "-" + counter.ToString();
+            }
+        }
     }
 }
