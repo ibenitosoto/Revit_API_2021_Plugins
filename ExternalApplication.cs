@@ -40,6 +40,7 @@ namespace API_2021_Plugins
             PushButtonData button2 = new PushButtonData("button2", "Isometrics", path, "API_2021_Plugins.KGE_Isometrics");
             PushButtonData button3 = new PushButtonData("button3", "Lines From Pipes", path, "API_2021_Plugins.KGE_LinesFromPipes");
             PushButtonData button4 = new PushButtonData("button4", "Model Tracker", path, "API_2021_Plugins.KGE_ModelTracker");
+            PushButtonData button5 = new PushButtonData("button5", "Numbering", path, "API_2021_Plugins.KGE_Numbering");
 
             RibbonPanel panel = application.CreateRibbonPanel("KGE BIM", "Kirby Group Engineering Revit Plugins");
 
@@ -51,6 +52,7 @@ namespace API_2021_Plugins
             PushButton pushButton2 = panel.AddItem(button2) as PushButton;
             PushButton pushButton3 = panel.AddItem(button3) as PushButton;
             PushButton pushButton4 = panel.AddItem(button4) as PushButton;
+            PushButton pushButton5 = panel.AddItem(button5) as PushButton;
 
             BitmapSource bitmap = GetEmbeddedImage("API_2021_Plugins.images.kirbyIconK.png");
 
@@ -58,6 +60,7 @@ namespace API_2021_Plugins
             pushButton2.LargeImage = bitmap;
             pushButton3.LargeImage = bitmap;
             pushButton4.LargeImage = bitmap;
+            pushButton5.LargeImage = bitmap;
 
             return Result.Succeeded;
         }

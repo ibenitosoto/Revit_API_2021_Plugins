@@ -40,6 +40,9 @@ namespace API_2021_Plugins
             //Collect pipes
             IList<Element> pipes = new FilteredElementCollector(doc).WherePasses(pipesFilter).WhereElementIsNotElementType().ToElements();
 
+            //list with elements belonging to the same system as the picked one
+            //List<Element> allElementsInSystem = new List<Element>();
+
             try
             {
                 //pick object
@@ -49,19 +52,26 @@ namespace API_2021_Plugins
                 ElementId pickedElementId = pickedObj.ElementId;
 
                 //element
-                Element pickedElement = doc.GetElement(elementId);
+                Element pickedElement = doc.GetElement(pickedElementId);
 
-                if (pickedObj != null)
+                if (pickedElement != null)
                 {
-                    TaskDialog.Show("Picked Object", "Element selected: " + pickedObj.ElementId.ToString() + pickedObj;
+                    TaskDialog.Show("Picked Object", $"Element selected: {pickedElement.Category.Name} with ID number {pickedElementId}");
+
+                    string systemAbb = pickedElement.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
+
+                    var allElementsInSystem = from pipe in pipes
+                                              where pipe.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == systemAbb
+                                              select pipe;
                 }
             }
             catch (Exception e)
             {
                 message = e.Message;
+                return Result.Failed;
             }
 
-
+            return Result.Succeeded;
   
 
 

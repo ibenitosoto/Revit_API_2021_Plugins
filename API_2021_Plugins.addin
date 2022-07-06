@@ -72,5 +72,17 @@
 		<VendorDescription>Kirby Group Engineering</VendorDescription>
 	</AddIn>
 
+	<AddIn Type="Command">
+		<Name>API_2021_Plugins</Name>
+		<FullClassName>API_2021_Plugins.KGE_Numbering</FullClassName>
+		<Text>KGE_Numbering</Text>
+		<Description>Provides element numbering by sequence of connection</Description>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>0D35C73B-E3BE-4CB4-BFE0-C1753038E5CB</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
+
 
 </RevitAddIns>
