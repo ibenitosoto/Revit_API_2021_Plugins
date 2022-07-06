@@ -101,6 +101,7 @@
     <Compile Include="KGE_Isometrics.cs" />
     <Compile Include="ExternalApplication.cs" />
     <Compile Include="KGE_ModelTracker.cs" />
+    <Compile Include="KGE_Numbering.cs" />
     <Compile Include="KGE_Quantifications.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Viewer.xaml.cs">
@@ -120,15 +121,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\kirbyFullLogo.png">
+    <EmbeddedResource Include="images\kirbyFullLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="images\kirbyLogoK.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="images\kirbyLogoK.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\kirbyIconK.png" />
+    <EmbeddedResource Include="images\kirbyIconK.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

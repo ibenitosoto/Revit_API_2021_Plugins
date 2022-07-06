@@ -15,6 +15,7 @@ using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.Plumbing;
 using System.Reflection;
 using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace API_2021_Plugins
 {
@@ -43,19 +44,20 @@ namespace API_2021_Plugins
             RibbonPanel panel = application.CreateRibbonPanel("KGE BIM", "Kirby Group Engineering Revit Plugins");
 
             //add button image
-            Uri imagePath = new Uri(@"C:\Users\isoto\OneDrive - Kirby Engineering & Construction\RevitPlugins\API_2021_Plugins\images\kirbyIconK.png");
-            BitmapImage icon = new BitmapImage(imagePath);
+            //Uri imagePath = new Uri(@"C:\Users\isoto\OneDrive - Kirby Engineering & Construction\RevitPlugins\API_2021_Plugins\images\kirbyIconK.png");
+            //BitmapImage icon = new BitmapImage(imagePath);
             
             PushButton pushButton1 = panel.AddItem(button1) as PushButton;
             PushButton pushButton2 = panel.AddItem(button2) as PushButton;
             PushButton pushButton3 = panel.AddItem(button3) as PushButton;
             PushButton pushButton4 = panel.AddItem(button4) as PushButton;
 
-            pushButton1.LargeImage = icon;
-            pushButton2.LargeImage = icon;
-            pushButton3.LargeImage = icon;
-            pushButton4.LargeImage = icon;
+            BitmapSource bitmap = GetEmbeddedImage("API_2021_Plugins.images.kirbyIconK.png");
 
+            pushButton1.LargeImage = bitmap;
+            pushButton2.LargeImage = bitmap;
+            pushButton3.LargeImage = bitmap;
+            pushButton4.LargeImage = bitmap;
 
             return Result.Succeeded;
         }
@@ -71,6 +73,20 @@ namespace API_2021_Plugins
             //Get WPF Interface
             Viewer viewer = new Viewer(doc);
             viewer.ShowDialog();
+        }
+
+        static BitmapSource GetEmbeddedImage(string name)
+        {
+            try
+            {
+                Assembly a = Assembly.GetExecutingAssembly();
+                Stream s = a.GetManifestResourceStream(name);
+                return BitmapFrame.Create(s);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
