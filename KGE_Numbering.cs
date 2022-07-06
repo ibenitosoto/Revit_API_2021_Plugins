@@ -19,6 +19,8 @@ namespace API_2021_Plugins
     [Regeneration(RegenerationOption.Manual)]
     public class KGE_Numbering : IExternalCommand
     {
+        static Dictionary<ElementId, Element> pipesDict = new Dictionary<ElementId, Element>();
+        static Dictionary<ElementId, List<XYZ>> endpointsDict = new Dictionary<ElementId, List<XYZ>>();
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             //Get UI Document
@@ -60,10 +62,71 @@ namespace API_2021_Plugins
 
                     string systemAbb = pickedElement.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString();
 
-                    var allElementsInSystem = from pipe in pipes
+                    var allPipesInSystem = from pipe in pipes
                                               where pipe.get_Parameter(BuiltInParameter.RBS_DUCT_PIPE_SYSTEM_ABBREVIATION_PARAM).AsString() == systemAbb
                                               select pipe;
-                }
+
+                    foreach (Element pipe in allPipesInSystem)
+                    {
+                        //add pipe to the pipes dictionary
+                        pipesDict.Add(pipe.Id, pipe);
+
+                        //get pipe curve and endpoints
+                        LocationCurve LC = pipe.Location as LocationCurve;
+                        XYZ R1 = null;
+                        XYZ R2 = null;
+                        R1 = LC.Curve.GetEndPoint(0);
+                        R2 = LC.Curve.GetEndPoint(1);
+
+                        //create list with both endpoints
+                        List<XYZ> pipeEndpoints = new List<XYZ>();
+                        pipeEndpoints.Add(R1);
+                        pipeEndpoints.Add(R2);
+
+                        //add endpoint list to the endpoints dictionary
+                        endpointsDict.Add(pipe.Id, pipeEndpoints);
+
+                    }//end of foreach
+
+                    //take picked pipe as current pipe
+                    Element currentPipe = pickedElement;
+
+                    //delete picked pipe from both dictionaries
+                    pipesDict.Remove(currentPipe.Id);
+                    endpointsDict.Remove(currentPipe.Id);
+
+                    //start loop through all pipes in pipes dictionary
+                    while (pipesDict.Count > 0)
+                    {
+                        //set identifier parameter with number 001
+
+                        //remove it from both dictionaries
+
+                        //once removed, choose one of the 2 endpoints as current endpoint
+
+                        //calculate distances to the rest of endpoints in the dictionary
+
+                        //find the closest endpoint (minimum value from calculated distances)
+
+                        //get the key (element id) to which that endpoint belongs to
+
+                        //with the element id, find the closest pipe to the current one
+
+                        //set closest pipe as current pipe
+
+                        //delete that key from both dictionaries
+                    }
+
+
+
+
+
+
+
+
+
+
+                }//end of if statement
             }
             catch (Exception e)
             {
