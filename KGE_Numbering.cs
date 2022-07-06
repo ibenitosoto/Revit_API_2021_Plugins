@@ -145,6 +145,17 @@ namespace API_2021_Plugins
                                               where keyValuePair.Value.Contains(minDistance)
                                               select keyValuePair.Key;
 
+                            //get closest endpoint
+                            var closestEndpoint = from keyValuePair in endpointsDict
+                                                  where keyValuePair.Key == closestPipeId as ElementId
+                                                  && keyValuePair.Value.FirstOrDefault().DistanceTo(currentEndpoint) == minDistance
+                                                  select keyValuePair.Value;
+
+                            //get the other endpoint of the pipe
+                            var otherEndpoint = from keyValuePair in endpointsDict
+                                                where keyValuePair.Value.FirstOrDefault() != closestEndpoint
+                                                select keyValuePair.Value;
+
                             //with the element id, find the closest pipe to the current one
                             if (closestPipeId != null)
                             {
