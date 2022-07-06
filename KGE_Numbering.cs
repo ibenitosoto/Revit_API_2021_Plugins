@@ -22,6 +22,10 @@ namespace API_2021_Plugins
         static Dictionary<ElementId, Element> pipesDict = new Dictionary<ElementId, Element>();
         static Dictionary<ElementId, List<XYZ>> endpointsDict = new Dictionary<ElementId, List<XYZ>>();
         static Dictionary<ElementId, List<double>> distancesDict = new Dictionary<ElementId, List<double>>();
+        static ElementId closestPipeId = null;
+        static XYZ closestEndpoint = null;
+        static XYZ otherEndpoint = null;
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             //Get UI Document
@@ -97,21 +101,28 @@ namespace API_2021_Plugins
                         //take picked pipe as current pipe
                         Element currentPipe = pickedElement;
 
-                        int counter = 0;
+                        //first pipe number
+                        int counter = 1;
+
+                        //set identifier parameter with number 001
+                        currentPipe.LookupParameter(numberingParameterName).Set(AssignNumber(counter, systemAbb));
+
+                        //choose one of the 2 endpoints as current endpoint
+                        List<XYZ> currentEndpointList = endpointsDict[currentPipe.Id];
+                        XYZ currentEndpoint = currentEndpointList[0];
+
+                        //delete picked pipe from both dictionaries
+                        pipesDict.Remove(currentPipe.Id);
+                        endpointsDict.Remove(currentPipe.Id);
+
 
                         //start loop through all pipes in pipes dictionary
                         while (pipesDict.Count > 0)
                         {
-                            //set identifier parameter with number 001
-                            currentPipe.LookupParameter(numberingParameterName).Set(AssignNumber(counter, systemAbb));
+                            //increment the counter
+                            counter++;
 
-                            //choose one of the 2 endpoints as current endpoint
-                            List<XYZ> currentEndpointList = endpointsDict[currentPipe.Id];
-                            XYZ currentEndpoint = currentEndpointList[0];
-
-                            //delete picked pipe from both dictionaries
-                            pipesDict.Remove(currentPipe.Id);
-                            endpointsDict.Remove(currentPipe.Id);
+                            int pipesLeft = pipesDict.Count;
 
                             //general list with all distances, no nested lists
                             List<double> flattenedDistances = new List<double>();
@@ -141,31 +152,52 @@ namespace API_2021_Plugins
                             double minDistance = flattenedDistances.Min();
 
                             //get the key (element id) to which that endpoint belongs to
-                            var closestPipeId = from keyValuePair in distancesDict
+                            var closestPipeIdVar = from keyValuePair in distancesDict
                                               where keyValuePair.Value.Contains(minDistance)
                                               select keyValuePair.Key;
 
-                            //get closest endpoint
-                            var closestEndpoint = from keyValuePair in endpointsDict
-                                                  where keyValuePair.Key == closestPipeId as ElementId
-                                                  && keyValuePair.Value.FirstOrDefault().DistanceTo(currentEndpoint) == minDistance
-                                                  select keyValuePair.Value;
+                            closestPipeId = closestPipeIdVar.FirstOrDefault();
 
-                            //get the other endpoint of the pipe
-                            var otherEndpoint = from keyValuePair in endpointsDict
-                                                where keyValuePair.Value.FirstOrDefault() != closestEndpoint
-                                                select keyValuePair.Value;
+        
 
                             //with the element id, find the closest pipe to the current one
                             if (closestPipeId != null)
                             {
-                                Element closestPipe = pipesDict[closestPipeId as ElementId];
+                                Element closestPipe = pipesDict[closestPipeId];
 
+                                //get endpoints of closest pipe
+                                List<XYZ> closestEndpointPair = endpointsDict[closestPipeId];
+
+                                foreach (XYZ endpoint in closestEndpointPair)
+                                {
+                                    if (endpoint.DistanceTo(currentEndpoint) == minDistance)
+                                    {
+                                        closestEndpoint = endpoint;
+                                    }
+
+                                    else
+                                    {
+                                        otherEndpoint = endpoint;
+                                    }
+                                    
+                                }
+
+          
                                 //set closest pipe as current pipe
                                 currentPipe = closestPipe;
 
-                                //increment the counter
-                                counter++;
+                                //set other endpoint as current endpoint
+                                currentEndpoint = otherEndpoint;
+
+                                //set identifier parameter with number 00X
+                                currentPipe.LookupParameter(numberingParameterName).Set(AssignNumber(counter, systemAbb));
+
+                                //delete current pipe from all 3 dictionaries
+                                pipesDict.Remove(currentPipe.Id);
+                                endpointsDict.Remove(currentPipe.Id);
+                                distancesDict.Clear();
+
+           
                             }
 
                             else
@@ -186,44 +218,12 @@ namespace API_2021_Plugins
             catch (Exception e)
             {
                 message = e.Message;
+                TaskDialog.Show("error", $"{pipesDict.Count()} pipes left to number");
                 return Result.Failed;
             }
 
             return Result.Succeeded;
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         }//end of Result Execute method
 
