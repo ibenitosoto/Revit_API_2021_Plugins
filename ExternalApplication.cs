@@ -41,6 +41,7 @@ namespace API_2021_Plugins
             PushButtonData button3 = new PushButtonData("button3", "Lines From Pipes", path, "API_2021_Plugins.KGE_LinesFromPipes");
             PushButtonData button4 = new PushButtonData("button4", "Model Tracker", path, "API_2021_Plugins.KGE_ModelTracker");
             PushButtonData button5 = new PushButtonData("button5", "Numbering", path, "API_2021_Plugins.KGE_Numbering");
+            PushButtonData button6 = new PushButtonData("button6", "BIM Helpdesk", path, "API_2021_Plugins.KGE_BIMHelpdesk");
 
             RibbonPanel panel = application.CreateRibbonPanel("KGE BIM", "Kirby Group Engineering Revit Plugins");
 
@@ -53,6 +54,7 @@ namespace API_2021_Plugins
             PushButton pushButton3 = panel.AddItem(button3) as PushButton;
             PushButton pushButton4 = panel.AddItem(button4) as PushButton;
             PushButton pushButton5 = panel.AddItem(button5) as PushButton;
+            PushButton pushButton6 = panel.AddItem(button6) as PushButton;
 
             BitmapSource bitmap = GetEmbeddedImage("API_2021_Plugins.images.kirbyIconK.png");
 
@@ -61,11 +63,12 @@ namespace API_2021_Plugins
             pushButton3.LargeImage = bitmap;
             pushButton4.LargeImage = bitmap;
             pushButton5.LargeImage = bitmap;
+            pushButton6.LargeImage = bitmap;
 
             return Result.Succeeded;
         }
 
-        public void ShowWPFInBackground(ExternalCommandData commandData, ref string message, ElementSet elements)
+        public void Show_KGE_ModelTracker_WPF(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             //Get UI Document
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
@@ -74,8 +77,8 @@ namespace API_2021_Plugins
             Document doc = uidoc.Document;
 
             //Get WPF Interface
-            Viewer viewer = new Viewer(doc);
-            viewer.ShowDialog();
+            KGE_ModelTracker_WPF modelTrackerWPF = new KGE_ModelTracker_WPF(doc);
+            modelTrackerWPF.ShowDialog();
         }
 
         static BitmapSource GetEmbeddedImage(string name)

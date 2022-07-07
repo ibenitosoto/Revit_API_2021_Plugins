@@ -22,10 +22,10 @@ namespace API_2021_Plugins
     /// <summary>
     /// Interaction logic for Viewer.xaml
     /// </summary>
-    public partial class Viewer : Window
+    public partial class KGE_ModelTracker_WPF : Window
     {
         public Document document { get; set; }
-        public Viewer(Document doc)
+        public KGE_ModelTracker_WPF(Document doc)
         {
             document = doc;
             InitializeComponent();

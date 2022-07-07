@@ -74,7 +74,7 @@ namespace API_2021_Plugins
                 RemoveElementsFromDicts(args);
 
                 TotalLength(lengthDict, categoryDict);
-                DisplayLengthUpdate();
+                //DisplayLengthUpdate();
             }
 
             //Identify if elements are created or deleted
@@ -104,7 +104,7 @@ namespace API_2021_Plugins
                     //UpdateTotalLengths();
                     //UpdateLengths();
                     TotalLength(lengthDict, categoryDict);
-                    DisplayLengthUpdate();
+                    //DisplayLengthUpdate();
                 }
                 catch (Exception)
                 {
@@ -127,7 +127,7 @@ namespace API_2021_Plugins
                     //AddElementsToDicts(trays, doc, args, trayFilter);
                     AddElementsToDicts(doc, args, trayFilter);
                     TotalLength(lengthDict, categoryDict);
-                    DisplayLengthUpdate();
+                    //DisplayLengthUpdate();
                 }
                 catch (Exception)
                 {
@@ -141,7 +141,7 @@ namespace API_2021_Plugins
                     //AddElementsToDicts(ducts, doc, args, ductFilter);
                     AddElementsToDicts(doc, args, ductFilter);
                     TotalLength(lengthDict, categoryDict);
-                    DisplayLengthUpdate();
+                    //DisplayLengthUpdate();
                 }
                 catch (Exception)
                 {
@@ -230,7 +230,7 @@ namespace API_2021_Plugins
                 //dictionary test
                 RemoveElementsFromDicts(args);
                 TotalLength(lengthDict, categoryDict);
-                DisplayLengthUpdate();
+                //DisplayLengthUpdate();
 
             }
 
