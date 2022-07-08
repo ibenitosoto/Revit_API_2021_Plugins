@@ -35,12 +35,6 @@
     <ApplicationManifest>API_2021_Plugins.addin</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
-      <HintPath>packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
-    <Reference Include="MailKit, Version=3.3.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
-      <HintPath>packages\MailKit.3.3.0\lib\net48\MailKit.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.IO.RecyclableMemoryStream.1.4.1\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
@@ -48,9 +42,6 @@
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Outlook\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Outlook.dll</HintPath>
-    </Reference>
-    <Reference Include="MimeKit, Version=3.3.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
-      <HintPath>packages\MimeKit.3.3.0\lib\net48\MimeKit.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -61,30 +52,6 @@
     <Reference Include="RevitAPIUI">
       <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="SharpVectors.Converters.Wpf, Version=1.7.7.0, Culture=neutral, PublicKeyToken=b532964b8548be77, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.7\lib\net48\SharpVectors.Converters.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Core, Version=1.7.7.0, Culture=neutral, PublicKeyToken=7407205e337c98ef, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.7\lib\net48\SharpVectors.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Css, Version=1.7.7.0, Culture=neutral, PublicKeyToken=7a46e3f532fdb787, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.7\lib\net48\SharpVectors.Css.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Dom, Version=1.7.7.0, Culture=neutral, PublicKeyToken=517340b6277b1a7a, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.7\lib\net48\SharpVectors.Dom.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Model, Version=1.7.7.0, Culture=neutral, PublicKeyToken=2236cfc76b505845, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.7\lib\net48\SharpVectors.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Rendering.Gdi, Version=1.7.7.0, Culture=neutral, PublicKeyToken=03902092284347e3, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.7\lib\net48\SharpVectors.Rendering.Gdi.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Rendering.Wpf, Version=1.7.7.0, Culture=neutral, PublicKeyToken=d0902381100df30e, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.7\lib\net48\SharpVectors.Rendering.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpVectors.Runtime.Wpf, Version=1.7.7.0, Culture=neutral, PublicKeyToken=d16e717f0a981fb9, processorArchitecture=MSIL">
-      <HintPath>packages\SharpVectors.1.7.7\lib\net48\SharpVectors.Runtime.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -137,12 +104,12 @@
     <Compile Include="KGE_ModelTracker.cs" />
     <Compile Include="KGE_Numbering.cs" />
     <Compile Include="KGE_Quantifications.cs" />
-    <Compile Include="MailKit.cs" />
     <Compile Include="OutlookAddIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KGE_ModelTracker_WPF.xaml.cs">
       <DependentUpon>KGE_ModelTracker_WPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SystemMail.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

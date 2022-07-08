@@ -19,7 +19,6 @@ using API_2021_Plugins;
 using TextBox = System.Windows.Controls.TextBox;
 using OutlookAddIn;
 using Outlook = Microsoft.Office.Interop.Outlook;
-using MailKit;
 
 namespace API_2021_Plugins
 {
@@ -54,7 +53,13 @@ namespace API_2021_Plugins
             string longText = textBoxLong.Text;
       
             //Mail.SendEmailFromAccount(OutlookAddIn.Mail.GetApplicationObject(), shortText, longText, destination, smtpAddress);
-            Email.SendMessage(shortText, longText);
+            //Email.SendMessage(GenerateID(), shortText, longText);
+            SystemMail.CreateTestMessage(GenerateID(), shortText, longText);
+        }
+
+        public string GenerateID()
+        {
+            return Guid.NewGuid().ToString("N");
         }
     }
 }

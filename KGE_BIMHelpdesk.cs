@@ -24,7 +24,6 @@ namespace API_2021_Plugins
         {
             Show_KGE_BIMHelpdesk_WPF(commandData, ref message, elements);
 
-
             return Result.Succeeded;
         }
 
