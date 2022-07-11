@@ -22,10 +22,24 @@ namespace API_2021_Plugins
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            API_2021_Plugins.ExternalApplication.instance.Show_KGE_ModelTracker_WPF(commandData, ref message, elements);
+            //API_2021_Plugins.ExternalApplication.instance.Show_KGE_ModelTracker_WPF(commandData, ref message, elements);
+            Show_KGE_ModelTracker_WPF(commandData, ref message, elements);
 
 
             return Result.Succeeded;
+        }
+
+        public void Show_KGE_ModelTracker_WPF(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get UI Document
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+            //Get Document
+            Document doc = uidoc.Document;
+
+            //Get WPF Interface
+            KGE_ModelTracker_WPF modelTrackerWPF = new KGE_ModelTracker_WPF(doc);
+            modelTrackerWPF.ShowDialog();
         }
     }
 
