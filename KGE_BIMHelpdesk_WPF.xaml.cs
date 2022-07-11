@@ -27,8 +27,13 @@ namespace API_2021_Plugins
     /// </summary>
     public partial class KGE_BIMHelpdesk_WPF : Window
     {
-        public KGE_BIMHelpdesk_WPF(Document doc)
+        public Autodesk.Revit.ApplicationServices.Application app;
+        public Document doc;
+
+        public KGE_BIMHelpdesk_WPF(Autodesk.Revit.ApplicationServices.Application application, Document document)
         {
+            app = application;
+            doc = document;
             InitializeComponent();
         }
 
@@ -60,6 +65,25 @@ namespace API_2021_Plugins
         public string GenerateID()
         {
             return Guid.NewGuid().ToString("N");
+        }
+
+        private void dropdownOpenModels_GotFocus(object sender, RoutedEventArgs e)
+        {
+            foreach (Document document in app.Documents)
+            {
+                dropdownOpenModels.Items.Add(document.Title);
+            }
+        }
+
+        private void dropdownViews_GotFocus(object sender, RoutedEventArgs e)
+        {
+            // collect view type
+            List<Element> views = new FilteredElementCollector(doc).OfClass(typeof(View)).ToList();
+
+            foreach (View view in views)
+            {
+                dropdownViews.Items.Add(view.Title);
+            }
         }
     }
 }

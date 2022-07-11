@@ -35,8 +35,13 @@ namespace API_2021_Plugins
             //Get Document
             Document doc = uidoc.Document;
 
+            //Get Application (to later get all opened documents)
+
+            UIApplication uiapp = commandData.Application;
+            Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
+
             //Get WPF Interface
-            KGE_BIMHelpdesk_WPF helpdeskForm = new KGE_BIMHelpdesk_WPF(doc);
+            KGE_BIMHelpdesk_WPF helpdeskForm = new KGE_BIMHelpdesk_WPF(app, doc);
             helpdeskForm.ShowDialog();
         }
     }
