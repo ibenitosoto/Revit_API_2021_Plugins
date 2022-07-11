@@ -22,6 +22,7 @@ namespace API_2021_Plugins
     class ExternalApplication : IExternalApplication
     {
         //public static ExternalApplication instance = null;
+        public static Element pickedObject;
 
         public Result OnShutdown(UIControlledApplication application)
         {
