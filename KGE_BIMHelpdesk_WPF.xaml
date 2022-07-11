@@ -9,7 +9,7 @@
              Title="Kirby Group Engineering BIM Helpdesk Form"
              WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid Background="White">
-        <Image x:Name="kirbyLogo" Height="107" Margin="0,40,0,0" VerticalAlignment="Top" Source="/images/kirbyLogoK.png"  HorizontalAlignment="Center" Width="108"/>
+        <Image x:Name="kirbyLogo" Height="107" Margin="0,40,0,0" VerticalAlignment="Top" Source="/API_2021_Plugins;component/images/kirbyLogoK.png"  HorizontalAlignment="Center" Width="108"/>
         <TextBlock x:Name="pipeMetersTxt" HorizontalAlignment="Center" Text="BIM HELPDESK" FontFamily="Myanmar Text" FontSize="24" Foreground="#FF0F258A" Margin="0,168,0,0" FontWeight="Bold" Width="176" VerticalAlignment="Top" Height="28"/>
         <TextBox x:Name="textBoxShort" HorizontalAlignment="Center" Margin="0,289,0,0" TextWrapping="Wrap" Text="Write a short description here" VerticalAlignment="Top" Width="216" Height="37" Background="#FFEFF1FD" BorderBrush="{x:Null}" FontFamily="Myanmar Text" FontSize="14" TextAlignment="Left" Foreground="#FFA0A6C6" FontStretch="SemiCondensed" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" Padding="5,5,5,5" GotFocus="textBoxShort_GotFocus"/>
         <TextBox x:Name="textBoxLong" HorizontalAlignment="Center" Margin="0,350,0,0" TextWrapping="Wrap" Text="Write a long description here" VerticalAlignment="Top" Width="216" Height="137" Background="#FFEFF1FD" BorderBrush="{x:Null}" FontFamily="Myanmar Text" FontSize="14" TextAlignment="Left" Foreground="#FFA0A6C6" FontStretch="SemiCondensed" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" Padding="5,5,5,5" GotFocus="textBoxLong_GotFocus"/>

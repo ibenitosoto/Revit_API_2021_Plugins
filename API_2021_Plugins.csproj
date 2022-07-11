@@ -128,11 +128,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="images\kirbyFullLogo.png" />
-    <EmbeddedResource Include="images\kirbyLogoK.png" />
+    <Resource Include="images\kirbyFullLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\kirbyLogoK.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="images\kirbyIconK.png" />
+    <Resource Include="images\kirbyIconK.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="kirbyLogoK.png" />

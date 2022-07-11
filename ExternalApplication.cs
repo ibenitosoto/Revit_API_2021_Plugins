@@ -22,6 +22,7 @@ namespace API_2021_Plugins
     class ExternalApplication : IExternalApplication
     {
         public static ExternalApplication instance = null;
+
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;
@@ -31,8 +32,14 @@ namespace API_2021_Plugins
         {
             instance = this;
 
-            //Create Ribbon Tab
-            application.CreateRibbonTab("KGE BIM");
+            //instances of images to be used in the app
+            //important to have this inside the OnStartup method or they won't be loaded
+            BitmapSource kirbyIcon = GetEmbeddedImage("API_2021_Plugins.images.kirbyIconK.png");
+            BitmapSource kirbyLogo = GetEmbeddedImage("API_2021_Plugins.images.kirbyLogoK.png");
+            BitmapSource kirbyFullLogo = GetEmbeddedImage("API_2021_Plugins.images.kirbyFullLogo.png");
+
+        //Create Ribbon Tab
+        application.CreateRibbonTab("KGE BIM");
 
             string path = Assembly.GetExecutingAssembly().Location;
 
@@ -56,14 +63,13 @@ namespace API_2021_Plugins
             PushButton pushButton5 = panel.AddItem(button5) as PushButton;
             PushButton pushButton6 = panel.AddItem(button6) as PushButton;
 
-            BitmapSource bitmap = GetEmbeddedImage("API_2021_Plugins.images.kirbyIconK.png");
 
-            pushButton1.LargeImage = bitmap;
-            pushButton2.LargeImage = bitmap;
-            pushButton3.LargeImage = bitmap;
-            pushButton4.LargeImage = bitmap;
-            pushButton5.LargeImage = bitmap;
-            pushButton6.LargeImage = bitmap;
+            pushButton1.LargeImage = kirbyIcon;
+            pushButton2.LargeImage = kirbyIcon;
+            pushButton3.LargeImage = kirbyIcon;
+            pushButton4.LargeImage = kirbyIcon;
+            pushButton5.LargeImage = kirbyIcon;
+            pushButton6.LargeImage = kirbyIcon;
 
             return Result.Succeeded;
         }
