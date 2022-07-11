@@ -32,6 +32,10 @@ namespace API_2021_Plugins
         public UIApplication uiapp;
 
         public static List<Element> views;
+        public static Element pickedElement;
+
+        public static Document selectedDocument;
+        public static View selectedView;
 
         //public KGE_BIMHelpdesk_WPF(Autodesk.Revit.ApplicationServices.Application application, Document document)
         public KGE_BIMHelpdesk_WPF(ExternalCommandData commandData)
@@ -62,12 +66,16 @@ namespace API_2021_Plugins
 
         private void buttonSubmit_Click(object sender, RoutedEventArgs e)
         {
+            string model = selectedDocument.Title;
+            string view = selectedView.Title;
+            string elementCategory = pickedElement.Category.Name;
+            string elementId = pickedElement.Id.ToString();
             string shortText = textBoxShort.Text;
             string longText = textBoxLong.Text;
 
             //Mail.SendEmailFromAccount(OutlookAddIn.Mail.GetApplicationObject(), shortText, longText, destination, smtpAddress);
             //Email.SendMessage(GenerateID(), shortText, longText);
-            SystemMail.CreateTestMessage(GenerateID(), shortText, longText);
+            SystemMail.CreateTestMessage(GenerateID(), shortText, longText, model, view, elementCategory, elementId);
         }
 
         public string GenerateID()
@@ -88,7 +96,7 @@ namespace API_2021_Plugins
         {
             dropdownViews.Items.Clear();
 
-            Document selectedDocument = (Document)dropdownOpenModels.SelectedItem;
+            selectedDocument = (Document)dropdownOpenModels.SelectedItem;
 
             views = new FilteredElementCollector(selectedDocument).OfClass(typeof(View)).ToList();
 
@@ -98,12 +106,31 @@ namespace API_2021_Plugins
             }
         }
 
+        private void dropdownViews_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedView = (View)dropdownViews.SelectedItem;
+        }
+
         private void buttonSelectElement_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
             Element pickedObject = KGE_Scripts.PickObject(cd);
             buttonSelectElement.Content = pickedObject.Category.Name + " element with ID: " + pickedObject.Id;
+            pickedElement = pickedObject;
             this.Show();
+            
+        }
+
+        private void textBoxShort_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            textBoxShort.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF0E1D79");
+            textBoxShort.FontWeight = FontWeights.Bold;
+        }
+
+        private void textBoxLong_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            textBoxLong.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF0E1D79");
+            textBoxLong.FontWeight = FontWeights.Bold;
         }
     }
 }

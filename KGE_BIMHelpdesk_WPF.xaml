@@ -5,22 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:API_2021_Plugins" 
              mc:Ignorable="d" 
-             Height="750" Width="300"
+             Height="800" Width="300"
              Title="Kirby Group Engineering BIM Helpdesk Form"
-             WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+             WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+             MinHeight="800"
+             MinWidth="300"
+        >
+    <Window.Resources>
+        <SolidColorBrush x:Key="KirbyColor" Color="#FF0E1D79"/>
+    </Window.Resources>
 
 
     <Grid Background="White">
         <Image x:Name="kirbyLogo" Height="107" Margin="0,20,0,0" VerticalAlignment="Top" Source="/API_2021_Plugins;component/images/kirbyLogoK.png"  HorizontalAlignment="Center" Width="108"/>
-        <TextBlock x:Name="textTitle" HorizontalAlignment="Center" Text="BIM HELPDESK" FontFamily="Myanmar Text" FontSize="24" Foreground="#FF0F258A" Margin="0,127,0,0" FontWeight="Bold" Width="176" VerticalAlignment="Top" Height="28"/>
-        <TextBox x:Name="textBoxShort" HorizontalAlignment="Center" Margin="0,407,0,0" TextWrapping="Wrap" Text="Write a short description here" VerticalAlignment="Top" Width="216" Height="26" Background="#FFEFF1FD" BorderBrush="{x:Null}" FontFamily="Myanmar Text" TextAlignment="Left" Foreground="#FFA0A6C6" FontStretch="SemiCondensed" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" Padding="3,3,3,3" GotFocus="textBoxShort_GotFocus" SelectionTextBrush="#FF0E1D79" SelectionBrush="#FFC1CAD1"/>
-        <TextBox x:Name="textBoxLong" HorizontalAlignment="Center" Margin="0,450,0,0" TextWrapping="Wrap" Text="Write a long description here" VerticalAlignment="Top" Width="216" Height="137" Background="#FFEFF1FD" BorderBrush="{x:Null}" FontFamily="Myanmar Text" TextAlignment="Left" Foreground="#FFA0A6C6" FontStretch="SemiCondensed" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" Padding="5,5,5,5" GotFocus="textBoxLong_GotFocus"/>
-        <ComboBox x:Name="dropdownOpenModels" DisplayMemberPath="Title" HorizontalAlignment="Center" Margin="0,213,0,0" VerticalAlignment="Top" Width="216" Height="22" Loaded="dropdownOpenModels_Loaded" SelectionChanged="dropdownOpenModels_SelectionChanged" BorderBrush="{x:Null}"/>
-        <ComboBox x:Name="dropdownViews" DisplayMemberPath="Title" HorizontalAlignment="Center" Margin="0,278,0,0" VerticalAlignment="Top" Width="216" Height="22"/>
+        <TextBlock x:Name="textTitle" HorizontalAlignment="Center" Text="BIM HELPDESK" FontFamily="Myanmar Text" FontSize="24" Foreground="{DynamicResource KirbyColor}" Margin="0,127,0,0" FontWeight="Bold" Width="176" VerticalAlignment="Top" Height="28"/>
+        <TextBox x:Name="textBoxShort" Margin="42,407,42,0" TextWrapping="Wrap" Text="Write a short description here" VerticalAlignment="Top" Height="26" Background="#FFEFF1FD" BorderBrush="{x:Null}" FontFamily="Myanmar Text" TextAlignment="Left" Foreground="#FFA0A6C6" FontStretch="SemiCondensed" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" Padding="3,3,3,3" GotFocus="textBoxShort_GotFocus" SelectionTextBrush="#FF0E1D79" SelectionBrush="#FFC1CAD1" TextChanged="textBoxShort_TextChanged"/>
+        <TextBox x:Name="textBoxLong" Margin="42,450,42,0" TextWrapping="Wrap" Text="Write a long description here" VerticalAlignment="Top" Height="137" Background="#FFEFF1FD" BorderBrush="{x:Null}" FontFamily="Myanmar Text" TextAlignment="Left" Foreground="#FFA0A6C6" FontStretch="SemiCondensed" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Center" Padding="5,5,5,5" GotFocus="textBoxLong_GotFocus" TextChanged="textBoxLong_TextChanged"/>
+        <ComboBox x:Name="dropdownOpenModels" DisplayMemberPath="Title" Margin="42,213,42,0" VerticalAlignment="Top" Height="22" Loaded="dropdownOpenModels_Loaded" SelectionChanged="dropdownOpenModels_SelectionChanged" BorderBrush="{x:Null}"/>
+        <ComboBox x:Name="dropdownViews" DisplayMemberPath="Title" Margin="42,278,42,0" VerticalAlignment="Top" Height="22" SelectionChanged="dropdownViews_SelectionChanged"/>
         <TextBlock x:Name="textSelectModel" HorizontalAlignment="Left" Margin="42,189,0,0" TextWrapping="Wrap" Text="Select model (optional)" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
         <TextBlock x:Name="textSelectView" HorizontalAlignment="Left" Margin="42,256,0,0" TextWrapping="Wrap" Text="Select view (optional)" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
         <TextBlock x:Name="textSelectView_Copy" HorizontalAlignment="Left" Margin="42,322,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"><Run Text="Select"/><Run Language="en-ie" Text=" element "/><Run Text="(optional)"/></TextBlock>
-        <Button x:Name="buttonSelectElement" Content="Click to pick an element" HorizontalAlignment="Center" Margin="0,346,0,0" VerticalAlignment="Top" Width="216"  Background="#FF0E1D79" Foreground="White" Height="33" BorderBrush="{x:Null}" FontWeight="Bold" Click="buttonSelectElement_Click">
+        <Button x:Name="buttonSelectElement" Content="Click to pick an element" Margin="42,346,42,0" VerticalAlignment="Top"  Background="{DynamicResource KirbyColor}" Foreground="White" Height="33" BorderBrush="{x:Null}" FontWeight="Bold" Click="buttonSelectElement_Click" FontFamily="Arial">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="6
@@ -28,13 +34,14 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="buttonSubmit" Content="SUBMIT" HorizontalAlignment="Center" Margin="0,616,0,68" Width="132" Click="buttonSubmit_Click" FontFamily="Myanmar Text" FontSize="14" FontStretch="Normal" FontWeight="Bold" Foreground="White" Background="#FF0E1D79" BorderBrush="{x:Null}" Padding="4,15,4,15" VerticalContentAlignment="Center">
+        <Button x:Name="buttonSubmit" Content="SUBMIT" HorizontalAlignment="Center" Margin="0,619,0,0" Width="142" Click="buttonSubmit_Click" FontFamily="Arial" FontSize="14" FontStretch="Normal" FontWeight="Bold" Foreground="White" Background="#FF0E1D79" BorderBrush="{x:Null}" VerticalContentAlignment="Center" Padding="1,1,1,1" MinHeight="30" MinWidth="40" VerticalAlignment="Top" Height="50">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="8"/>
                 </Style>
             </Button.Resources>
         </Button>
+        <TextBlock x:Name="version" HorizontalAlignment="Center" Text="WIP version 0.1 - please report any bugs to Ignacio Benito Soto - isoto@kirbygroup.com" FontFamily="Arial Narrow" Foreground="#FF0F258A" Margin="0,700,0,0" Width="280" FontSize="10" Height="24" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center"/>
 
     </Grid>
 </Window>

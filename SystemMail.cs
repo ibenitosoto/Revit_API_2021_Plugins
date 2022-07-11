@@ -9,7 +9,7 @@ namespace API_2021_Plugins
 {
     public class SystemMail
     {
-        public static void CreateTestMessage(string guid, string subject, string body)
+        public static void CreateTestMessage(string guid, string subject, string body, string model, string view, string elementCategory, string elementId)
         {
             var fromAddress = new MailAddress("kirbybimhelpdesk@gmail.com", "New BIM help request received");
             var fromPassword = "tuiy tawl agtd yype";
@@ -26,13 +26,23 @@ namespace API_2021_Plugins
                 Credentials = new System.Net.NetworkCredential(fromAddress.Address, fromPassword)
             };
 
-            using (var message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = $"BIM Request ID: {guid} - Subject: {subject}",
-                Body = body
-            })
+            MailMessage message = new MailMessage(fromAddress, toAddress);
+            message.Subject = $"BIM Request ID: {guid} - Subject: {subject}";
+            message.IsBodyHtml = false;
+            message.Body = $"Model name: {model}\n View name: {view}\n Category name: {elementCategory}\n Element ID: {elementId}\n Issue: {body}";
+            message.IsBodyHtml = false;
 
-                smtp.Send(message);
+            smtp.Send(message);
+
+            //using (var message = new MailMessage(fromAddress, toAddress)
+            //    {
+
+            //        Subject = $"BIM Request ID: {guid} - Subject: {subject}",
+            //        Body = $"{body}\n Model name: {model}\n View name: {view}\n Category name: {elementCategory}\n Element ID: {elementId}"
+            //    }
+            //    )
+            //    message.IsBodyHtml = false
+            //    smtp.Send(message);
         }
     }
 }
