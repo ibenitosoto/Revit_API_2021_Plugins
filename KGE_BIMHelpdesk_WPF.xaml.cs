@@ -66,6 +66,7 @@ namespace API_2021_Plugins
 
         private void buttonSubmit_Click(object sender, RoutedEventArgs e)
         {
+            string username = app.Username;
             string model = selectedDocument.Title;
             string view = selectedView.Title;
             string elementCategory = pickedElement.Category.Name;
@@ -75,7 +76,10 @@ namespace API_2021_Plugins
 
             //Mail.SendEmailFromAccount(OutlookAddIn.Mail.GetApplicationObject(), shortText, longText, destination, smtpAddress);
             //Email.SendMessage(GenerateID(), shortText, longText);
-            SystemMail.CreateTestMessage(GenerateID(), shortText, longText, model, view, elementCategory, elementId);
+            string guid = GenerateID();
+            SystemMail.CreateTestMessage(guid, shortText, longText, username, model, view, elementCategory, elementId);
+            TaskDialog.Show("Request successfully sent", "Thank you for submitting your request. We will get back to you soon.\n" +
+                $"Request ID: {guid}");
         }
 
         public string GenerateID()
@@ -115,10 +119,19 @@ namespace API_2021_Plugins
         {
             this.Hide();
             Element pickedObject = KGE_Scripts.PickObject(cd);
-            buttonSelectElement.Content = pickedObject.Category.Name + " element with ID: " + pickedObject.Id;
-            pickedElement = pickedObject;
-            this.Show();
-            
+
+            if (pickedObject != null)
+            {
+                buttonSelectElement.Content = pickedObject.Category.Name + " element with ID: " + pickedObject.Id;
+                pickedElement = pickedObject;
+                this.Show();
+            }
+
+            else if (pickedObject == null)
+            {
+                this.Hide();
+                this.Show();
+            }
         }
 
         private void textBoxShort_TextChanged(object sender, TextChangedEventArgs e)

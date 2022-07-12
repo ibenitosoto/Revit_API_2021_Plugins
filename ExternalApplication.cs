@@ -85,7 +85,7 @@ namespace API_2021_Plugins
             Document doc = uidoc.Document;
 
             //Get WPF Interface
-            KGE_ModelTracker_WPF modelTrackerWPF = new KGE_ModelTracker_WPF(doc);
+            KGE_ModelTracker_WPF modelTrackerWPF = new KGE_ModelTracker_WPF();
             modelTrackerWPF.ShowDialog();
         }
 

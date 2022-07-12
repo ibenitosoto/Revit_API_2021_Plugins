@@ -45,13 +45,12 @@ namespace API_2021_Plugins
 
                 else
                 {
-                    TaskDialog.Show("error", $"Error. Contact Ignacio Benito Soto");
                     return null;
                 }
             }
             catch (Exception e)
             {
-                TaskDialog.Show("error", $"Error. Contact Ignacio Benito Soto");
+                //TaskDialog.Show("error", $"Error. Contact Ignacio Benito Soto");
                 return null;
             }
 

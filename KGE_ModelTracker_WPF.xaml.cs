@@ -24,20 +24,36 @@ namespace API_2021_Plugins
     /// </summary>
     public partial class KGE_ModelTracker_WPF : Window
     {
-        public Document document { get; set; }
-        public KGE_ModelTracker_WPF(Document doc)
+        //public Document document { get; set; }
+        //public KGE_ModelTracker_WPF(Document doc)
+        public KGE_ModelTracker_WPF()
         {
-            document = doc;
+            //document = doc;
             InitializeComponent();
-            UpdateLengthCounters();
         }
 
-        public void UpdateLengthCounters()
+        public void UpdateLengthCounters(KGE_ModelTracker_WPF modelTrackerWPFinstance)
         {
-            pipesTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.pipeTotalLength);
-            traysTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.trayTotalLength);
-            ductsTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.ductTotalLength);
+            modelTrackerWPFinstance.pipesTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.pipeTotalLength);
+            modelTrackerWPFinstance.traysTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.trayTotalLength);
+            modelTrackerWPFinstance.ductsTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.ductTotalLength);
         }
+
+        //public void Show_KGE_ModelTracker_WPF(ExternalCommandData commandData, ref string message, ElementSet elements)
+        public void Show_KGE_ModelTracker_WPF()
+        {
+            ////Get UI Document
+            //UIDocument uidoc = commandData.Application.ActiveUIDocument;
+
+            ////Get Document
+            //Document doc = uidoc.Document;
+
+            ////Get WPF Interface
+            //KGE_ModelTracker_WPF modelTrackerWPF = new KGE_ModelTracker_WPF(doc);
+
+     
+        }
+
     }
     
 }

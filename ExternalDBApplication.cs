@@ -35,7 +35,7 @@ namespace API_2021_Plugins
         ElementFilter trayFilter = new ElementCategoryFilter(BuiltInCategory.OST_CableTray);
         ElementFilter ductFilter = new ElementCategoryFilter(BuiltInCategory.OST_DuctCurves);
 
-
+        public static KGE_ModelTracker_WPF modelTrackerWPF;
 
         public ExternalDBApplicationResult OnShutdown(ControlledApplication application)
         {
@@ -74,6 +74,7 @@ namespace API_2021_Plugins
                 RemoveElementsFromDicts(args);
 
                 TotalLength(lengthDict, categoryDict);
+                UpdateModelTracker();
                 //DisplayLengthUpdate();
             }
 
@@ -104,6 +105,7 @@ namespace API_2021_Plugins
                     //UpdateTotalLengths();
                     //UpdateLengths();
                     TotalLength(lengthDict, categoryDict);
+                    UpdateModelTracker();
                     //DisplayLengthUpdate();
                 }
                 catch (Exception)
@@ -127,6 +129,7 @@ namespace API_2021_Plugins
                     //AddElementsToDicts(trays, doc, args, trayFilter);
                     AddElementsToDicts(doc, args, trayFilter);
                     TotalLength(lengthDict, categoryDict);
+                    UpdateModelTracker();
                     //DisplayLengthUpdate();
                 }
                 catch (Exception)
@@ -141,6 +144,7 @@ namespace API_2021_Plugins
                     //AddElementsToDicts(ducts, doc, args, ductFilter);
                     AddElementsToDicts(doc, args, ductFilter);
                     TotalLength(lengthDict, categoryDict);
+                    UpdateModelTracker();
                     //DisplayLengthUpdate();
                 }
                 catch (Exception)
@@ -156,80 +160,11 @@ namespace API_2021_Plugins
             //If elements are deleted, remove them from the list
             else if (SelectionDeleted(args, transactionName))
             {
-                //try
-                //{
-                //    //ids of all deleted elements
-                //    ICollection<ElementId> deletedIDs = args.GetDeletedElementIds();
-
-                //    ////new list that will store all deleted elements
-                //    //List<Element> deletedElements = new List<Element>();
-
-                //    ////add all deleted elements to the new list
-                //    //foreach (ElementId id in deletedIDs)
-                //    //{
-                //    //    deletedElements.Add(doc.GetElement(id));
-
-                //    //}
-
-                //    //foreach (ElementId id in deletedIDs)
-                //    //{
-                //    //    if (allElementIDs.Contains(id))
-                //    //    {
-                //    //        try
-                //    //        {
-                //    //            foreach (Element pipe in pipes)
-                //    //            {
-                //    //                if (id == pipe.Id)
-                //    //                {
-                //    //                    pipes.Remove(pipe);
-                //    //                }
-                //    //            }
-
-                //    //            foreach (Element tray in trays)
-                //    //            {
-                //    //                if (id == tray.Id)
-                //    //                {
-                //    //                    trays.Remove(tray);
-                //    //                }
-                //    //            }
-
-                //    //        }
-                //    //        catch (Exception)
-                //    //        {
-                //    //        }
-
-                //    //    }
-
-                //    //}
-
-                //    //foreach (Element deletedElement in deletedElements)
-                //    //{
-
-                //    //    if ((BuiltInCategory)deletedElement.Category.Id.IntegerValue is BuiltInCategory.OST_PipeCurves)
-                //    //    {
-                //    //        pipes.Remove(deletedElement);
-                //    //    }
-
-                //    //    else if ((BuiltInCategory)deletedElement.Category.Id.IntegerValue is BuiltInCategory.OST_CableTray)
-                //    //    {
-                //    //        trays.Remove(deletedElement);
-                //    //    }
-
-                //    //    else if ((BuiltInCategory)deletedElement.Category.Id.IntegerValue is BuiltInCategory.OST_DuctCurves)
-                //    //    {
-                //    //        ducts.Remove(deletedElement);
-                //    //    }
-                //    //}
-
-                //}//end of try
-
-                //catch (Exception)
-                //{
-                //}
 
                 //dictionary test
                 RemoveElementsFromDicts(args);
                 TotalLength(lengthDict, categoryDict);
+                UpdateModelTracker();
                 //DisplayLengthUpdate();
 
             }
@@ -474,12 +409,12 @@ namespace API_2021_Plugins
 
 
 
-        //public void UpdateLengths()
-        //{
-        //    pipeTotalLength = TotalLength(lengthDict);
-        //    //trayTotalLength = TotalLength(trays);
-        //    //ductTotalLength = TotalLength(ducts);
-        //}
+        public void UpdateModelTracker()
+        {
+            modelTrackerWPF.pipesTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.pipeTotalLength);
+            modelTrackerWPF.traysTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.trayTotalLength);
+            modelTrackerWPF.ductsTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.ductTotalLength);
+        }
 
 
 
