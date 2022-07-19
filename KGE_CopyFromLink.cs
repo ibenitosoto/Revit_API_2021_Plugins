@@ -13,8 +13,11 @@ using Autodesk.Revit.Attributes;
 
 namespace API_2021_Plugins
 {
-    public class KGE_CopyFromLink
-    {
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+
+    public class KGE_CopyFromLink : IExternalCommand
+    { 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
 
         {

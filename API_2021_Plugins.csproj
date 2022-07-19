@@ -149,6 +149,8 @@
     <PostBuildEvent>copy "$(TargetDir)"."" "$(AppData)\Autodesk\Revit\Addins\2021\"
 copy "$(TargetDir)"."" "$(ProgramData)\Autodesk\Revit\Addins\2021\"
 copy "$(TargetDir)"."" "$(AppData)\Autodesk\Revit\Addins\2020\"
-copy "$(TargetDir)"."" "$(ProgramData)\Autodesk\Revit\Addins\2020\"</PostBuildEvent>
+copy "$(TargetDir)"."" "$(ProgramData)\Autodesk\Revit\Addins\2020\"
+copy "$(TargetDir)"."" "$(AppData)\Autodesk\Revit\Addins\2019\"
+copy "$(TargetDir)"."" "$(ProgramData)\Autodesk\Revit\Addins\2019\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
