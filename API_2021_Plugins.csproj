@@ -98,13 +98,13 @@
     <Compile Include="KGE_BIMHelpdesk_WPF.xaml.cs">
       <DependentUpon>KGE_BIMHelpdesk_WPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KGE_CopyFromLink.cs" />
     <Compile Include="KGE_LinesFromPipes.cs" />
     <Compile Include="KGE_Isometrics.cs" />
     <Compile Include="ExternalApplication.cs" />
     <Compile Include="KGE_ModelTracker.cs" />
     <Compile Include="KGE_Numbering.cs" />
     <Compile Include="KGE_Quantifications.cs" />
-    <Compile Include="OutlookAddIn.cs" />
     <Compile Include="KGE_Scripts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KGE_ModelTracker_WPF.xaml.cs">

@@ -591,9 +591,9 @@ namespace API_2021_Plugins
 
 
 
-                ElementCategoryFilter pipeTagsFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeTags);
-                IList<Element> pipeTagsCreated = new FilteredElementCollector(doc).WherePasses(pipeTagsFilter).WhereElementIsNotElementType().ToElements();
-                TaskDialog.Show("Pipe Tags Created", $"{pipeTagsList.Count()} - {pipeTagsCreated.Count()} pipe tags in the model\n");
+                //ElementCategoryFilter pipeTagsFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeTags);
+                //IList<Element> pipeTagsCreated = new FilteredElementCollector(doc).WherePasses(pipeTagsFilter).WhereElementIsNotElementType().ToElements();
+                //TaskDialog.Show("Pipe Tags Created", $"{pipeTagsList.Count()} - {pipeTagsCreated.Count()} pipe tags in the model\n");
 
 
                 #endregion

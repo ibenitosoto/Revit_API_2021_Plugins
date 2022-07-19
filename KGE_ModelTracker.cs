@@ -31,6 +31,7 @@ namespace API_2021_Plugins
 
             modelTrackerWPFinstance.InitializeComponent();
             modelTrackerWPFinstance.Show();
+            modelTrackerWPFinstance.UpdateLengthCounters();
 
             return Result.Succeeded;
         }

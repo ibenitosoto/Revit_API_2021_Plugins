@@ -32,11 +32,11 @@ namespace API_2021_Plugins
             InitializeComponent();
         }
 
-        public void UpdateLengthCounters(KGE_ModelTracker_WPF modelTrackerWPFinstance)
+        public void UpdateLengthCounters()
         {
-            modelTrackerWPFinstance.pipesTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.pipeTotalLength);
-            modelTrackerWPFinstance.traysTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.trayTotalLength);
-            modelTrackerWPFinstance.ductsTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.ductTotalLength);
+            pipesTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.pipeTotalLength);
+            traysTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.trayTotalLength);
+            ductsTextBlock.Text = string.Format("{0:N2}", API_2021_Plugins.ExternalDBApplication.ductTotalLength);
         }
 
         //public void Show_KGE_ModelTracker_WPF(ExternalCommandData commandData, ref string message, ElementSet elements)

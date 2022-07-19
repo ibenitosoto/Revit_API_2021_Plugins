@@ -84,5 +84,16 @@
 		<VendorDescription>Kirby Group Engineering</VendorDescription>
 	</AddIn>
 
+	<AddIn Type="Command">
+		<Name>API_2021_Plugins</Name>
+		<FullClassName>API_2021_Plugins.KGE_CopyFromLink</FullClassName>
+		<Text>KGE_CopyFromLink</Text>
+		<Description>Copies elements from linked model without opening it</Description>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>F9C3E19A-1070-4A48-82D3-2E8BDB35A64E</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
 
 </RevitAddIns>
