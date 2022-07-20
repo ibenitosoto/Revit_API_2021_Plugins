@@ -22,10 +22,17 @@
         <TextBlock x:Name="textSelectLink" HorizontalAlignment="Left" Margin="42,189,0,0" TextWrapping="Wrap" Text="Select link to copy elements from" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
         <TextBlock x:Name="textSelectCategories" HorizontalAlignment="Left" Margin="42,272,0,0" TextWrapping="Wrap" Text="Select categories to be copied" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
 
-        <StackPanel Margin="42,299,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical" Height="451" Grid.Row="3">
+        <StackPanel x:Name="stackPanelCategories" Margin="0,299,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Height="451" Width="216" Background="#FFF3F6FF">
             <RadioButton x:Name="buttonPipes" Content="Pipes" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
             <RadioButton x:Name="buttonPipeFittings" Content="Pipe Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" />
             <RadioButton x:Name="buttonPipeAccesories" Content="Pipe Accesories" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            
+            <RadioButton x:Name="buttonDucts" Content="Ducts" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            <RadioButton x:Name="buttonDuctFittings" Content="Duct Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            <RadioButton x:Name="buttonDuctAccesories" Content="Duct Accesories" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+
+            <RadioButton x:Name="buttonTrays" Content="Trays" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            <RadioButton x:Name="buttonTrayFittings" Content="Tray Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
         </StackPanel>
 
     </Grid>
