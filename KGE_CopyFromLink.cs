@@ -17,34 +17,29 @@ namespace API_2021_Plugins
     [Regeneration(RegenerationOption.Manual)]
 
     public class KGE_CopyFromLink : IExternalCommand
-    { 
+    {
+        public static IList<BuiltInCategory> allCategories = new List<BuiltInCategory>();
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
 
         {
             Document hostDoc = commandData.Application.ActiveUIDocument.Document;
 
-            //Get the link
-
-            FilteredElementCollector links =
-
-            new FilteredElementCollector(hostDoc)
-
-            .OfClass(typeof(RevitLinkInstance));
-
-            Document linkedDoc = links.Cast<RevitLinkInstance>().FirstOrDefault().GetLinkDocument();
+            //Launch WPF interface
+            Show_KGE_CopyFromLink_WPF(commandData, ref message, elements);
 
 
+            ////Get the link
+            //FilteredElementCollector links =
+            //new FilteredElementCollector(hostDoc)
+            //.OfClass(typeof(RevitLinkInstance));
+            //Document linkedDoc = links.Cast<RevitLinkInstance>().FirstOrDefault().GetLinkDocument();
 
-            ////Get familys in link
 
+            ////Get families in link
             //FilteredElementCollector linkedFamCollector = new FilteredElementCollector(linkedDoc);
-
             //ICollection<ElementId> ids = linkedFamCollector
-
             //.OfClass(typeof(FamilyInstance))
-
             //.OfCategory(BuiltInCategory.OST_GenericModel)
-
             //.ToElementIds();
 
             //Create Filters
@@ -54,11 +49,30 @@ namespace API_2021_Plugins
 
 
             //Multicategory filter
-            //Initialize list inheriting from IList and adding all 3 categories
-            IList<BuiltInCategory> allCategories = new List<BuiltInCategory>();
+
+
+            allCategories.Add(BuiltInCategory.OST_MechanicalEquipment);
+            allCategories.Add(BuiltInCategory.OST_PlumbingFixtures);
             allCategories.Add(BuiltInCategory.OST_PipeCurves);
             allCategories.Add(BuiltInCategory.OST_PipeFitting);
             allCategories.Add(BuiltInCategory.OST_PipeAccessory);
+            allCategories.Add(BuiltInCategory.OST_DuctCurves);
+            allCategories.Add(BuiltInCategory.OST_DuctFitting);
+            allCategories.Add(BuiltInCategory.OST_DuctAccessory);
+            allCategories.Add(BuiltInCategory.OST_FlexDuctCurves);
+            allCategories.Add(BuiltInCategory.OST_DuctTerminal);
+            allCategories.Add(BuiltInCategory.OST_Sprinklers);
+            allCategories.Add(BuiltInCategory.OST_ElectricalEquipment);
+            allCategories.Add(BuiltInCategory.OST_ElectricalFixtures);
+            allCategories.Add(BuiltInCategory.OST_CableTray);
+            allCategories.Add(BuiltInCategory.OST_CableTrayFitting);
+            allCategories.Add(BuiltInCategory.OST_Conduit);
+            allCategories.Add(BuiltInCategory.OST_ConduitFitting);
+            allCategories.Add(BuiltInCategory.OST_LightingDevices);
+            allCategories.Add(BuiltInCategory.OST_LightingFixtures);
+            allCategories.Add(BuiltInCategory.OST_FireAlarmDevices);
+            allCategories.Add(BuiltInCategory.OST_DataDevices);
+            
 
 
             //Creating the multicategory filter
@@ -110,6 +124,39 @@ namespace API_2021_Plugins
         }
 
 
+        public static List<RevitLinkInstance> GetLoadedLinks(Document doc)
+        {
+            List<RevitLinkInstance> rvtLinkInstancesList = new List<RevitLinkInstance>(); 
+
+            using (FilteredElementCollector rvtLinks = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_RvtLinks).OfClass(typeof(RevitLinkType)))
+            {
+                if (rvtLinks.ToElements().Count > 0)
+                {
+                    foreach (RevitLinkType rvtLink in rvtLinks.ToElements())
+                    {
+                        if (rvtLink.GetLinkedFileStatus() == LinkedFileStatus.Loaded)
+                        {
+                            RevitLinkInstance link = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_RvtLinks).OfClass(typeof(RevitLinkInstance)).Where(x => x.GetTypeId() == rvtLink.Id).First() as RevitLinkInstance;
+                            rvtLinkInstancesList.Add(link);
+                        }
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+
+                return rvtLinkInstancesList;
+            }
+        }
+
+
+        public void Show_KGE_CopyFromLink_WPF(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get WPF Interface
+            KGE_CopyFromLink_WPF copyFromLinkForm = new KGE_CopyFromLink_WPF(commandData);
+            copyFromLinkForm.Show();
+        }
 
         public class CopyUseDestination : IDuplicateTypeNamesHandler
 
@@ -122,6 +169,8 @@ namespace API_2021_Plugins
             }
 
         }
+
+
 
 
 

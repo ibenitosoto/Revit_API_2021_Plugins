@@ -29,17 +29,6 @@ namespace API_2021_Plugins
 
         public void Show_KGE_BIMHelpdesk_WPF(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            ////Get UI Document
-            //UIDocument uidoc = commandData.Application.ActiveUIDocument;
-
-            ////Get Document
-            //Document doc = uidoc.Document;
-
-            ////Get Application (to later get all opened documents)
-
-            //UIApplication uiapp = commandData.Application;
-            //Autodesk.Revit.ApplicationServices.Application app = uiapp.Application;
-
             //Get WPF Interface
             KGE_BIMHelpdesk_WPF helpdeskForm = new KGE_BIMHelpdesk_WPF(commandData);
             helpdeskForm.Show();
