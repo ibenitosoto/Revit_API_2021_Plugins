@@ -99,6 +99,9 @@
       <DependentUpon>KGE_BIMHelpdesk_WPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="KGE_CopyFromLink.cs" />
+    <Compile Include="KGE_CopyFromLink_WPF.xaml.cs">
+      <DependentUpon>KGE_CopyFromLink_WPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KGE_LinesFromPipes.cs" />
     <Compile Include="KGE_Isometrics.cs" />
     <Compile Include="ExternalApplication.cs" />
@@ -120,6 +123,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="KGE_BIMHelpdesk_WPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KGE_CopyFromLink_WPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
