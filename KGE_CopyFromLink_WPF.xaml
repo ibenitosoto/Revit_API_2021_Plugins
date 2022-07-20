@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:API_2021_Plugins" 
              mc:Ignorable="d" 
-             Height="800" Width="300"
+             Height="900" Width="300"
              Title="Kirby Group Engineering BIM Helpdesk Form"
              WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
-             MinHeight="800"
+             MinHeight="900"
              MinWidth="300"
         >
     <Window.Resources>
@@ -22,17 +22,38 @@
         <TextBlock x:Name="textSelectLink" HorizontalAlignment="Left" Margin="42,189,0,0" TextWrapping="Wrap" Text="Select link to copy elements from" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
         <TextBlock x:Name="textSelectCategories" HorizontalAlignment="Left" Margin="42,272,0,0" TextWrapping="Wrap" Text="Select categories to be copied" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
 
-        <StackPanel x:Name="stackPanelCategories" Margin="0,299,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Height="451" Width="216" Background="#FFF3F6FF">
+        <StackPanel x:Name="stackPanelCategories" Margin="0,299,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Height="546" Width="216" Background="#FFF3F6FF">
+            <RadioButton x:Name="buttonMechanicalEquipment" Content="Mechanical Equipment" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            <RadioButton x:Name="buttonPlumbinglFixtures" Content="Plumbing Fixtures" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+
             <RadioButton x:Name="buttonPipes" Content="Pipes" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
             <RadioButton x:Name="buttonPipeFittings" Content="Pipe Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" />
             <RadioButton x:Name="buttonPipeAccesories" Content="Pipe Accesories" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
-            
+
             <RadioButton x:Name="buttonDucts" Content="Ducts" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
             <RadioButton x:Name="buttonDuctFittings" Content="Duct Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
             <RadioButton x:Name="buttonDuctAccesories" Content="Duct Accesories" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
 
+            <RadioButton x:Name="buttonFlexDucts" Content="Flex Ducts" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            <RadioButton x:Name="buttonAirTerminals" Content="Air Terminals" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+
+            <RadioButton x:Name="buttonSprinklers" Content="Sprinklers" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+
+            <RadioButton x:Name="buttonElectricalEquipment" Content="Electrical Equipment" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            <RadioButton x:Name="buttonElectricalFixtures" Content="Electrical Fixtures" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+
             <RadioButton x:Name="buttonTrays" Content="Trays" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
             <RadioButton x:Name="buttonTrayFittings" Content="Tray Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+
+            <RadioButton x:Name="buttonConduits" Content="Conduits" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            <RadioButton x:Name="buttonConduitFittings" Content="Conduit Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+
+            <RadioButton x:Name="buttonLightingDevices" Content="Lighting Devices" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            <RadioButton x:Name="buttonLightingFixtures" Content="Lighting Fixtures" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+
+            <RadioButton x:Name="buttonFireAlarmDevices" Content="Fire Alarm Devices" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+            <RadioButton x:Name="buttonDataDevices" Content="Data Devices" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79"/>
+
         </StackPanel>
 
     </Grid>
