@@ -42,15 +42,8 @@ namespace API_2021_Plugins
             //.OfCategory(BuiltInCategory.OST_GenericModel)
             //.ToElementIds();
 
-            //Create Filters
-            ElementCategoryFilter pipesFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeCurves);
-            ElementCategoryFilter fittingsFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeFitting);
-            ElementCategoryFilter valvesFilter = new ElementCategoryFilter(BuiltInCategory.OST_PipeAccessory);
-
-
+   
             //Multicategory filter
-
-
             allCategories.Add(BuiltInCategory.OST_MechanicalEquipment);
             allCategories.Add(BuiltInCategory.OST_PlumbingFixtures);
             allCategories.Add(BuiltInCategory.OST_PipeCurves);

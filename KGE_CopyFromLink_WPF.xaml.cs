@@ -152,5 +152,10 @@ namespace API_2021_Plugins
         {
             KGE_CopyFromLink.allCategories.Add(BuiltInCategory.OST_DataDevices);
         }
+
+        private void buttonExecute_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
