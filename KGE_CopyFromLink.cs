@@ -42,84 +42,40 @@ namespace API_2021_Plugins
             //.OfCategory(BuiltInCategory.OST_GenericModel)
             //.ToElementIds();
 
-   
-            //Multicategory filter
-            allCategories.Add(BuiltInCategory.OST_MechanicalEquipment);
-            allCategories.Add(BuiltInCategory.OST_PlumbingFixtures);
-            allCategories.Add(BuiltInCategory.OST_PipeCurves);
-            allCategories.Add(BuiltInCategory.OST_PipeFitting);
-            allCategories.Add(BuiltInCategory.OST_PipeAccessory);
-            allCategories.Add(BuiltInCategory.OST_DuctCurves);
-            allCategories.Add(BuiltInCategory.OST_DuctFitting);
-            allCategories.Add(BuiltInCategory.OST_DuctAccessory);
-            allCategories.Add(BuiltInCategory.OST_FlexDuctCurves);
-            allCategories.Add(BuiltInCategory.OST_DuctTerminal);
-            allCategories.Add(BuiltInCategory.OST_Sprinklers);
-            allCategories.Add(BuiltInCategory.OST_ElectricalEquipment);
-            allCategories.Add(BuiltInCategory.OST_ElectricalFixtures);
-            allCategories.Add(BuiltInCategory.OST_CableTray);
-            allCategories.Add(BuiltInCategory.OST_CableTrayFitting);
-            allCategories.Add(BuiltInCategory.OST_Conduit);
-            allCategories.Add(BuiltInCategory.OST_ConduitFitting);
-            allCategories.Add(BuiltInCategory.OST_LightingDevices);
-            allCategories.Add(BuiltInCategory.OST_LightingFixtures);
-            allCategories.Add(BuiltInCategory.OST_FireAlarmDevices);
-            allCategories.Add(BuiltInCategory.OST_DataDevices);
-            
 
-
-            //Creating the multicategory filter
-            ElementMulticategoryFilter allElementsFilter = new ElementMulticategoryFilter(allCategories);
-
-
-            //Get pipes in link
-
-            FilteredElementCollector linkedElemCollector = new FilteredElementCollector(linkedDoc);
-
-            ICollection<ElementId> ids = linkedElemCollector
-            .WherePasses(allElementsFilter)
-            .WhereElementIsNotElementType()
-            .ToElementIds();
-
-
-
-
-            if (ids.Count == 0)
-
-            {
-                TaskDialog.Show("Copy Paste", "The link does not contain the specified elements.");
-            }
-
-            else
-
-            {
-
-                Transaction targetTrans = new Transaction(hostDoc);
-
-                CopyPasteOptions copyOptions = new CopyPasteOptions();
-
-                copyOptions.SetDuplicateTypeNamesHandler(new CopyUseDestination());
-
-                targetTrans.Start("Copy and paste linked elements");
-
-
-
-                ElementTransformUtils.CopyElements(linkedDoc, ids, hostDoc, null, copyOptions);
-
-                hostDoc.Regenerate();
-
-                targetTrans.Commit();
-
-            }
+            ////Multicategory filter
+            //allCategories.Add(BuiltInCategory.OST_GenericModel);
+            //allCategories.Add(BuiltInCategory.OST_MechanicalEquipment);
+            //allCategories.Add(BuiltInCategory.OST_PlumbingFixtures);
+            //allCategories.Add(BuiltInCategory.OST_PipeCurves);
+            //allCategories.Add(BuiltInCategory.OST_PipeFitting);
+            //allCategories.Add(BuiltInCategory.OST_PipeAccessory);
+            //allCategories.Add(BuiltInCategory.OST_DuctCurves);
+            //allCategories.Add(BuiltInCategory.OST_DuctFitting);
+            //allCategories.Add(BuiltInCategory.OST_DuctAccessory);
+            //allCategories.Add(BuiltInCategory.OST_FlexDuctCurves);
+            //allCategories.Add(BuiltInCategory.OST_DuctTerminal);
+            //allCategories.Add(BuiltInCategory.OST_Sprinklers);
+            //allCategories.Add(BuiltInCategory.OST_ElectricalEquipment);
+            //allCategories.Add(BuiltInCategory.OST_ElectricalFixtures);
+            //allCategories.Add(BuiltInCategory.OST_CableTray);
+            //allCategories.Add(BuiltInCategory.OST_CableTrayFitting);
+            //allCategories.Add(BuiltInCategory.OST_Conduit);
+            //allCategories.Add(BuiltInCategory.OST_ConduitFitting);
+            //allCategories.Add(BuiltInCategory.OST_LightingDevices);
+            //allCategories.Add(BuiltInCategory.OST_LightingFixtures);
+            //allCategories.Add(BuiltInCategory.OST_FireAlarmDevices);
+            //allCategories.Add(BuiltInCategory.OST_DataDevices);
+  
 
             return Result.Succeeded;
 
         }
 
 
-        public static List<RevitLinkInstance> GetLoadedLinks(Document doc)
+        public static List<Document> GetLoadedLinks(Document doc)
         {
-            List<RevitLinkInstance> rvtLinkInstancesList = new List<RevitLinkInstance>(); 
+            List<Document> rvtLinkInstancesList = new List<Document>(); 
 
             using (FilteredElementCollector rvtLinks = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_RvtLinks).OfClass(typeof(RevitLinkType)))
             {
@@ -130,7 +86,7 @@ namespace API_2021_Plugins
                         if (rvtLink.GetLinkedFileStatus() == LinkedFileStatus.Loaded)
                         {
                             RevitLinkInstance link = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_RvtLinks).OfClass(typeof(RevitLinkInstance)).Where(x => x.GetTypeId() == rvtLink.Id).First() as RevitLinkInstance;
-                            rvtLinkInstancesList.Add(link);
+                            rvtLinkInstancesList.Add(link.Document);
                         }
                     }
                 }
@@ -148,7 +104,39 @@ namespace API_2021_Plugins
         {
             //Get WPF Interface
             KGE_CopyFromLink_WPF copyFromLinkForm = new KGE_CopyFromLink_WPF(commandData);
-            copyFromLinkForm.Show();
+            copyFromLinkForm.ShowDialog();
+        }
+
+        public static ICollection<ElementId> GetElementIds(Document selectedLink, ElementMulticategoryFilter allElementsFilter)
+        {
+            FilteredElementCollector linkedElemCollector = new FilteredElementCollector(selectedLink);
+            ICollection<ElementId> ids = linkedElemCollector
+            .WherePasses(allElementsFilter)
+            .WhereElementIsNotElementType()
+            .ToElementIds();
+
+            return ids;
+        }
+
+        public static void CopyElements(ICollection<ElementId> ids, Document hostDoc, Document linkedDoc)
+        {
+            if (ids.Count == 0)
+            {
+                TaskDialog.Show("Copy Paste", "The link does not contain the specified elements.");
+            }
+
+            else
+            {
+                Transaction targetTrans = new Transaction(hostDoc);
+                CopyPasteOptions copyOptions = new CopyPasteOptions();
+                copyOptions.SetDuplicateTypeNamesHandler(new CopyUseDestination());
+                targetTrans.Start("Copy and paste linked elements");
+
+
+                ElementTransformUtils.CopyElements(linkedDoc, ids, hostDoc, null, copyOptions);
+                hostDoc.Regenerate();
+                targetTrans.Commit();
+            }
         }
 
         public class CopyUseDestination : IDuplicateTypeNamesHandler

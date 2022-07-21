@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:API_2021_Plugins" 
              mc:Ignorable="d" 
-             Height="930" Width="300"
+             Height="850" Width="300"
              Title="Kirby Group Engineering BIM Helpdesk Form"
              WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
-             MinHeight="930"
+             MinHeight="850"
              MinWidth="300"
         >
     <Window.Resources>
@@ -18,45 +18,48 @@
     <Grid Background="White">
         <Image x:Name="kirbyLogo" Height="107" Margin="0,20,0,0" VerticalAlignment="Top" Source="/API_2021_Plugins;component/images/kirbyLogoK.png"  HorizontalAlignment="Center" Width="108"/>
         <TextBlock x:Name="textTitle" HorizontalAlignment="Center" Text="COPY FROM LINK" FontFamily="Myanmar Text" FontSize="24" Foreground="{DynamicResource KirbyColor}"  Margin="0,127,0,0" FontWeight="Bold" Width="200" VerticalAlignment="Top" Height="28"/>
-        <ComboBox x:Name="dropdownLinksLoaded" DisplayMemberPath="Title" Margin="42,213,42,0" VerticalAlignment="Top" Height="22" BorderBrush="{x:Null}" Loaded="dropdownLinksLoaded_Loaded"/>
-        <TextBlock x:Name="textSelectLink" HorizontalAlignment="Left" Margin="42,189,0,0" TextWrapping="Wrap" Text="Select link to copy elements from" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
-        <TextBlock x:Name="textSelectCategories" HorizontalAlignment="Left" Margin="42,272,0,0" TextWrapping="Wrap" Text="Select categories to be copied" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
+        <ComboBox x:Name="dropdownLinksLoaded" DisplayMemberPath="Title" Margin="42,207,42,0" VerticalAlignment="Top" Height="22" BorderBrush="{x:Null}" Loaded="dropdownLinksLoaded_Loaded" SelectionChanged="dropdownLinksLoaded_SelectionChanged"/>
+        <TextBlock x:Name="textSelectLink" HorizontalAlignment="Left" Margin="42,183,0,0" TextWrapping="Wrap" Text="Select link to copy elements from" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
+        <TextBlock x:Name="textSelectCategories" HorizontalAlignment="Left" Margin="42,260,0,0" TextWrapping="Wrap" Text="Select categories to be copied" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
 
-        <StackPanel x:Name="stackPanelCategories" Margin="0,299,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Height="526" Width="216" Background="#FFF3F6FF">
-            <RadioButton x:Name="buttonMechanicalEquipment" Content="Mechanical Equipment" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonMechanicalEquipment_Checked"/>
-            <RadioButton x:Name="buttonPlumbinglFixtures" Content="Plumbing Fixtures" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonPlumbinglFixtures_Checked"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible"  Margin="0,283,0,0" HorizontalAlignment="Center" Width="216" Height="457" VerticalAlignment="Top">
+            <StackPanel x:Name="stackPanelCategories" Orientation="Vertical" Background="#FFF3F6FF">
+                <CheckBox x:Name="buttonGenericModels" Content="Generic Models" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonGenericModels_Checked"/>
+                <CheckBox x:Name="buttonMechanicalEquipment" Content="Mechanical Equipment" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonMechanicalEquipment_Checked"/>
+                <CheckBox x:Name="buttonPlumbinglFixtures" Content="Plumbing Fixtures" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonPlumbinglFixtures_Checked"/>
 
-            <RadioButton x:Name="buttonPipes" Content="Pipes" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonPipes_Checked"/>
-            <RadioButton x:Name="buttonPipeFittings" Content="Pipe Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonPipeFittings_Checked" />
-            <RadioButton x:Name="buttonPipeAccesories" Content="Pipe Accesories" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonPipeAccesories_Checked"/>
+                <CheckBox x:Name="buttonPipes" Content="Pipes" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonPipes_Checked"/>
+                <CheckBox x:Name="buttonPipeFittings" Content="Pipe Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonPipeFittings_Checked" />
+                <CheckBox x:Name="buttonPipeAccesories" Content="Pipe Accesories" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonPipeAccesories_Checked"/>
 
-            <RadioButton x:Name="buttonDucts" Content="Ducts" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonDucts_Checked"/>
-            <RadioButton x:Name="buttonDuctFittings" Content="Duct Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonDuctFittings_Checked"/>
-            <RadioButton x:Name="buttonDuctAccesories" Content="Duct Accesories" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonDuctAccesories_Checked"/>
+                <CheckBox x:Name="buttonDucts" Content="Ducts" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonDucts_Checked"/>
+                <CheckBox x:Name="buttonDuctFittings" Content="Duct Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonDuctFittings_Checked"/>
+                <CheckBox x:Name="buttonDuctAccesories" Content="Duct Accesories" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonDuctAccesories_Checked"/>
 
-            <RadioButton x:Name="buttonFlexDucts" Content="Flex Ducts" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonFlexDucts_Checked"/>
-            <RadioButton x:Name="buttonAirTerminals" Content="Air Terminals" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonAirTerminals_Checked"/>
+                <CheckBox x:Name="buttonFlexDucts" Content="Flex Ducts" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonFlexDucts_Checked"/>
+                <CheckBox x:Name="buttonAirTerminals" Content="Air Terminals" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonAirTerminals_Checked"/>
 
-            <RadioButton x:Name="buttonSprinklers" Content="Sprinklers" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonSprinklers_Checked"/>
+                <CheckBox x:Name="buttonSprinklers" Content="Sprinklers" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonSprinklers_Checked"/>
 
-            <RadioButton x:Name="buttonElectricalEquipment" Content="Electrical Equipment" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonElectricalEquipment_Checked"/>
-            <RadioButton x:Name="buttonElectricalFixtures" Content="Electrical Fixtures" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonElectricalFixtures_Checked"/>
+                <CheckBox x:Name="buttonElectricalEquipment" Content="Electrical Equipment" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonElectricalEquipment_Checked"/>
+                <CheckBox x:Name="buttonElectricalFixtures" Content="Electrical Fixtures" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonElectricalFixtures_Checked"/>
 
-            <RadioButton x:Name="buttonTrays" Content="Trays" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonTrays_Checked"/>
-            <RadioButton x:Name="buttonTrayFittings" Content="Tray Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonTrayFittings_Checked"/>
+                <CheckBox x:Name="buttonTrays" Content="Trays" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonTrays_Checked"/>
+                <CheckBox x:Name="buttonTrayFittings" Content="Tray Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonTrayFittings_Checked"/>
 
-            <RadioButton x:Name="buttonConduits" Content="Conduits" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonConduits_Checked"/>
-            <RadioButton x:Name="buttonConduitFittings" Content="Conduit Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonConduitFittings_Checked"/>
+                <CheckBox x:Name="buttonConduits" Content="Conduits" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonConduits_Checked"/>
+                <CheckBox x:Name="buttonConduitFittings" Content="Conduit Fittings" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonConduitFittings_Checked"/>
 
-            <RadioButton x:Name="buttonLightingDevices" Content="Lighting Devices" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonLightingDevices_Checked"/>
-            <RadioButton x:Name="buttonLightingFixtures" Content="Lighting Fixtures" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonLightingFixtures_Checked"/>
+                <CheckBox x:Name="buttonLightingDevices" Content="Lighting Devices" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonLightingDevices_Checked"/>
+                <CheckBox x:Name="buttonLightingFixtures" Content="Lighting Fixtures" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonLightingFixtures_Checked"/>
 
-            <RadioButton x:Name="buttonFireAlarmDevices" Content="Fire Alarm Devices" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonFireAlarmDevices_Checked"/>
-            <RadioButton x:Name="buttonDataDevices" Content="Data Devices" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonDataDevices_Checked"/>
+                <CheckBox x:Name="buttonFireAlarmDevices" Content="Fire Alarm Devices" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonFireAlarmDevices_Checked"/>
+                <CheckBox x:Name="buttonDataDevices" Content="Data Devices" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonDataDevices_Checked"/>
 
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
 
-        <Button x:Name="buttonExecute" Content="Execute" HorizontalAlignment="Center" Margin="0,842,0,0" Width="142" FontFamily="Arial" FontSize="14" FontStretch="Normal" FontWeight="Bold" Foreground="White" Background="#FF0E1D79" BorderBrush="{x:Null}" VerticalContentAlignment="Center" Padding="1,1,1,1" MinHeight="30" MinWidth="40" VerticalAlignment="Top" Height="50" Click="buttonExecute_Click">
+        <Button x:Name="buttonExecute" Content="Execute" HorizontalAlignment="Center" Margin="0,768,0,0" Width="108" FontFamily="Arial" FontSize="14" FontStretch="Normal" FontWeight="Bold" Foreground="White" Background="#FF0E1D79" BorderBrush="{x:Null}" VerticalContentAlignment="Center" Padding="1,1,1,1" MinHeight="30" MinWidth="40" VerticalAlignment="Top" Height="42" Click="buttonExecute_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="8"/>

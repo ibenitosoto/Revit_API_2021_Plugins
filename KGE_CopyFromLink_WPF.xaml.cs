@@ -31,6 +31,10 @@ namespace API_2021_Plugins
         public UIDocument uidoc;
         public UIApplication uiapp;
 
+        public Document selectedLink;
+        public ElementMulticategoryFilter allElementsFilter;
+
+
         public KGE_CopyFromLink_WPF(ExternalCommandData commandData)
         {
             cd = commandData;
@@ -46,6 +50,16 @@ namespace API_2021_Plugins
         private void dropdownLinksLoaded_Loaded(object sender, RoutedEventArgs e)
         {
             dropdownLinksLoaded.ItemsSource = KGE_CopyFromLink.GetLoadedLinks(doc);
+        }
+
+        private void dropdownLinksLoaded_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedLink = dropdownLinksLoaded.SelectedItem as Document;
+        }
+
+        private void buttonGenericModels_Checked(object sender, RoutedEventArgs e)
+        {
+            KGE_CopyFromLink.allCategories.Add(BuiltInCategory.OST_GenericModel);
         }
 
         private void buttonMechanicalEquipment_Checked(object sender, RoutedEventArgs e)
@@ -155,7 +169,17 @@ namespace API_2021_Plugins
 
         private void buttonExecute_Click(object sender, RoutedEventArgs e)
         {
+            //Creating the multicategory filter with selected categories
+            allElementsFilter = new ElementMulticategoryFilter(KGE_CopyFromLink.allCategories);
 
+            //Get element IDs for those elements to be copied
+            ICollection<ElementId> ids = KGE_CopyFromLink.GetElementIds(selectedLink, allElementsFilter);
+
+            //Finally copy those elements
+            KGE_CopyFromLink.CopyElements(ids, doc, selectedLink);
         }
+
+
     }
 }
+
