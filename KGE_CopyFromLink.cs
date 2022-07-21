@@ -18,7 +18,8 @@ namespace API_2021_Plugins
 
     public class KGE_CopyFromLink : IExternalCommand
     {
-        public static IList<BuiltInCategory> allCategories = new List<BuiltInCategory>();
+        public static ICollection<BuiltInCategory> allCategories = new List<BuiltInCategory>();
+        public static ElementMulticategoryFilter allCategoriesFilter;
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
 
         {
@@ -86,7 +87,7 @@ namespace API_2021_Plugins
                         if (rvtLink.GetLinkedFileStatus() == LinkedFileStatus.Loaded)
                         {
                             RevitLinkInstance link = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_RvtLinks).OfClass(typeof(RevitLinkInstance)).Where(x => x.GetTypeId() == rvtLink.Id).First() as RevitLinkInstance;
-                            rvtLinkInstancesList.Add(link.Document);
+                            rvtLinkInstancesList.Add(link.GetLinkDocument());
                         }
                     }
                 }
@@ -107,11 +108,11 @@ namespace API_2021_Plugins
             copyFromLinkForm.ShowDialog();
         }
 
-        public static ICollection<ElementId> GetElementIds(Document selectedLink, ElementMulticategoryFilter allElementsFilter)
+        public static ICollection<ElementId> GetElementIds(Document selectedLink)
         {
             FilteredElementCollector linkedElemCollector = new FilteredElementCollector(selectedLink);
             ICollection<ElementId> ids = linkedElemCollector
-            .WherePasses(allElementsFilter)
+            .WherePasses(allCategoriesFilter)
             .WhereElementIsNotElementType()
             .ToElementIds();
 

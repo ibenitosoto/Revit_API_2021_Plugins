@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:API_2021_Plugins" 
              mc:Ignorable="d" 
-             Height="850" Width="300"
+             Height="750" Width="300"
              Title="Kirby Group Engineering BIM Helpdesk Form"
              WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
-             MinHeight="850"
+             MinHeight="750"
              MinWidth="300"
         >
     <Window.Resources>
@@ -22,7 +22,7 @@
         <TextBlock x:Name="textSelectLink" HorizontalAlignment="Left" Margin="42,183,0,0" TextWrapping="Wrap" Text="Select link to copy elements from" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
         <TextBlock x:Name="textSelectCategories" HorizontalAlignment="Left" Margin="42,260,0,0" TextWrapping="Wrap" Text="Select categories to be copied" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
 
-        <ScrollViewer VerticalScrollBarVisibility="Visible"  Margin="0,283,0,0" HorizontalAlignment="Center" Width="216" Height="457" VerticalAlignment="Top">
+        <ScrollViewer VerticalScrollBarVisibility="Visible"  Margin="0,283,0,0" HorizontalAlignment="Center" Width="216" Height="355" VerticalAlignment="Top">
             <StackPanel x:Name="stackPanelCategories" Orientation="Vertical" Background="#FFF3F6FF">
                 <CheckBox x:Name="buttonGenericModels" Content="Generic Models" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonGenericModels_Checked"/>
                 <CheckBox x:Name="buttonMechanicalEquipment" Content="Mechanical Equipment" Margin="5" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold" Background="White" BorderBrush="#FF0E1D79" Checked="buttonMechanicalEquipment_Checked"/>
@@ -59,7 +59,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Button x:Name="buttonExecute" Content="Execute" HorizontalAlignment="Center" Margin="0,768,0,0" Width="108" FontFamily="Arial" FontSize="14" FontStretch="Normal" FontWeight="Bold" Foreground="White" Background="#FF0E1D79" BorderBrush="{x:Null}" VerticalContentAlignment="Center" Padding="1,1,1,1" MinHeight="30" MinWidth="40" VerticalAlignment="Top" Height="42" Click="buttonExecute_Click">
+        <Button x:Name="buttonExecute" Content="Execute" HorizontalAlignment="Center" Margin="0,665,0,0" Width="108" FontFamily="Arial" FontSize="14" FontStretch="Normal" FontWeight="Bold" Foreground="White" Background="#FF0E1D79" BorderBrush="{x:Null}" VerticalContentAlignment="Center" Padding="1,1,1,1" MinHeight="30" MinWidth="40" VerticalAlignment="Top" Height="42" Click="buttonExecute_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="8"/>

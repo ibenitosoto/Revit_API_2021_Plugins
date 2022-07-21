@@ -170,10 +170,11 @@ namespace API_2021_Plugins
         private void buttonExecute_Click(object sender, RoutedEventArgs e)
         {
             //Creating the multicategory filter with selected categories
-            allElementsFilter = new ElementMulticategoryFilter(KGE_CopyFromLink.allCategories);
+            KGE_CopyFromLink.allCategoriesFilter = new ElementMulticategoryFilter(KGE_CopyFromLink.allCategories);
+
 
             //Get element IDs for those elements to be copied
-            ICollection<ElementId> ids = KGE_CopyFromLink.GetElementIds(selectedLink, allElementsFilter);
+            ICollection<ElementId> ids = KGE_CopyFromLink.GetElementIds(selectedLink);
 
             //Finally copy those elements
             KGE_CopyFromLink.CopyElements(ids, doc, selectedLink);
