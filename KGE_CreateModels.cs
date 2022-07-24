@@ -68,15 +68,13 @@ namespace API_2021_Plugins
                     string completeModelPath = folder + "/" + modelName + ".rvt";
                     doc = app.NewProjectDocument(templatePath);
                     doc.SaveAs(completeModelPath);
-                    //doc.Close();
 
-                    //modelNames.Remove(modelName);
                 }
                 catch (Exception e)
                 {
                     if (e.Message == "File already exists!")
                     {
-                        TaskDialog.Show("Duplicated model name", "Duplicated model name detected, skipping...");
+                        TaskDialog.Show("Duplicated model name", $"Duplicated model name detected: {modelName} Click close to continue");
                     }
 
                 }
