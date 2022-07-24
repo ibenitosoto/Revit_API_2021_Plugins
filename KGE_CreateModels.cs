@@ -17,8 +17,16 @@ namespace API_2021_Plugins
     [Transaction(TransactionMode.Manual)]
     [Regeneration(RegenerationOption.Manual)]
 
+
+
     public class KGE_CreateModels : IExternalCommand
     {
+        public static ExternalCommandData cd;
+        public static Autodesk.Revit.ApplicationServices.Application app;
+        public static Document doc;
+        public static UIDocument uidoc;
+        public static UIApplication uiapp;
+
         public static string template;
         public static string folder;
         public static List<string> modelNames;
@@ -27,14 +35,10 @@ namespace API_2021_Plugins
         {
             Show_KGE_CreateModels_WPF(commandData, ref message, elements);
 
-            const string templatePath = "C:/ProgramData/Autodesk/RVT 2020/Templates/Generic/Default_M_ENU.rte";
+            uiapp = commandData.Application;
+            app = uiapp.Application;
 
-            UIApplication uiapp = commandData.Application;
-            Application app = uiapp.Application;
-
-            Document doc = app.NewProjectDocument(templatePath);
-
-            doc.SaveAs("C:/test/test.rvt");
+            //const string templatePath = "C:/ProgramData/Autodesk/RVT 2020/Templates/Generic/Default_M_ENU.rte";
 
             return Result.Succeeded;
         }
@@ -52,6 +56,13 @@ namespace API_2021_Plugins
             template = templatePath;
             folder = folderPath;
             modelNames = modelNamesList;
+
+            foreach (string modelName in modelNamesList)
+            {
+                string completeModelPath = folder + modelName;
+                doc = app.NewProjectDocument(templatePath);
+                doc.SaveAs(completeModelPath);
+            }
 
         }
 

@@ -29,9 +29,6 @@ namespace API_2021_Plugins
         public UIDocument uidoc;
         public UIApplication uiapp;
 
-        public KGE_CreateModels createModelsInstance;
-
-
         public KGE_CreateModels_WPF(ExternalCommandData commandData)
         {
             cd = commandData;
