@@ -57,6 +57,27 @@ namespace API_2021_Plugins
             KGE_CreateModels.CreateModels(textBoxRevitTemplate.Text, textBoxWindowsFolder.Text, modelNamesList);
         }
 
+        private void textBoxRevitTemplate_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            tb.FontWeight = FontWeights.Regular;
+            tb.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFA0A6C6");
+        }
+
+        private void textBoxWindowsFolder_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            tb.FontWeight = FontWeights.Regular;
+            tb.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFA0A6C6");
+        }
+
+        private void textBoxModelNames_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            tb.FontWeight = FontWeights.Regular;
+            tb.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFA0A6C6");
+
+        }
         private void textBoxRevitTemplate_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = (TextBox)sender;
@@ -92,5 +113,7 @@ namespace API_2021_Plugins
             textBoxModelNames.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF0E1D79");
             textBoxModelNames.FontWeight = FontWeights.Bold;
         }
+
+   
     }
 }
