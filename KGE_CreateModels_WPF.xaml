@@ -1,0 +1,41 @@
+﻿<Window x:Class="API_2021_Plugins.KGE_CreateModels_WPF"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:API_2021_Plugins" 
+             mc:Ignorable="d" 
+             Height="400" Width="400"
+             Title="Kirby Group Engineering BIM Helpdesk Form"
+             WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+             MinHeight="400"
+             MinWidth="400"
+        >
+    <Window.Resources>
+        <SolidColorBrush x:Key="KirbyColor" Color="#FF0E1D79"/>
+    </Window.Resources>
+
+    <Grid Background="White">
+        <Image x:Name="kirbyLogo" Height="89" Margin="0,8,0,0" VerticalAlignment="Top" Source="/API_2021_Plugins;component/images/kirbyLogoK.png"  HorizontalAlignment="Center" Width="90"/>
+        <TextBlock x:Name="textTitle" HorizontalAlignment="Center" Text="CREATE MODELS" FontFamily="Myanmar Text" FontSize="24" Foreground="{DynamicResource KirbyColor}"  Margin="0,96,0,0" FontWeight="Bold" Width="200" VerticalAlignment="Top" Height="28"/>
+        <TextBox Margin="42,198,42,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textSelectLink" HorizontalAlignment="Left" Margin="42,171,0,0" TextWrapping="Wrap" Text="Paste path to the Revit template" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
+        <TextBlock x:Name="textSelectCategories" HorizontalAlignment="Left" Margin="42,248,0,0" TextWrapping="Wrap" Text="Select categories to be copied" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible"  Margin="0,271,0,0" HorizontalAlignment="Center" Width="216" Height="355" VerticalAlignment="Top">
+
+
+        </ScrollViewer>
+
+        <Button x:Name="buttonExecute" Content="Execute" HorizontalAlignment="Center" Margin="0,653,0,0" Width="108" FontFamily="Arial" FontSize="14" FontStretch="Normal" FontWeight="Bold" Foreground="White" Background="#FF0E1D79" BorderBrush="{x:Null}" VerticalContentAlignment="Center" Padding="1,1,1,1" MinHeight="30" MinWidth="40" VerticalAlignment="Top" Height="42" Click="buttonExecute_Click">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <TextBlock x:Name="version" HorizontalAlignment="Center" Text="WIP version - please report any bugs to Ignacio Benito Soto - isoto@kirbygroup.com" FontFamily="Arial Narrow" Foreground="#FF0F258A" Margin="0,710,0,0" Width="280" FontSize="10" Height="24" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center"/>
+        
+
+    </Grid>
+</Window>

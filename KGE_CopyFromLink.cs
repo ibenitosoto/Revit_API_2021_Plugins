@@ -10,6 +10,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
+using Application = Autodesk.Revit.ApplicationServices.Application;
 
 namespace API_2021_Plugins
 {
@@ -27,6 +28,8 @@ namespace API_2021_Plugins
 
             //Launch WPF interface
             Show_KGE_CopyFromLink_WPF(commandData, ref message, elements);
+
+
 
 
             ////Get the link
@@ -67,7 +70,8 @@ namespace API_2021_Plugins
             //allCategories.Add(BuiltInCategory.OST_LightingFixtures);
             //allCategories.Add(BuiltInCategory.OST_FireAlarmDevices);
             //allCategories.Add(BuiltInCategory.OST_DataDevices);
-  
+            //allCategories.Add(BuiltInCategory.OST_VolumeOfInterest);
+
 
             return Result.Succeeded;
 
@@ -158,6 +162,7 @@ namespace API_2021_Plugins
 
     }
 
+  
 }
     
 

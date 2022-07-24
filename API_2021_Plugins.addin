@@ -95,5 +95,17 @@
 		<VendorId>KGE</VendorId>
 		<VendorDescription>Kirby Group Engineering</VendorDescription>
 	</AddIn>
+	
+	<AddIn Type="Command">
+		<Name>API_2021_Plugins</Name>
+		<FullClassName>API_2021_Plugins.KGE_CreateModels</FullClassName>
+		<Text>KGE_CreateModels</Text>
+		<Description>WIP</Description>
+		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
+		<Assembly>API_2021_Plugins.dll</Assembly>
+		<AddInId>43EFC0FC-7918-4372-89AF-73016FB4ED59</AddInId>
+		<VendorId>KGE</VendorId>
+		<VendorDescription>Kirby Group Engineering</VendorDescription>
+	</AddIn>
 
 </RevitAddIns>
