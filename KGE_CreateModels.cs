@@ -61,21 +61,22 @@ namespace API_2021_Plugins
             folder = folderPath;
             modelNames = modelNamesList.ToList();
 
-            foreach (string modelName in modelNamesList)
+            foreach (string modelName in modelNames)
             {
                 try
                 {
                     string completeModelPath = folder + "/" + modelName + ".rvt";
                     doc = app.NewProjectDocument(templatePath);
                     doc.SaveAs(completeModelPath);
+                    //doc.Close();
 
-                    modelNames.Remove(modelName);
+                    //modelNames.Remove(modelName);
                 }
                 catch (Exception e)
                 {
                     if (e.Message == "File already exists!")
                     {
-                        break;
+                        TaskDialog.Show("Duplicated model name", "Duplicated model name detected, skipping...");
                     }
 
                 }
