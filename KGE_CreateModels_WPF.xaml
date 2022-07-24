@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:API_2021_Plugins" 
              mc:Ignorable="d" 
-             Height="400" Width="400"
+             Height="600" Width="400"
              Title="Kirby Group Engineering BIM Helpdesk Form"
              WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
-             MinHeight="400"
+             MinHeight="600"
              MinWidth="400"
         >
     <Window.Resources>
@@ -18,11 +18,13 @@
     <Grid Background="White">
         <Image x:Name="kirbyLogo" Height="89" Margin="0,8,0,0" VerticalAlignment="Top" Source="/API_2021_Plugins;component/images/kirbyLogoK.png"  HorizontalAlignment="Center" Width="90"/>
         <TextBlock x:Name="textTitle" HorizontalAlignment="Center" Text="CREATE MODELS" FontFamily="Myanmar Text" FontSize="24" Foreground="{DynamicResource KirbyColor}"  Margin="0,96,0,0" FontWeight="Bold" Width="200" VerticalAlignment="Top" Height="28"/>
-        <TextBox Margin="42,198,42,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
-        <TextBlock x:Name="textSelectLink" HorizontalAlignment="Left" Margin="42,171,0,0" TextWrapping="Wrap" Text="Paste path to the Revit template" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
-        <TextBlock x:Name="textSelectCategories" HorizontalAlignment="Left" Margin="42,248,0,0" TextWrapping="Wrap" Text="Select categories to be copied" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
+        <TextBox x:Name="textBoxRevitTemplate" Background="#FFF3F6FF" Margin="42,198,42,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textTemplate" HorizontalAlignment="Left" Margin="42,171,0,0" TextWrapping="Wrap" Text="Paste Revit template path to be used" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
+        <TextBlock x:Name="textWindowsFolder" HorizontalAlignment="Left" Margin="42,234,0,0" TextWrapping="Wrap" Text="Paste Windows path for created models" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
+        <TextBox x:Name="textBoxWindowsFolder" Background="#FFF3F6FF" Margin="42,261,42,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
 
-        <ScrollViewer VerticalScrollBarVisibility="Visible"  Margin="0,271,0,0" HorizontalAlignment="Center" Width="216" Height="355" VerticalAlignment="Top">
+        <ScrollViewer VerticalScrollBarVisibility="Visible"  Margin="0,331,0,0" HorizontalAlignment="Center" Width="316" Height="196" VerticalAlignment="Top">
+            <TextBox x:Name="textBoxModelNames" TextWrapping="Wrap" Text="TextBox" Background="#FFF3F6FF" />
 
 
         </ScrollViewer>
@@ -35,7 +37,8 @@
             </Button.Resources>
         </Button>
         <TextBlock x:Name="version" HorizontalAlignment="Center" Text="WIP version - please report any bugs to Ignacio Benito Soto - isoto@kirbygroup.com" FontFamily="Arial Narrow" Foreground="#FF0F258A" Margin="0,710,0,0" Width="280" FontSize="10" Height="24" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center"/>
-        
+        <TextBlock x:Name="textWindowsFolder_Copy" HorizontalAlignment="Left" Margin="42,298,0,0" TextWrapping="Wrap" Text="Paste list of model names in separate lines" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
+
 
     </Grid>
 </Window>
