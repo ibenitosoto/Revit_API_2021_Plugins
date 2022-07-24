@@ -19,8 +19,14 @@ namespace API_2021_Plugins
 
     public class KGE_CreateModels : IExternalCommand
     {
+        public static string template;
+        public static string folder;
+        public static List<string> modelNames;
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
+            Show_KGE_CreateModels_WPF(commandData, ref message, elements);
+
             const string templatePath = "C:/ProgramData/Autodesk/RVT 2020/Templates/Generic/Default_M_ENU.rte";
 
             UIApplication uiapp = commandData.Application;
@@ -30,15 +36,24 @@ namespace API_2021_Plugins
 
             doc.SaveAs("C:/test/test.rvt");
 
-            return Result.Failed;
+            return Result.Succeeded;
         }
 
 
         public void Show_KGE_CreateModels_WPF(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             //Get WPF Interface
-            KGE_CreateModels_WPF copyFromLinkForm = new KGE_CreateModels_WPF(commandData);
-            copyFromLinkForm.ShowDialog();
+            KGE_CreateModels_WPF createModelsForm = new KGE_CreateModels_WPF(commandData);
+            createModelsForm.ShowDialog();
         }
+
+        public static void CreateModels(string templatePath, string folderPath, List<string> modelNamesList)
+        {
+            template = templatePath;
+            folder = folderPath;
+            modelNames = modelNamesList;
+
+        }
+
     }
 }

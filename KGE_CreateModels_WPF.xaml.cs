@@ -14,13 +14,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using API_2021_Plugins;
 
 namespace API_2021_Plugins
 {
     /// <summary>
     /// Interaction logic for KGE_CreateModels_WPF.xaml
     /// </summary>
-    public partial class KGE_CreateModels_WPF : UserControl
+    public partial class KGE_CreateModels_WPF : Window
     {   
         public ExternalCommandData cd;
         public Autodesk.Revit.ApplicationServices.Application app;
@@ -28,8 +29,7 @@ namespace API_2021_Plugins
         public UIDocument uidoc;
         public UIApplication uiapp;
 
-        public Document selectedLink;
-        public ElementMulticategoryFilter allElementsFilter;
+        public KGE_CreateModels createModelsInstance;
 
 
         public KGE_CreateModels_WPF(ExternalCommandData commandData)
@@ -45,7 +45,10 @@ namespace API_2021_Plugins
 
         private void buttonExecute_Copy_Click(object sender, RoutedEventArgs e)
         {
+            string modelNamesTextBox = textBoxModelNames.Text;
+            List<string> modelNamesList = modelNamesTextBox.Split('\n').ToList();
 
+            KGE_CreateModels.CreateModels(textBoxRevitTemplate.Text, textBoxWindowsFolder.Text, modelNamesList);
         }
     }
 }
