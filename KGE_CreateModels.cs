@@ -29,14 +29,17 @@ namespace API_2021_Plugins
 
         public static string template;
         public static string folder;
-        public static List<string> modelNames;
+        public static string[] modelNames;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            Show_KGE_CreateModels_WPF(commandData, ref message, elements);
-
             uiapp = commandData.Application;
             app = uiapp.Application;
+            uidoc = commandData.Application.ActiveUIDocument;
+            app = uiapp.Application;
+            doc = uidoc.Document;
+
+            Show_KGE_CreateModels_WPF(commandData, ref message, elements);
 
             //const string templatePath = "C:/ProgramData/Autodesk/RVT 2020/Templates/Generic/Default_M_ENU.rte";
 
@@ -51,7 +54,7 @@ namespace API_2021_Plugins
             createModelsForm.ShowDialog();
         }
 
-        public static void CreateModels(string templatePath, string folderPath, List<string> modelNamesList)
+        public static void CreateModels(string templatePath, string folderPath, string[] modelNamesList)
         {
             template = templatePath;
             folder = folderPath;

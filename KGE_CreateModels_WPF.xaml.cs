@@ -43,7 +43,15 @@ namespace API_2021_Plugins
         private void buttonExecute_Copy_Click(object sender, RoutedEventArgs e)
         {
             string modelNamesTextBox = textBoxModelNames.Text;
-            List<string> modelNamesList = modelNamesTextBox.Split('\n').ToList();
+            string[] modelNamesList = modelNamesTextBox.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            //foreach (string modelName in modelNamesList)
+            //{
+            //    if (modelName.Contains("/n"))
+            //    {
+            //        modelName.Replace("/n", "");
+            //    }
+            //}
 
             KGE_CreateModels.CreateModels(textBoxRevitTemplate.Text, textBoxWindowsFolder.Text, modelNamesList);
         }
