@@ -59,7 +59,7 @@ namespace API_2021_Plugins
 
             foreach (string modelName in modelNamesList)
             {
-                string completeModelPath = folder + modelName;
+                string completeModelPath = folder + "/" + modelName + ".rvt";
                 doc = app.NewProjectDocument(templatePath);
                 doc.SaveAs(completeModelPath);
             }
