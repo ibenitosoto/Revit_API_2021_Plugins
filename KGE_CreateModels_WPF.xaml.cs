@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using API_2021_Plugins;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace API_2021_Plugins
 {
@@ -54,6 +55,42 @@ namespace API_2021_Plugins
             //}
 
             KGE_CreateModels.CreateModels(textBoxRevitTemplate.Text, textBoxWindowsFolder.Text, modelNamesList);
+        }
+
+        private void textBoxRevitTemplate_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            tb.Text = string.Empty;
+            tb.GotFocus -= textBoxRevitTemplate_GotFocus;
+        }
+
+        private void textBoxWindowsFolder_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            tb.Text = string.Empty;
+            tb.GotFocus -= textBoxWindowsFolder_GotFocus;
+        }
+        private void textBoxModelNames_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            tb.Text = string.Empty;
+            tb.GotFocus -= textBoxModelNames_GotFocus;
+        }
+
+        private void textBoxRevitTemplate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            textBoxRevitTemplate.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF0E1D79");
+            textBoxRevitTemplate.FontWeight = FontWeights.Bold;
+        }
+        private void textBoxWindowsFolder_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            textBoxWindowsFolder.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF0E1D79");
+            textBoxWindowsFolder.FontWeight = FontWeights.Bold;
+        }
+        private void textBoxModelNames_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            textBoxModelNames.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF0E1D79");
+            textBoxModelNames.FontWeight = FontWeights.Bold;
         }
     }
 }

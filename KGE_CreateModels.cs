@@ -29,7 +29,8 @@ namespace API_2021_Plugins
 
         public static string template;
         public static string folder;
-        public static string[] modelNames;
+        //public static string[] modelNames;
+        public static List<string> modelNames;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -58,13 +59,27 @@ namespace API_2021_Plugins
         {
             template = templatePath;
             folder = folderPath;
-            modelNames = modelNamesList;
+            modelNames = modelNamesList.ToList();
 
             foreach (string modelName in modelNamesList)
             {
-                string completeModelPath = folder + "/" + modelName + ".rvt";
-                doc = app.NewProjectDocument(templatePath);
-                doc.SaveAs(completeModelPath);
+                try
+                {
+                    string completeModelPath = folder + "/" + modelName + ".rvt";
+                    doc = app.NewProjectDocument(templatePath);
+                    doc.SaveAs(completeModelPath);
+
+                    modelNames.Remove(modelName);
+                }
+                catch (Exception e)
+                {
+                    if (e.Message == "File already exists!")
+                    {
+                        break;
+                    }
+
+                }
+          
             }
 
         }

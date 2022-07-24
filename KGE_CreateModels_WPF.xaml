@@ -15,28 +15,29 @@
         <SolidColorBrush x:Key="KirbyColor" Color="#FF0E1D79"/>
     </Window.Resources>
 
-    <Grid Background="White">
-        <Image x:Name="kirbyLogo" Height="89" Margin="155,0,155,537" VerticalAlignment="Bottom" Source="/API_2021_Plugins;component/images/kirbyLogoK.png"/>
-        <TextBlock x:Name="textTitle_" Text="CREATE MODELS" FontFamily="Myanmar Text" FontSize="24" Foreground="{DynamicResource KirbyColor}"  Margin="100,96,100,510" FontWeight="Bold"/>
-        <TextBox x:Name="textBoxRevitTemplate" Background="#FFF3F6FF" Margin="42,173,42,0" TextWrapping="Wrap" Text="C:/ProgramData/Autodesk/RVT 2020/Templates/Generic/Default_M_ENU.rte" VerticalAlignment="Top" Height="41"/>
+    <Grid Background="White" Margin="0,0,0,3">
+        <Image x:Name="kirbyLogo" Height="89" Margin="155,8,155,0" VerticalAlignment="Top" Source="/API_2021_Plugins;component/images/kirbyLogoK.png"/>
+        <TextBlock x:Name="textTitle_" Text="CREATE MODELS" FontFamily="Myanmar Text" FontSize="24" Foreground="{DynamicResource KirbyColor}"  Margin="0,96,0,0" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <TextBox x:Name="textBoxRevitTemplate" Foreground="#FFA0A6C6" Background="#FFF3F6FF" Margin="42,173,42,0" TextWrapping="Wrap" Text="C:/ProgramData/Autodesk/RVT 2020/Templates/Generic/Default_M_ENU.rte" VerticalAlignment="Top" Height="41" GotFocus="textBoxRevitTemplate_GotFocus" TextChanged="textBoxRevitTemplate_TextChanged"/>
         <TextBlock x:Name="textTemplate" HorizontalAlignment="Left" Margin="42,151,0,0" TextWrapping="Wrap" Text="Paste Revit template path to be used" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
         <TextBlock x:Name="textWindowsFolder" HorizontalAlignment="Left" Margin="42,224,0,0" TextWrapping="Wrap" Text="Paste Windows path for created models" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
-        <TextBox x:Name="textBoxWindowsFolder" Background="#FFF3F6FF" Margin="42,245,42,0" TextWrapping="Wrap" Text="C:\New BIM Models" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBoxWindowsFolder" Foreground="#FFA0A6C6" Background="#FFF3F6FF" Margin="42,245,42,0" TextWrapping="Wrap" Text="C:\New BIM Models" VerticalAlignment="Top" GotFocus="textBoxWindowsFolder_GotFocus" TextChanged="textBoxWindowsFolder_TextChanged"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Visible"  Margin="42,311,42,0" Height="196" VerticalAlignment="Top">
-            <TextBox x:Name="textBoxModelNames" AcceptsReturn="True" TextWrapping="Wrap" Text="TextBox" Background="#FFF3F6FF" />
+            <TextBox x:Name="textBoxModelNames" Foreground="#FFA0A6C6" AcceptsReturn="True" TextWrapping="Wrap" Text="DUB04-KGE-XX-L0-M3-E-0001                                 DUB04-KGE-XX-L1-M3-E-0001
+" Background="#FFF3F6FF" GotFocus="textBoxModelNames_GotFocus" TextChanged="textBoxModelNames_TextChanged" />
 
 
         </ScrollViewer>
         <TextBlock x:Name="textWindowsFolder_Copy" HorizontalAlignment="Left" Margin="42,281,0,0" TextWrapping="Wrap" Text="Paste list of model names in separate lines" VerticalAlignment="Top" FontFamily="Myanmar Text" FontStretch="SemiCondensed" Foreground="#FF0E1D79" FontWeight="Bold"/>
-        <Button x:Name="buttonExecute_Copy" Content="Execute" Margin="146,535,146,57" FontFamily="Arial" FontSize="14" FontStretch="Normal" FontWeight="Bold" Foreground="White" Background="#FF0E1D79" BorderBrush="{x:Null}" VerticalContentAlignment="Center" Padding="1,1,1,1" MinHeight="30" MinWidth="40" Click="buttonExecute_Copy_Click">
+        <Button x:Name="buttonExecute_Copy" Content="Execute" Margin="0,533,0,0" FontFamily="Arial" FontSize="14" FontStretch="Normal" FontWeight="Bold" Foreground="White" Background="#FF0E1D79" BorderBrush="{x:Null}" VerticalContentAlignment="Center" Padding="1,1,1,1" MinHeight="30" MinWidth="40" Click="buttonExecute_Copy_Click" Height="42" VerticalAlignment="Top" HorizontalAlignment="Center" Width="108">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="8"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <TextBlock x:Name="version_Copy" HorizontalAlignment="Right" Text="WIP version - please report any bugs to Ignacio Benito Soto - isoto@kirbygroup.com" FontFamily="Arial Narrow" Foreground="#FF0F258A" Margin="0,592,60,18" Width="280" FontSize="10" TextWrapping="Wrap" TextAlignment="Center"/>
+        <TextBlock x:Name="version_Copy" Text="WIP version - please report any bugs to Ignacio Benito Soto - isoto@kirbygroup.com" FontFamily="Arial Narrow" Foreground="#FF0F258A" Margin="60,588,60,0" FontSize="10" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
 
     </Grid>
