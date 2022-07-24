@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +21,31 @@ namespace API_2021_Plugins
     /// Interaction logic for KGE_CreateModels_WPF.xaml
     /// </summary>
     public partial class KGE_CreateModels_WPF : UserControl
-    {
-        public KGE_CreateModels_WPF()
+    {   
+        public ExternalCommandData cd;
+        public Autodesk.Revit.ApplicationServices.Application app;
+        public Document doc;
+        public UIDocument uidoc;
+        public UIApplication uiapp;
+
+        public Document selectedLink;
+        public ElementMulticategoryFilter allElementsFilter;
+
+
+        public KGE_CreateModels_WPF(ExternalCommandData commandData)
         {
+            cd = commandData;
+            uiapp = commandData.Application;
+            uidoc = commandData.Application.ActiveUIDocument;
+            app = uiapp.Application;
+            doc = uidoc.Document;
+
             InitializeComponent();
+        }
+
+        private void buttonExecute_Copy_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

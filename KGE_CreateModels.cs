@@ -32,5 +32,13 @@ namespace API_2021_Plugins
 
             return Result.Failed;
         }
+
+
+        public void Show_KGE_CreateModels_WPF(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            //Get WPF Interface
+            KGE_CreateModels_WPF copyFromLinkForm = new KGE_CreateModels_WPF(commandData);
+            copyFromLinkForm.ShowDialog();
+        }
     }
 }
